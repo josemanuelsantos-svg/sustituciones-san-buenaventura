@@ -1,0 +1,232 @@
+[
+  {
+    "id": "bleo0",
+    "nombre": "Beatriz de León Ruiz",
+    "telefono": "",
+    "email": "bleo0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "d558",
+    "nombre": "David Sagaseta Jiménez",
+    "telefono": "",
+    "email": "d558@sanbuenaventura.es",
+    "departamento": "Educación Física",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "fra0",
+    "nombre": "Francisco Javier Félix Fernández",
+    "telefono": "",
+    "email": "fra0@sanbuenaventura.es",
+    "departamento": "Religión",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "ihid0",
+    "nombre": "Isabel Hidalgo Castañeda",
+    "telefono": "",
+    "email": "ihid0@sanbuenaventura.es",
+    "departamento": "Tutoría 2º EP-A",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "j414",
+    "nombre": "Jose Antonio Utrillas Sánchez",
+    "telefono": "",
+    "email": "j414@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "jos7",
+    "nombre": "José Manuel Santos Alejano",
+    "telefono": "",
+    "email": "jos7@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "j784",
+    "nombre": "Juan Antonio Alfonso Pizarro",
+    "telefono": "",
+    "email": "j784@sanbuenaventura.es",
+    "departamento": "Educación Física / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "j326",
+    "nombre": "Julia Rodríguez Gutiérrez",
+    "telefono": "",
+    "email": "j326@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "l681",
+    "nombre": "Lorena Moreno Barrigas",
+    "telefono": "",
+    "email": "l681@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "mar1",
+    "nombre": "María Pilar Pérez Fernández",
+    "telefono": "",
+    "email": "mar1@sanbuenaventura.es",
+    "departamento": "Tutoría / Robótica",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "m851",
+    "nombre": "Mª Belén Hernando Martín",
+    "telefono": "",
+    "email": "m851@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "m654",
+    "nombre": "Mª Carmen Ibáñez Abad",
+    "telefono": "",
+    "email": "m654@sanbuenaventura.es",
+    "departamento": "Inglés",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "n656",
+    "nombre": "Nuria Jarillo García",
+    "telefono": "",
+    "email": "n656@sanbuenaventura.es",
+    "departamento": "Inglés",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "pgom0",
+    "nombre": "Paula Gomez Buil",
+    "telefono": "",
+    "email": "pgom0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "pveg0",
+    "nombre": "Pedro Vega Verdeja",
+    "telefono": "",
+    "email": "pveg0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "ped4",
+    "nombre": "Pedro Zapata Paredes",
+    "telefono": "",
+    "email": "ped4@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 1
+  },
+  {
+    "id": "p740",
+    "nombre": "Pilar Fuentes Saavedra",
+    "telefono": "",
+    "email": "p740@sanbuenaventura.es",
+    "departamento": "Música",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "r299",
+    "nombre": "Rubén Recio Molina",
+    "telefono": "",
+    "email": "r299@sanbuenaventura.es",
+    "departamento": "Tutoría / Robótica",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "afer0",
+    "nombre": "Álvaro Fernández Hervás",
+    "telefono": "",
+    "email": "afer0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "aort0",
+    "nombre": "Álvaro Paris Ortega Bonilla",
+    "telefono": "",
+    "email": "aort0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "omol0",
+    "nombre": "Óscar Manuel Molina Márquez",
+    "telefono": "",
+    "email": "omol0@sanbuenaventura.es",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "dasenjo",
+    "nombre": "Daniel Asenjo García",
+    "telefono": "",
+    "email": "daniel.asenjo@sanbuenaventura.es",
+    "departamento": "Apoyo PT",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "ipena",
+    "nombre": "Isabel Peña Escudero",
+    "telefono": "",
+    "email": "isabel.pena@sanbuenaventura.es",
+    "departamento": "Horario de Apoyo",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  }
+]

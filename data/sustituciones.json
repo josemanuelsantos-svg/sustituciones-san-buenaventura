@@ -1,0 +1,40 @@
+[
+  {
+    "id": "sub-20260917220738-6b26",
+    "fecha": "2026-09-16",
+    "dia_semana": 2,
+    "periodo_id": "2H",
+    "periodo_nombre": "2ª Hora",
+    "profesor_ausente_id": "j414",
+    "profesor_ausente_nombre": "Jose Antonio Utrillas Sánchez",
+    "profesor_sustituto_id": "ped4",
+    "profesor_sustituto_nombre": "Pedro Zapata Paredes",
+    "profesor_sustituto_telefono": "",
+    "profesor_sustituto_email": "ped4@sanbuenaventura.es",
+    "aula": "2ºEP-C",
+    "curso_grupo": "2ºEP-C",
+    "materia": "Lengua Castellana y Literatura (LEN1)",
+    "observaciones": "",
+    "estado": "ASIGNADA",
+    "creado_en": "2026-09-17T22:07:38.867860"
+  },
+  {
+    "id": "sub-20260916121552-fc27",
+    "fecha": "2026-09-22",
+    "dia_semana": 1,
+    "periodo_id": "3H",
+    "periodo_nombre": "3ª Hora",
+    "profesor_ausente_id": "maria-lopez",
+    "profesor_ausente_nombre": "María López Martín",
+    "profesor_sustituto_id": "carlos-ruiz",
+    "profesor_sustituto_nombre": "Carlos Ruiz Gómez",
+    "profesor_sustituto_telefono": "+34622334455",
+    "profesor_sustituto_email": "carlos.ruiz@colegio.es",
+    "aula": "Aula 202",
+    "curso_grupo": "2º ESO B",
+    "materia": "Matemáticas",
+    "observaciones": "Realizar ejercicios pág 50.",
+    "estado": "ASIGNADA",
+    "creado_en": "2026-09-16T12:15:52.968730"
+  }
+]
