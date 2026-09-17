@@ -44,9 +44,7 @@ docker run -d -p 5055:5055 --name sustituciones sustituciones-colegio
 Desde esta carpeta (`/Users/jose/.gemini/antigravity/scratch/sustituciones-colegio`):
 
 ```bash
-# 1. Crear un nuevo repositorio vacío en github.com (ej. 'sustituciones-colegio')
-# 2. Vincular y subir:
-git remote add origin https://github.com/TU_USUARIO/sustituciones-colegio.git
-git branch -M main
+# 1. Crear el repositorio 'sustituciones-san-buenaventura' en tu cuenta de GitHub (https://github.com/new)
+# 2. Subir directamente:
 git push -u origin main
 ```
