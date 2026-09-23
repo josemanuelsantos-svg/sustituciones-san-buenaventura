@@ -71,13 +71,9 @@ class CalendarService:
             "dates": dates_param,
             "details": details,
             "location": location,
-            "src": cls.SANBUENAVENTURA_CALENDAR_ID,
-            "cid": cls.SANBUENAVENTURA_CALENDAR_CID
+            "ctz": "Europe/Madrid",
+            "src": cls.SANBUENAVENTURA_CALENDAR_ID
         }
-        
-        # Opcional: invitar al profesor sustituto si tiene email
-        if record.profesor_sustituto_email:
-            params["add"] = record.profesor_sustituto_email
 
         query_string = urllib.parse.urlencode(params)
         return f"https://calendar.google.com/calendar/render?{query_string}"

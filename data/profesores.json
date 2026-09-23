@@ -10,6 +10,16 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "dasenjo",
+    "nombre": "Daniel Asenjo García",
+    "telefono": "",
+    "email": "daniel.asenjo@sanbuenaventura.es",
+    "departamento": "Apoyo PT",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "d558",
     "nombre": "David Sagaseta Jiménez",
     "telefono": "",
@@ -35,6 +45,16 @@
     "telefono": "",
     "email": "ihid0@sanbuenaventura.es",
     "departamento": "Tutoría 2º EP-A",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "ipena",
+    "nombre": "Isabel Peña Escudero",
+    "telefono": "",
+    "email": "isabel.pena@sanbuenaventura.es",
+    "departamento": "Horario de Apoyo",
     "etapa": "Primaria",
     "activo": true,
     "sustituciones_realizadas": 0
@@ -205,26 +225,6 @@
     "telefono": "",
     "email": "omol0@sanbuenaventura.es",
     "departamento": "Tutoría / General",
-    "etapa": "Primaria",
-    "activo": true,
-    "sustituciones_realizadas": 0
-  },
-  {
-    "id": "dasenjo",
-    "nombre": "Daniel Asenjo García",
-    "telefono": "",
-    "email": "daniel.asenjo@sanbuenaventura.es",
-    "departamento": "Apoyo PT",
-    "etapa": "Primaria",
-    "activo": true,
-    "sustituciones_realizadas": 0
-  },
-  {
-    "id": "ipena",
-    "nombre": "Isabel Peña Escudero",
-    "telefono": "",
-    "email": "isabel.pena@sanbuenaventura.es",
-    "departamento": "Horario de Apoyo",
     "etapa": "Primaria",
     "activo": true,
     "sustituciones_realizadas": 0

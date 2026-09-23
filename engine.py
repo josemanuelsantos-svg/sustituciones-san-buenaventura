@@ -175,13 +175,11 @@ class SubstitutionEngine:
                 coincide_etapa = True
                 motivos.append(f"Misma etapa ({docente.etapa})")
 
-            # Factor de equidad: penalizar ligeramente dentro de la misma categoría a quien lleve más sustituciones
-            penalizacion_carga = docente.sustituciones_realizadas * 5.0
-            puntuacion -= penalizacion_carga
+            # Información de carga (no afecta al orden de prelación diario estricto)
             if docente.sustituciones_realizadas == 0:
-                motivos.append("0 sustituciones previas")
+                motivos.append("0 sustituciones acumuladas")
             else:
-                motivos.append(f"{docente.sustituciones_realizadas} sustitución(es)")
+                motivos.append(f"{docente.sustituciones_realizadas} sustitución(es) acumuladas")
 
             motivo_completo = " · ".join(motivos)
 
