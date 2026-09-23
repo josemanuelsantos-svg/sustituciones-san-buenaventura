@@ -4,6 +4,7 @@ Servicio para formateo y envío de avisos de sustitución por WhatsApp.
 
 import re
 import urllib.parse
+from datetime import datetime
 from typing import Optional
 from models import SubstitutionRecord, TimeSlot
 
