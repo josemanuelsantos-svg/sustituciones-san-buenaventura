@@ -11,6 +11,7 @@ from database import Database
 from engine import SubstitutionEngine
 from calendar_service import CalendarService
 from whatsapp_service import WhatsAppService
+from email_service import EmailService
 from sample_data import seed_database_if_empty
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -233,6 +234,8 @@ def assign_substitution():
     calendar_view_url = CalendarService.get_calendar_view_url()
     whatsapp_url = WhatsAppService.generate_whatsapp_url(record, slot)
     whatsapp_text = WhatsAppService.format_substitution_message(record, slot)
+    email_url = EmailService.generate_mailto_url(record, slot)
+    email_body = EmailService.format_email_body(record, slot)
 
     return jsonify({
         "success": True,
@@ -241,6 +244,8 @@ def assign_substitution():
         "calendar_view_url": calendar_view_url,
         "whatsapp_url": whatsapp_url,
         "whatsapp_text": whatsapp_text,
+        "email_url": email_url,
+        "email_body": email_body,
         "ics_url": f"/api/descargar-ics/{record.id}"
     })
 

@@ -548,6 +548,16 @@ async function asignarCandidato(profesorSustitutoId) {
     // Configurar enlace WhatsApp
     document.getElementById("btn-whatsapp").href = data.whatsapp_url;
 
+    // Configurar enlace Email
+    const btnEmail = document.getElementById("btn-email");
+    if (btnEmail) {
+      btnEmail.href = data.email_url || "#";
+      const lblEmail = document.getElementById("btn-email-sub");
+      if (lblEmail && r.profesor_sustituto_email) {
+        lblEmail.textContent = r.profesor_sustituto_email;
+      }
+    }
+
     // Configurar descarga .ics
     document.getElementById("btn-ics").href = data.ics_url;
 
