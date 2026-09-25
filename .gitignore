@@ -6,3 +6,5 @@ venv/
 .env
 .DS_Store
 time_col.png
+*.db-wal
+*.db-shm

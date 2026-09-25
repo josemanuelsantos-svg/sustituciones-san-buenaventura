@@ -120,9 +120,14 @@ def get_actividad_docente():
 
     item = db.get_slot_activity_for_teacher(profesor_id, dia_semana, periodo_id)
     if item:
+        aula_val = item.aula or ""
+        grupo_val = ""
+        if any(kw in aula_val.upper() for kw in ["EP", "ESO", "INF", "BAC"]):
+            grupo_val = aula_val
         return jsonify({
             "encontrado": True,
-            "aula": item.aula or "",
+            "aula": aula_val,
+            "curso_grupo": grupo_val,
             "materia": item.materia or "",
             "tipo_actividad": item.tipo_actividad,
             "descripcion": item.descripcion or ""
@@ -205,7 +210,30 @@ def assign_substitution():
     if not ausente or not sustituto or not slot:
         return jsonify({"error": "Entidades no encontradas en el sistema"}), 404
 
-    fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
+    try:
+        fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
+    except Exception:
+        return jsonify({"error": "Formato de fecha inválido (debe ser YYYY-MM-DD)"}), 400
+
+    if fecha_dt.weekday() >= 5:
+        return jsonify({"error": "No se pueden registrar sustituciones en fines de semana."}), 400
+
+    # Comprobar si el sustituto ya tiene otra sustitución en ese mismo tramo
+    sustituciones_existentes = [
+        s for s in db.get_substitutions()
+        if s.fecha == fecha and s.periodo_id == periodo_id and s.estado != "CANCELADA"
+    ]
+    for s in sustituciones_existentes:
+        if s.profesor_sustituto_id == sustituto.id:
+            return jsonify({"error": f"{sustituto.nombre} ya tiene asignada otra sustitución en este mismo tramo ({s.aula})."}), 400
+        if s.profesor_ausente_id == sustituto.id:
+            return jsonify({"error": f"{sustituto.nombre} figura como ausente en esta misma fecha y hora."}), 400
+
+    # Comprobar si el sustituto tiene clase lectiva
+    actividad = db.get_slot_activity_for_teacher(sustituto.id, fecha_dt.weekday(), periodo_id)
+    if actividad and actividad.tipo_actividad == ActivityType.LECTIVA:
+        return jsonify({"error": f"{sustituto.nombre} tiene clase lectiva en este tramo ({actividad.materia or actividad.aula})."}), 400
+
     record_id = f"sub-{datetime.now().strftime('%Y%m%d%H%M%S')}-{str(uuid.uuid4())[:4]}"
 
     record = SubstitutionRecord(

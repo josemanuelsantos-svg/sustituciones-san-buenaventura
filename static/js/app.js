@@ -265,17 +265,41 @@ function formatFechaEsp(fechaStr) {
   return `${diaNombre} ${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
+function sincronizarFechaDesdeInput() {
+  const inputFecha = document.getElementById("input-fecha");
+  if (!inputFecha || !inputFecha.value) return;
+
+  const partes = inputFecha.value.split("-");
+  if (partes.length !== 3) return;
+
+  const y = parseInt(partes[0], 10);
+  const m = parseInt(partes[1], 10) - 1;
+  const d = parseInt(partes[2], 10);
+
+  calVisual.anoSel = y;
+  calVisual.mesSel = m;
+  calVisual.diaSel = d;
+  calVisual.ano = y;
+  calVisual.mes = m;
+
+  renderCalendarioMensual();
+  actualizarEtiquetaDiaSemana();
+  consultarActividadProgramada();
+}
+
+function limpiarCamposActividad() {
+  const inAula = document.getElementById("input-aula");
+  const inGrupo = document.getElementById("input-grupo");
+  const inMat = document.getElementById("input-materia");
+  if (inAula) inAula.value = "";
+  if (inGrupo) inGrupo.value = "";
+  if (inMat) inMat.value = "";
+}
+
 function configurarListeners() {
   const inputFecha = document.getElementById("input-fecha");
-  // Escuchar tanto change como input para compatibilidad máxima con Safari/Chrome/Firefox
-  inputFecha.addEventListener("change", () => {
-    actualizarEtiquetaDiaSemana();
-    consultarActividadProgramada();
-  });
-  inputFecha.addEventListener("input", () => {
-    actualizarEtiquetaDiaSemana();
-    consultarActividadProgramada();
-  });
+  inputFecha.addEventListener("change", sincronizarFechaDesdeInput);
+  inputFecha.addEventListener("input", sincronizarFechaDesdeInput);
 
   document.getElementById("select-tramo").addEventListener("change", consultarActividadProgramada);
   document.getElementById("select-profesor-ausente").addEventListener("change", consultarActividadProgramada);
@@ -286,15 +310,20 @@ async function consultarActividadProgramada() {
   const periodo_id = document.getElementById("select-tramo").value;
   const profesor_id = document.getElementById("select-profesor-ausente").value;
 
-  if (!fecha || !periodo_id || !profesor_id) return;
+  if (!fecha || !periodo_id || !profesor_id) {
+    limpiarCamposActividad();
+    return;
+  }
 
   try {
     const res = await fetch(`/api/actividad-docente?profesor_id=${profesor_id}&periodo_id=${periodo_id}&fecha=${fecha}`);
     const data = await res.json();
     if (data && data.encontrado) {
-      if (data.aula) document.getElementById("input-aula").value = data.aula;
-      if (data.aula) document.getElementById("input-grupo").value = data.aula;
-      if (data.materia) document.getElementById("input-materia").value = data.materia;
+      document.getElementById("input-aula").value = data.aula || "";
+      document.getElementById("input-grupo").value = data.curso_grupo || (data.aula && data.aula.includes("EP") ? data.aula : "");
+      document.getElementById("input-materia").value = data.materia || "";
+    } else {
+      limpiarCamposActividad();
     }
   } catch (e) {
     console.error("Error al consultar actividad programada:", e);
@@ -369,6 +398,23 @@ async function buscarSustitutos() {
     return;
   }
 
+  // Comprobar si es fin de semana
+  const partesF = fecha.split("-");
+  if (partesF.length === 3) {
+    const dObj = new Date(parseInt(partesF[0], 10), parseInt(partesF[1], 10) - 1, parseInt(partesF[2], 10));
+    const diaSem = (dObj.getDay() + 6) % 7;
+    if (diaSem >= 5) {
+      alert("⚠️ El día seleccionado corresponde a fin de semana (sin actividad escolar). Por favor selecciona un día lectivo de lunes a viernes.");
+      return;
+    }
+  }
+
+  const btnBuscar = document.getElementById("btn-buscar");
+  if (btnBuscar) {
+    btnBuscar.disabled = true;
+    btnBuscar.classList.add("opacity-75", "cursor-not-allowed");
+  }
+
   // Ocultar paneles y mostrar spinner
   document.getElementById("panel-inicial").classList.add("hidden");
   document.getElementById("panel-confirmacion").classList.add("hidden");
@@ -392,7 +438,7 @@ async function buscarSustitutos() {
     document.getElementById("panel-cargando").classList.add("hidden");
 
     if (data.error) {
-      alert("Error: " + data.error);
+      alert("Aviso: " + data.error);
       document.getElementById("panel-inicial").classList.remove("hidden");
       return;
     }
@@ -404,6 +450,11 @@ async function buscarSustitutos() {
     document.getElementById("panel-cargando").classList.add("hidden");
     alert("Error de conexión al buscar sustitutos");
     console.error(err);
+  } finally {
+    if (btnBuscar) {
+      btnBuscar.disabled = false;
+      btnBuscar.classList.remove("opacity-75", "cursor-not-allowed");
+    }
   }
 }
 
@@ -500,7 +551,7 @@ function asignarRecomendado() {
 // ASIGNACIÓN, CALENDAR Y WHATSAPP
 // ===============================================
 
-async function asignarCandidato(profesorSustitutoId) {
+async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
   const fecha = document.getElementById("input-fecha").value;
   const periodo_id = document.getElementById("select-tramo").value;
   const profesor_ausente_id = document.getElementById("select-profesor-ausente").value;
@@ -508,6 +559,11 @@ async function asignarCandidato(profesorSustitutoId) {
   const curso_grupo = document.getElementById("input-grupo").value;
   const materia = document.getElementById("input-materia").value;
   const observaciones = document.getElementById("input-observaciones").value;
+
+  if (btnTrigger) {
+    btnTrigger.disabled = true;
+    btnTrigger.classList.add("opacity-70", "cursor-not-allowed");
+  }
 
   try {
     const res = await fetch("/api/asignar-sustitucion", {
@@ -527,7 +583,11 @@ async function asignarCandidato(profesorSustitutoId) {
 
     const data = await res.json();
     if (data.error) {
-      alert("Error al asignar sustitución: " + data.error);
+      alert("Aviso: " + data.error);
+      if (btnTrigger) {
+        btnTrigger.disabled = false;
+        btnTrigger.classList.remove("opacity-70", "cursor-not-allowed");
+      }
       return;
     }
 
@@ -570,14 +630,29 @@ async function asignarCandidato(profesorSustitutoId) {
   } catch (err) {
     alert("Error de red al registrar la sustitución");
     console.error(err);
+    if (btnTrigger) {
+      btnTrigger.disabled = false;
+      btnTrigger.classList.remove("opacity-70", "cursor-not-allowed");
+    }
   }
 }
 
 function nuevaSustitucion() {
   document.getElementById("panel-confirmacion").classList.add("hidden");
   document.getElementById("panel-inicial").classList.remove("hidden");
-  document.getElementById("form-ausencia").reset();
-  inicializarFecha();
+  
+  // Mantener la fecha seleccionada para comodidad del usuario
+  const fechaActual = document.getElementById("input-fecha").value;
+  
+  document.getElementById("select-tramo").value = "";
+  document.getElementById("select-profesor-ausente").value = "";
+  limpiarCamposActividad();
+  document.getElementById("input-observaciones").value = "";
+
+  if (fechaActual) {
+    document.getElementById("input-fecha").value = fechaActual;
+    actualizarEtiquetaDiaSemana();
+  }
 }
 
 function copiarMensajeWA() {
@@ -605,6 +680,9 @@ function renderHorarioProfesor(filtroProfesorId) {
   const tbody = document.getElementById("tbody-horarios");
   tbody.innerHTML = "";
 
+  const checkSoloGuardias = document.getElementById("check-solo-guardias");
+  const soloGuardias = checkSoloGuardias ? checkSoloGuardias.checked : false;
+
   const dias = [0, 1, 2, 3, 4]; // Lunes a Viernes
 
   appState.tramos.forEach(tramo => {
@@ -621,32 +699,56 @@ function renderHorarioProfesor(filtroProfesorId) {
 
     // Celdas por día
     dias.forEach(dia => {
-      const items = appState.horarios.filter(h => 
+      let items = appState.horarios.filter(h => 
         h.dia_semana === dia && 
         h.periodo_id === tramo.id &&
         (filtroProfesorId === "todos" || h.profesor_id === filtroProfesorId)
       );
+
+      // Si está activado "Solo guardias y horas libres" y vemos todos los profesores
+      if (soloGuardias && filtroProfesorId === "todos") {
+        items = items.filter(h => 
+          h.tipo_actividad === "GUARDIA_AULA" || 
+          h.tipo_actividad === "DISPONIBLE" || 
+          h.tipo_actividad === "GUARDIA_RECREO"
+        );
+      }
 
       html += `<td class="p-2 border-r border-slate-200 align-top">`;
       
       if (items.length === 0) {
         html += `<span class="text-[11px] text-slate-300">-</span>`;
       } else {
-        html += `<div class="space-y-1">`;
+        html += `<div class="space-y-1.5">`;
         items.forEach(it => {
           const prof = appState.profesores.find(p => p.id === it.profesor_id);
-          const profName = prof ? prof.nombre.split(" ")[0] : it.profesor_id;
+          const profName = prof ? prof.nombre : it.profesor_id;
 
           let badgeClass = "bg-slate-100 text-slate-700 border-slate-200";
-          if (it.tipo_actividad === "GUARDIA_AULA") badgeClass = "bg-emerald-100 text-emerald-800 border-emerald-300 font-semibold";
-          else if (it.tipo_actividad === "DISPONIBLE") badgeClass = "bg-blue-100 text-blue-800 border-blue-300";
-          else if (it.tipo_actividad === "NO_DISPONIBLE") badgeClass = "bg-rose-100 text-rose-800 border-rose-300";
-          else if (it.tipo_actividad === "GUARDIA_RECREO") badgeClass = "bg-amber-100 text-amber-800 border-amber-300";
+          let tipoLabel = it.tipo_actividad;
+          if (it.tipo_actividad === "GUARDIA_AULA") {
+            badgeClass = "bg-emerald-100 text-emerald-900 border-emerald-300 font-semibold";
+            tipoLabel = "Guardia Aula";
+          } else if (it.tipo_actividad === "DISPONIBLE") {
+            badgeClass = "bg-blue-100 text-blue-900 border-blue-300 font-medium";
+            tipoLabel = "Apoyo / Libre";
+          } else if (it.tipo_actividad === "NO_DISPONIBLE") {
+            badgeClass = "bg-rose-100 text-rose-800 border-rose-300";
+            tipoLabel = "No disponible";
+          } else if (it.tipo_actividad === "GUARDIA_RECREO") {
+            badgeClass = "bg-amber-100 text-amber-900 border-amber-300";
+            tipoLabel = "Guardia Recreo";
+          } else if (it.tipo_actividad === "LECTIVA") {
+            tipoLabel = "Clase";
+          }
 
           html += `
-            <div class="px-2 py-1 rounded border text-[11px] ${badgeClass}">
-              <div class="font-medium">${filtroProfesorId === "todos" ? profName + ': ' : ''}${it.tipo_actividad}</div>
-              <div class="text-[10px] opacity-75">${it.materia || it.aula || ''}</div>
+            <div class="px-2 py-1 rounded-lg border text-[11px] ${badgeClass} shadow-2xs">
+              <div class="font-bold flex items-center justify-between gap-1">
+                <span class="truncate">${profName}</span>
+                <span class="text-[9px] opacity-80 uppercase shrink-0">${tipoLabel}</span>
+              </div>
+              <div class="text-[10px] opacity-75 truncate">${it.materia || it.aula || ''}</div>
             </div>
           `;
         });
@@ -688,25 +790,59 @@ function renderEstadisticas() {
   });
 }
 
+function filtrarHistorial() {
+  renderHistorial();
+}
+
+function limpiarFiltrosHistorial() {
+  const fText = document.getElementById("filtro-historial-texto");
+  const fFecha = document.getElementById("filtro-historial-fecha");
+  if (fText) fText.value = "";
+  if (fFecha) fFecha.value = "";
+  renderHistorial();
+}
+
 async function renderHistorial() {
   try {
     const res = await fetch("/api/sustituciones");
     const data = await res.json();
     appState.sustituciones = data;
 
-    document.getElementById("total-sustituciones-badge").textContent = `${data.length} registros`;
+    const fTextEl = document.getElementById("filtro-historial-texto");
+    const fFechaEl = document.getElementById("filtro-historial-fecha");
+    const qTexto = fTextEl ? fTextEl.value.trim().toLowerCase() : "";
+    const qFecha = fFechaEl ? fFechaEl.value.trim() : "";
+
+    let filtradas = data;
+    if (qTexto) {
+      filtradas = filtradas.filter(sub => 
+        (sub.profesor_ausente_nombre && sub.profesor_ausente_nombre.toLowerCase().includes(qTexto)) ||
+        (sub.profesor_sustituto_nombre && sub.profesor_sustituto_nombre.toLowerCase().includes(qTexto)) ||
+        (sub.aula && sub.aula.toLowerCase().includes(qTexto)) ||
+        (sub.materia && sub.materia.toLowerCase().includes(qTexto)) ||
+        (sub.curso_grupo && sub.curso_grupo.toLowerCase().includes(qTexto))
+      );
+    }
+    if (qFecha) {
+      filtradas = filtradas.filter(sub => sub.fecha === qFecha);
+    }
+
+    const badgeTotal = document.getElementById("total-sustituciones-badge");
+    if (badgeTotal) {
+      badgeTotal.textContent = `${filtradas.length} de ${data.length} registros`;
+    }
 
     const tbody = document.getElementById("tbody-historial");
     tbody.innerHTML = "";
 
-    if (data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-xs text-slate-400">No hay sustituciones registradas todavía.</td></tr>`;
+    if (filtradas.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-xs text-slate-400">No se encontraron sustituciones con los filtros aplicados.</td></tr>`;
       return;
     }
 
-    data.forEach(sub => {
+    filtradas.forEach(sub => {
       const tr = document.createElement("tr");
-      tr.className = "hover:bg-slate-50";
+      tr.className = "hover:bg-slate-50 transition";
       tr.innerHTML = `
         <td class="p-3">
           <div class="font-semibold text-slate-800">${formatFechaEsp(sub.fecha)}</div>
@@ -717,7 +853,7 @@ async function renderHistorial() {
         </td>
         <td class="p-3">
           <div class="font-semibold text-emerald-700">${sub.profesor_sustituto_nombre}</div>
-          <div class="text-[10px] text-slate-500">${sub.profesor_sustituto_telefono || ''}</div>
+          <div class="text-[10px] text-slate-500">${sub.profesor_sustituto_email || ''}</div>
         </td>
         <td class="p-3">
           <div class="font-medium text-slate-800">${sub.aula} ${sub.curso_grupo ? '(' + sub.curso_grupo + ')' : ''}</div>
@@ -743,14 +879,18 @@ async function renderHistorial() {
 }
 
 async function eliminarSustitucion(id) {
-  if (!confirm("¿Deseas anular esta sustitución? Se restará del contador del profesor sustituto.")) return;
+  if (!confirm("¿Deseas anular esta sustitución? Se restará del balance del profesor sustituto.")) return;
   try {
     const res = await fetch(`/api/sustituciones/${id}`, { method: "DELETE" });
     if (res.ok) {
+      alert("✅ Sustitución anulada correctamente en el sistema.\n\n⚠️ Recuerda: Si ya habías añadido el evento a Google Calendar, debes eliminarlo también desde allí.");
       cargarDatosIniciales();
+    } else {
+      const err = await res.json();
+      alert("No se pudo anular: " + (err.error || "Error del servidor"));
     }
   } catch (err) {
-    alert("Error al eliminar");
+    alert("Error de conexión al intentar anular la sustitución.");
   }
 }
 

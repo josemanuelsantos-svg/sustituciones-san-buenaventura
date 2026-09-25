@@ -33,6 +33,8 @@ class SubstitutionEngine:
         # Determinar día de la semana (0=Lunes, 4=Viernes)
         fecha_dt = datetime.strptime(fecha_str, "%Y-%m-%d")
         dia_semana = fecha_dt.weekday()
+        if dia_semana >= 5:
+            raise ValueError("La fecha seleccionada corresponde a fin de semana (sin actividad lectiva).")
 
         profesor_ausente = self.db.get_teacher(profesor_ausente_id)
         if not profesor_ausente:
@@ -73,15 +75,15 @@ class SubstitutionEngine:
             horario_slot = self.db.get_slot_activity_for_teacher(docente.id, dia_semana, periodo_id)
 
             if not horario_slot:
-                no_disponibles.append({
-                    "profesor_id": docente.id,
-                    "profesor_nombre": docente.nombre,
-                    "motivo": "Sin guardia ni apoyo asignado en este tramo"
-                })
-                continue
-
-            tipo_actividad = horario_slot.tipo_actividad
-            detalle_actividad = horario_slot.materia or horario_slot.descripcion or tipo_actividad
+                # Si no tiene clase registrada en este tramo, significa que tiene un HUECO LIBRE.
+                # Según la norma del centro: "todos los profesores que tengan alguna hora libre... o cualquier otro profesor que tenga un hueco"
+                tipo_actividad = ActivityType.DISPONIBLE
+                detalle_actividad = "Hueco libre en su horario"
+                es_hueco_libre = True
+            else:
+                tipo_actividad = horario_slot.tipo_actividad
+                detalle_actividad = horario_slot.materia or horario_slot.descripcion or tipo_actividad
+                es_hueco_libre = False
 
             # 4. Filtrar según tipo de actividad
             if tipo_actividad == ActivityType.LECTIVA:
@@ -154,7 +156,9 @@ class SubstitutionEngine:
                 motivos.append("Prioridad 1: Docente disponible con hueco/guardia")
 
             # Detalle del tipo de disponibilidad
-            if tipo_actividad == ActivityType.GUARDIA_AULA:
+            if es_hueco_libre:
+                motivos.append("Hueco libre en horario")
+            elif tipo_actividad == ActivityType.GUARDIA_AULA:
                 motivos.append("En Guardia de Aula")
             elif tipo_actividad == ActivityType.DISPONIBLE:
                 motivos.append("Horario de Apoyo / Libre")

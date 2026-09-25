@@ -391,11 +391,17 @@
             <p class="text-xs text-slate-500">Visualiza qué profesores tienen clase lectiva, guardia de aula o están disponibles para sustituciones.</p>
           </div>
 
-          <div class="flex items-center gap-3">
-            <label class="text-xs font-semibold text-slate-600">Filtrar por Profesor:</label>
-            <select id="select-filtro-profesor" onchange="renderHorarioProfesor(this.value)" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500">
-              <option value="todos">Todos los profesores</option>
-            </select>
+          <div class="flex flex-wrap items-center gap-3">
+            <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-300 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-slate-100">
+              <input type="checkbox" id="check-solo-guardias" checked onchange="renderHorarioProfesor(document.getElementById('select-filtro-profesor').value)" class="rounded text-indigo-600 focus:ring-indigo-500">
+              <span>Solo Guardias y Horas Libres</span>
+            </label>
+            <div class="flex items-center gap-2">
+              <label class="text-xs font-semibold text-slate-600">Filtrar por Profesor:</label>
+              <select id="select-filtro-profesor" onchange="renderHorarioProfesor(this.value)" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500">
+                <option value="todos">Todos los profesores</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -403,7 +409,7 @@
         <div class="flex flex-wrap items-center gap-3 text-xs mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
           <span class="font-semibold text-slate-700">Leyenda:</span>
           <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> <strong>Guardia de Aula</strong> (Máxima prioridad)</span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500"></span> <strong>Disponible / Complementaria</strong></span>
+          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500"></span> <strong>Disponible / Hueco Libre</strong></span>
           <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-400"></span> <strong>Clase Lectiva</strong> (No disponible)</span>
           <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> <strong>No Computable / Reunión</strong></span>
           <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500"></span> <strong>Guardia Recreo</strong></span>
@@ -435,13 +441,13 @@
     <!-- ========================================== -->
     <section id="tab-historial" class="tab-content hidden space-y-6">
       
-      <!-- Ranking de Equidad -->
+      <!-- Ranking de Sustituciones Realizadas -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
         <h2 class="text-base font-bold text-slate-900 mb-1 flex items-center gap-2">
           <i class="ph-bold ph-scales text-indigo-600"></i>
-          Reparto Equitativo de Sustituciones
+          Balance Acumulado de Sustituciones
         </h2>
-        <p class="text-xs text-slate-500 mb-4">El motor penaliza automáticamente a los profesores que más sustituciones llevan acumuladas para no sobrecargarlos.</p>
+        <p class="text-xs text-slate-500 mb-4">Registro acumulado del número de sustituciones realizadas por cada docente del claustro.</p>
         
         <div id="grid-estadisticas" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           <!-- Estadísticas dinámicas -->
@@ -450,12 +456,23 @@
 
       <!-- Tabla de Sustituciones Realizadas -->
       <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-            <i class="ph-bold ph-list-dashes text-indigo-600"></i>
-            Registro Histórico de Sustituciones
-          </h2>
-          <span class="text-xs text-slate-500" id="total-sustituciones-badge">0 registros</span>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-list-dashes text-indigo-600"></i>
+              Registro Histórico de Sustituciones
+            </h2>
+            <span class="text-xs bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full" id="total-sustituciones-badge">0 registros</span>
+          </div>
+
+          <!-- Filtros de búsqueda en historial -->
+          <div class="flex flex-wrap items-center gap-2">
+            <input type="text" id="filtro-historial-texto" oninput="filtrarHistorial()" placeholder="🔍 Buscar profesor, aula..." class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500 w-48">
+            <input type="date" id="filtro-historial-fecha" onchange="filtrarHistorial()" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-indigo-500">
+            <button onclick="limpiarFiltrosHistorial()" title="Limpiar filtros" class="text-xs font-semibold text-slate-500 hover:text-slate-800 px-2 py-1.5 bg-slate-100 rounded-lg border border-slate-200">
+              <i class="ph ph-arrow-counter-clockwise"></i> Limpiar
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-slate-200">
