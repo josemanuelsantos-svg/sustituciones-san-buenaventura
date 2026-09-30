@@ -135,7 +135,7 @@
     "descripcion": "Programación y robótica en 5ºEP-C"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 0,
     "periodo_id": "1H",
     "tipo_actividad": "LECTIVA",
@@ -160,6 +160,15 @@
     "aula": "6ºEP-C",
     "materia": "Matemáticas",
     "descripcion": "Matemáticas en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -315,13 +324,22 @@
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-B"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 0,
     "periodo_id": "2H",
     "tipo_actividad": "LECTIVA",
     "aula": "6ºEP-C",
     "materia": "Religión",
     "descripcion": "Religión en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -486,6 +504,24 @@
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 0,
     "periodo_id": "4H",
@@ -646,6 +682,24 @@
     "aula": "6ºEP-C",
     "materia": "Educación Física",
     "descripcion": "Educación Física en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -810,6 +864,24 @@
     "descripcion": "Speaking (Conversación en Inglés) en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 0,
     "periodo_id": "6H",
@@ -972,6 +1044,24 @@
     "descripcion": "Ciencias Sociales en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 0,
+    "periodo_id": "6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "1H",
@@ -1132,6 +1222,24 @@
     "aula": "6ºEP-C",
     "materia": "Lengua Castellana y Literatura",
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -1296,6 +1404,24 @@
     "descripcion": "Speaking (Conversación en Inglés) en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "3H",
@@ -1456,6 +1582,24 @@
     "aula": "6ºEP-C",
     "materia": "Matemáticas",
     "descripcion": "Matemáticas en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -1620,6 +1764,24 @@
     "descripcion": "Matemáticas en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "5H",
@@ -1780,6 +1942,24 @@
     "aula": "6ºEP-C",
     "materia": "Lengua Castellana y Literatura",
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -1944,6 +2124,24 @@
     "descripcion": "Ciencias de la Naturaleza en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 1,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 1,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 2,
     "periodo_id": "1H",
@@ -2104,6 +2302,24 @@
     "aula": "6ºEP-C",
     "materia": "Educación Física",
     "descripcion": "Educación Física en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -2268,6 +2484,24 @@
     "descripcion": "Speaking (Conversación en Inglés) en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 2,
     "periodo_id": "3H",
@@ -2428,6 +2662,24 @@
     "aula": "6ºEP-C",
     "materia": "Programación y robótica",
     "descripcion": "Programación y robótica en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -2592,6 +2844,24 @@
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 2,
     "periodo_id": "5H",
@@ -2752,6 +3022,24 @@
     "aula": "6ºEP-C",
     "materia": "Música y danza",
     "descripcion": "Música y danza en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "ped4",
@@ -2916,6 +3204,24 @@
     "descripcion": "Matemáticas en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 2,
+    "periodo_id": "6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 2,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "1H",
@@ -3069,13 +3375,22 @@
     "descripcion": "Matemáticas en 6ºEP-B"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 3,
     "periodo_id": "1H",
     "tipo_actividad": "LECTIVA",
     "aula": "6ºEP-C",
     "materia": "Religión",
     "descripcion": "Religión en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -3213,7 +3528,7 @@
     "descripcion": "Educación Física en 5ºEP-C"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 3,
     "periodo_id": "2H",
     "tipo_actividad": "LECTIVA",
@@ -3238,6 +3553,15 @@
     "aula": "6ºEP-C",
     "materia": "Matemáticas",
     "descripcion": "Matemáticas en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -3402,6 +3726,24 @@
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "ped4",
     "dia_semana": 3,
     "periodo_id": "4H",
@@ -3562,6 +3904,24 @@
     "aula": "6ºEP-C",
     "materia": "Lengua Castellana y Literatura",
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "n656",
@@ -3726,6 +4086,24 @@
     "descripcion": "Ciencias Sociales en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "6H",
@@ -3886,6 +4264,24 @@
     "aula": "6ºEP-C",
     "materia": "Speaking (Conversación en Inglés)",
     "descripcion": "Speaking (Conversación en Inglés) en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 3,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -4050,6 +4446,24 @@
     "descripcion": "Lengua Castellana y Literatura en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 4,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 4,
     "periodo_id": "2H",
@@ -4210,6 +4624,24 @@
     "aula": "6ºEP-C",
     "materia": "Matemáticas",
     "descripcion": "Matemáticas en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 4,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "p740",
@@ -4374,6 +4806,24 @@
     "descripcion": "Ciencias de la Naturaleza en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 4,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 4,
     "periodo_id": "4H",
@@ -4536,6 +4986,24 @@
     "descripcion": "Speaking (Conversación en Inglés) en 6ºEP-C"
   },
   {
+    "profesor_id": "cduerto",
+    "dia_semana": 4,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 4,
     "periodo_id": "5H",
@@ -4696,6 +5164,24 @@
     "aula": "6ºEP-C",
     "materia": "Educación Plastica y Visual",
     "descripcion": "Educación Plastica y Visual en 6ºEP-C"
+  },
+  {
+    "profesor_id": "cduerto",
+    "dia_semana": 4,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
   },
   {
     "profesor_id": "n656",
@@ -4861,506 +5347,146 @@
   },
   {
     "profesor_id": "cduerto",
-    "dia_semana": 0,
-    "periodo_id": "1H",
+    "dia_semana": 4,
+    "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
     "materia": "No disponible",
     "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
-    "profesor_id": "cduerto",
+    "profesor_id": "fra0",
+    "dia_semana": 4,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
+  },
+  {
+    "profesor_id": "fra0",
     "dia_semana": 0,
     "periodo_id": "2H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
   },
   {
-    "profesor_id": "cduerto",
-    "dia_semana": 0,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 0,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 0,
-    "periodo_id": "5H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 0,
-    "periodo_id": "6H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 1,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "5H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 2,
-    "periodo_id": "6H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "cduerto",
+    "profesor_id": "fra0",
     "dia_semana": 3,
     "periodo_id": "1H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
   },
   {
-    "profesor_id": "cduerto",
+    "profesor_id": "fra0",
     "dia_semana": 3,
     "periodo_id": "2H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 3,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 3,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 3,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 3,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "cduerto",
-    "dia_semana": 4,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 0,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
     "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "descripcion": "Exento de sustituciones"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 0,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 0,
     "periodo_id": "5H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 0,
     "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 1,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 1,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 1,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 1,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 1,
     "periodo_id": "5H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 1,
     "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 2,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 2,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 2,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 2,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 2,
     "periodo_id": "5H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 2,
     "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 3,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 3,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 3,
     "periodo_id": "5H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 3,
     "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 4,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 4,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 4,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 4,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 4,
     "periodo_id": "5H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
-    "profesor_id": "fra0",
+    "profesor_id": "ipena",
     "dia_semana": 4,
     "periodo_id": "6H",
     "tipo_actividad": "NO_DISPONIBLE",
     "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de realizar sustituciones"
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   }
 ]
