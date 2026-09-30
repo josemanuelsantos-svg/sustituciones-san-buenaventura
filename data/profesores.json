@@ -10,6 +10,16 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "cduerto",
+    "nombre": "Cristina Duerto",
+    "telefono": "",
+    "email": "cristinaduerto@sanbuenaventura.org",
+    "departamento": "Primaria",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "dasenjo",
     "nombre": "Daniel Asenjo García",
     "telefono": "",
