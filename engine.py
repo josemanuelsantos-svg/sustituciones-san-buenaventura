@@ -123,37 +123,44 @@ class SubstitutionEngine:
             pid = docente.id.lower()
 
             if pid == "ipena":
-                # Isabel Peña: máxima prioridad en sustituciones
+                # 1º Isabel Peña
                 puntuacion = 1000.0
-                motivos.append("🌟 Prioridad 1: Asignación preferente (Isabel Peña)")
-            elif pid == "p740":
-                # Pilar F
-                puntuacion = 900.0
-                motivos.append("🌟 Prioridad 1: Asignación preferente (Pilar F)")
+                motivos.append("🌟 Prioridad 1: Isabel Peña (Preferente absoluta)")
             elif pid == "m654":
-                # Carmen / Mª Carmen
+                # 2º Carmen
+                puntuacion = 900.0
+                motivos.append("Prioridad 2: Carmen Ibáñez")
+            elif pid == "p740":
+                # 2º Pilar F
                 puntuacion = 850.0
-                motivos.append("🌟 Prioridad 1: Asignación preferente (Carmen)")
-            elif pid in ["r299", "bleo0"]:
-                # Rubén y Bea
+                motivos.append("Prioridad 2: Pilar Fuentes")
+            elif pid == "mar1":
+                # 2º Pilar Pérez
+                puntuacion = 800.0
+                motivos.append("Prioridad 2: Pilar Pérez")
+            elif pid == "cduerto":
+                # 2º Cristina Duerto
+                puntuacion = 750.0
+                motivos.append("Prioridad 2: Cristina Duerto")
+            elif pid in ["bleo0", "r299"]:
+                # 3º Bea y Rubén
                 puntuacion = 500.0
-                motivos.append("Prioridad 2: Asignación intermedia (Rubén / Bea)")
+                motivos.append("Prioridad 3: Bea / Rubén")
             elif pid in ["jos7", "j414"]:
-                # Jose (José Manuel Santos / José Antonio)
+                # 4º José
                 puntuacion = 300.0
-                motivos.append("Prioridad 3: Asignación de reserva (Jose)")
-            elif pid in ["dasenjo", "mar1", "mvazquez"]:
-                # Dani y María (Daniel Asenjo / María Vázquez / María Pilar)
-                puntuacion = 150.0
-                motivos.append("Prioridad 4: Asignación baja (Dani / María)")
+                motivos.append("Prioridad 4: José Manuel")
             elif pid == "m851":
-                # Belén: última en sustituir
-                puntuacion = 50.0
-                motivos.append("⚠️ Prioridad 5: Última opción de sustitución (Belén)")
+                # 5º Belén
+                puntuacion = 200.0
+                motivos.append("Prioridad 5: Belén Hernando")
+            elif pid in ["dasenjo", "mvazquez"]:
+                # 6º Por último: Dani y María
+                puntuacion = 100.0
+                motivos.append("Prioridad 6: Dani / María (Última opción)")
             else:
-                # Cualquier otro profesor que tenga guardia o hueco libre
-                puntuacion = 700.0
-                motivos.append("Prioridad 1: Docente disponible con hueco/guardia")
+                puntuacion = 600.0
+                motivos.append("Docente disponible con hueco/guardia")
 
             # Detalle del tipo de disponibilidad
             if es_hueco_libre:
