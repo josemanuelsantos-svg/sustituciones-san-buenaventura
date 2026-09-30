@@ -130,6 +130,16 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "mvazquez",
+    "nombre": "María Vázquez",
+    "telefono": "",
+    "email": "mariavazquez@sanbuenaventura.org",
+    "departamento": "Primaria",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "m851",
     "nombre": "Mª Belén Hernando Martín",
     "telefono": "",

@@ -142,8 +142,8 @@ class SubstitutionEngine:
                 # Jose (José Manuel Santos / José Antonio)
                 puntuacion = 300.0
                 motivos.append("Prioridad 3: Asignación de reserva (Jose)")
-            elif pid in ["dasenjo", "mar1"]:
-                # Dani y María (Daniel Asenjo / María Pilar Pérez)
+            elif pid in ["dasenjo", "mar1", "mvazquez"]:
+                # Dani y María (Daniel Asenjo / María Vázquez / María Pilar)
                 puntuacion = 150.0
                 motivos.append("Prioridad 4: Asignación baja (Dani / María)")
             elif pid == "m851":
