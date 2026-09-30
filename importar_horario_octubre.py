@@ -148,54 +148,11 @@ def ejecutar_importacion():
                     ))
 
     print(f"✅ Extraídas {len(schedules)} clases lectivas de grupos.")
+    print(f"📊 Total clases lectivas en horario de Octubre: {len(schedules)}")
 
-    # 3. Extraer guardias asignadas en el horario de profesores (Páginas 19 a 39)
-    guardias_count = 0
-    for p_idx in range(18, len(doc)):
-        page = doc[p_idx]
-        text = page.get_text("text")
-        lines = [l.strip() for l in text.split("\n") if l.strip()]
-        t_name = ""
-        for i, l in enumerate(lines):
-            if "HORARIO DE PROFESOR" in l and i + 1 < len(lines):
-                t_name = " ".join(lines[i+1].split())
-                break
-
-        prof_id = TEACHER_NAME_MAP.get(t_name)
-        if not prof_id:
-            continue
-
-        tabs = page.find_tables().tables
-        if not tabs:
-            continue
-
-        rows = tabs[0].extract()
-        for row in rows[1:]:
-            time_header = row[0].replace("\n", " ")
-            slot_id = get_slot_id(time_header)
-            if not slot_id or slot_id == "REC":
-                continue
-
-            for dia_idx, cell in enumerate(row[1:]):
-                c_text = (cell or "").strip()
-                if "guardia" in c_text.lower():
-                    schedules.append(ScheduleItem(
-                        profesor_id=prof_id,
-                        dia_semana=dia_idx,
-                        periodo_id=slot_id,
-                        tipo_actividad=ActivityType.GUARDIA_AULA,
-                        aula="Guardia Primaria",
-                        materia="Guardia de Aula",
-                        descripcion="Guardia de sustitución asignada en horario"
-                    ))
-                    guardias_count += 1
-
-    print(f"✅ Extraídas {guardias_count} guardias de profesores.")
-    print(f"📊 Total elementos en nuevo horario de Octubre: {len(schedules)}")
-
-    # 4. Guardar en SQLite y JSON
+    # 3. Guardar en SQLite y JSON (solo clases lectivas, a la espera del cuadrante de sustituciones)
     db.save_schedules(schedules)
-    print("🚀 Horario de Octubre guardado con éxito en SQLite y JSON.")
+    print("🚀 Horario de clases lectivas de Octubre guardado con éxito en SQLite y JSON.")
 
 if __name__ == "__main__":
     ejecutar_importacion()
