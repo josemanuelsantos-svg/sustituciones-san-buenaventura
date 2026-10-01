@@ -61,6 +61,9 @@ class CalendarService:
         if record.observaciones:
             details += f"\n📝 Indicaciones / Tareas:\n{record.observaciones}\n"
         
+        if record.profesor_sustituto_email:
+            details += f"\n📧 Convocatoria y aviso: {record.profesor_sustituto_nombre} ({record.profesor_sustituto_email})"
+
         details += f"\n📅 Calendario oficial: {cls.SANBUENAVENTURA_CALENDAR_URL}"
 
         location = f"{record.aula} ({record.curso_grupo})" if record.curso_grupo else record.aula
@@ -74,6 +77,10 @@ class CalendarService:
             "ctz": "Europe/Madrid",
             "src": cls.SANBUENAVENTURA_CALENDAR_ID
         }
+
+        # Añadir al profesor sustituto como invitado directo del evento para que Google Calendar le envíe la invitación por email
+        if record.profesor_sustituto_email:
+            params["add"] = record.profesor_sustituto_email
 
         query_string = urllib.parse.urlencode(params)
         return f"https://calendar.google.com/calendar/render?{query_string}"
@@ -102,6 +109,10 @@ class CalendarService:
         )
         location = f"{record.aula} ({record.curso_grupo})"
 
+        attendee_line = ""
+        if record.profesor_sustituto_email:
+            attendee_line = f"ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN={record.profesor_sustituto_nombre}:mailto:{record.profesor_sustituto_email}\r\n"
+
         ics_content = (
             "BEGIN:VCALENDAR\r\n"
             "VERSION:2.0\r\n"
@@ -116,6 +127,7 @@ class CalendarService:
             f"SUMMARY:{summary}\r\n"
             f"DESCRIPTION:{description}\r\n"
             f"LOCATION:{location}\r\n"
+            f"{attendee_line}"
             "STATUS:CONFIRMED\r\n"
             "END:VEVENT\r\n"
             "END:VCALENDAR\r\n"
