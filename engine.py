@@ -142,6 +142,10 @@ class SubstitutionEngine:
                 # 2º Cristina Duerto
                 puntuacion = 750.0
                 motivos.append("Prioridad 2: Cristina Duerto")
+            elif pid == "pgonzalez":
+                # 2º Paula González
+                puntuacion = 700.0
+                motivos.append("Prioridad 2: Paula González")
             elif pid in ["bleo0", "r299"]:
                 # 3º Bea y Rubén
                 puntuacion = 500.0

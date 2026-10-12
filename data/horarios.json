@@ -171,6 +171,15 @@
     "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 0,
     "periodo_id": "2H",
@@ -340,6 +349,15 @@
     "aula": "",
     "materia": "No disponible",
     "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 0,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -882,6 +900,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 0,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 0,
     "periodo_id": "6H",
@@ -1060,6 +1087,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "ipena",
+    "dia_semana": 0,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
     "profesor_id": "j326",
@@ -1962,6 +1998,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 1,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "6H",
@@ -2140,6 +2185,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "ipena",
+    "dia_semana": 1,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
     "profesor_id": "j326",
@@ -3042,6 +3096,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 2,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "ped4",
     "dia_semana": 2,
     "periodo_id": "6H",
@@ -3222,6 +3285,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 2,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "1H",
@@ -3393,6 +3465,15 @@
     "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "2H",
@@ -3562,6 +3643,15 @@
     "aula": "",
     "materia": "No disponible",
     "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "fra0",
+    "dia_semana": 3,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "Exento de sustituciones",
+    "descripcion": "Exento de sustituciones"
   },
   {
     "profesor_id": "j326",
@@ -4104,6 +4194,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 3,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "6H",
@@ -4282,6 +4381,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "ipena",
+    "dia_semana": 3,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
   },
   {
     "profesor_id": "j326",
@@ -5184,6 +5292,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "ipena",
+    "dia_semana": 4,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible (Solo mañanas)",
+    "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 4,
     "periodo_id": "6H",
@@ -5364,123 +5481,6 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
-    "profesor_id": "fra0",
-    "dia_semana": 0,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 0,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 3,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de sustituciones"
-  },
-  {
-    "profesor_id": "fra0",
-    "dia_semana": 3,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "Exento de sustituciones",
-    "descripcion": "Exento de sustituciones"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 0,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 0,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 1,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 1,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 2,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 2,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 3,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 3,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
-    "profesor_id": "ipena",
-    "dia_semana": 4,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible (Solo mañanas)",
-    "descripcion": "Solo asiste en jornada de mañana"
-  },
-  {
     "profesor_id": "ipena",
     "dia_semana": 4,
     "periodo_id": "6H",
@@ -5488,5 +5488,275 @@
     "aula": "",
     "materia": "No disponible (Solo mañanas)",
     "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   }
 ]

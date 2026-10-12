@@ -180,6 +180,16 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "pgonzalez",
+    "nombre": "Paula González",
+    "telefono": "",
+    "email": "paulagonzalez@sanbuenaventura.org",
+    "departamento": "Primaria",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "pveg0",
     "nombre": "Pedro Vega Verdeja",
     "telefono": "",
