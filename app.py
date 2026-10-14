@@ -5,7 +5,7 @@ Servidor Web Flask y API REST para el Sistema de Sustituciones Escolares.
 import os
 import uuid
 from datetime import datetime, date
-from flask import Flask, render_template, request, jsonify, Response, send_file
+from flask import Flask, render_template, request, jsonify, Response, send_file, send_from_directory
 from models import Teacher, TimeSlot, ScheduleItem, SubstitutionRecord, ActivityType
 from database import Database
 from engine import SubstitutionEngine
@@ -21,6 +21,10 @@ db = Database()
 # Inicializar con datos si la base de datos está vacía
 seed_database_if_empty(db, force=False)
 engine = SubstitutionEngine(db)
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, "static"), "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 @app.route("/")
 def index():

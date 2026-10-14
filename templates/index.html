@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Sustituciones Escolares | Colegio</title>
+  <title>Sustituciones · Colegio San Buenaventura</title>
+  <!-- Favicon oficial Colegio San Buenaventura -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo_csb.png') }}">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -22,16 +26,18 @@
   <!-- Header / Navbar -->
   <header class="bg-indigo-900 text-white shadow-lg border-b border-indigo-800 sticky top-0 z-30">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-emerald-400 flex items-center justify-center text-white text-xl shadow-md">
-          <i class="ph-bold ph-chalkboard-teacher"></i>
+      <div class="flex items-center space-x-3.5">
+        <div class="w-11 h-11 rounded-xl bg-white p-1 flex items-center justify-center shadow-md ring-2 ring-white/20 flex-shrink-0">
+          <img src="{{ url_for('static', filename='img/logo_csb.png') }}" alt="Colegio San Buenaventura" class="w-full h-full object-contain">
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Gestión de Sustituciones Escolares
-            <span class="text-xs bg-emerald-500/20 text-emerald-300 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30">Activo</span>
+            Colegio San Buenaventura
+            <span class="text-xs bg-emerald-500/20 text-emerald-300 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Sustituciones
+            </span>
           </h1>
-          <p class="text-xs text-indigo-200">Asignación inteligente · Google Calendar · Notificaciones WhatsApp</p>
+          <p class="text-xs text-indigo-200">Gestión inteligente de ausencias · Google Calendar · Primaria</p>
         </div>
       </div>
 
