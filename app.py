@@ -283,7 +283,16 @@ def assign_substitution():
 
 @app.route("/api/sustituciones", methods=["GET"])
 def list_substitutions():
-    return jsonify([s.to_dict() for s in db.get_substitutions()])
+    slots_map = {s.id: s for s in db.get_time_slots()}
+    result = []
+    for s in db.get_substitutions():
+        d = s.to_dict()
+        slot = slots_map.get(s.periodo_id)
+        d["calendar_url"] = CalendarService.generate_google_calendar_url(s, slot)
+        d["whatsapp_url"] = WhatsAppService.generate_whatsapp_url(s, slot)
+        d["email_url"] = EmailService.generate_mailto_url(s, slot)
+        result.append(d)
+    return jsonify(result)
 
 @app.route("/api/sustituciones/<record_id>", methods=["DELETE"])
 def delete_substitution(record_id):

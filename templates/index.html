@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-50">
+<html lang="es" class="h-full bg-slate-100/70">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,50 +15,93 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-image: radial-gradient(at 0% 0%, rgba(30, 58, 138, 0.04) 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, rgba(245, 158, 11, 0.04) 0px, transparent 50%);
+    }
     [x-cloak] { display: none !important; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Smooth animations */
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeInSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @media print {
+      header, footer, .no-print { display: none !important; }
+      body { background: white !important; }
+      main { max-width: 100% !important; padding: 0 !important; }
+      .print-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+    }
   </style>
 </head>
-<body class="h-full text-slate-800 flex flex-col">
+<body class="min-h-full text-slate-800 flex flex-col selection:bg-indigo-600 selection:text-white">
 
-  <!-- Header / Navbar -->
-  <header class="bg-indigo-900 text-white shadow-lg border-b border-indigo-800 sticky top-0 z-30">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center space-x-3.5">
-        <div class="w-11 h-11 rounded-xl bg-white p-1 flex items-center justify-center shadow-md ring-2 ring-white/20 flex-shrink-0">
+  <!-- Contenedor de Notificaciones Toast -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- Header / Navbar Institucional -->
+  <header class="bg-gradient-to-r from-[#0b1936] via-[#132a56] to-[#1e3a8a] text-white shadow-xl border-b-2 border-amber-400/40 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Identidad de Marca CSB -->
+      <div class="flex items-center space-x-3.5 group cursor-pointer" onclick="switchTab('asignar')">
+        <div class="w-12 h-12 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg ring-2 ring-amber-400/50 group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
           <img src="{{ url_for('static', filename='img/logo_csb.png') }}" alt="Colegio San Buenaventura" class="w-full h-full object-contain">
         </div>
         <div>
-          <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-            Colegio San Buenaventura
-            <span class="text-xs bg-emerald-500/20 text-emerald-300 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30 flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Sustituciones
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">
+              Colegio San Buenaventura
+            </h1>
+            <span class="text-[11px] bg-amber-400/20 text-amber-300 font-bold px-2.5 py-0.5 rounded-full border border-amber-400/30 flex items-center gap-1.5 shadow-2xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span> Primaria
             </span>
-          </h1>
-          <p class="text-xs text-indigo-200">Gestión inteligente de ausencias · Google Calendar · Primaria</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 text-xs text-blue-200/90 mt-0.5">
+            <span>Gestión Inteligente de Sustituciones</span>
+            <span class="hidden sm:inline text-blue-400/60">•</span>
+            <span id="reloj-escolar" class="hidden sm:inline-flex items-center gap-1 text-[11px] font-medium text-emerald-300 bg-white/10 px-2 py-0.2 rounded-md">
+              <i class="ph-fill ph-clock"></i> Cargando hora...
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- Navigation tabs -->
-      <nav class="flex space-x-1 bg-indigo-950/60 p-1 rounded-xl border border-indigo-800/60">
-        <button onclick="switchTab('asignar')" id="tab-btn-asignar" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium transition-all bg-indigo-600 text-white shadow">
-          <i class="ph ph-lightning mr-1.5"></i>Asignar Sustitución
+      <!-- Navegación Principal -->
+      <nav class="flex flex-wrap items-center gap-1.5 bg-slate-950/40 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xs">
+        <button onclick="switchTab('asignar')" id="tab-btn-asignar" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-white text-slate-900 shadow-md flex items-center gap-1.5">
+          <i class="ph-bold ph-lightning text-amber-500"></i>
+          <span>Asignar Sustitución</span>
         </button>
-        <button onclick="switchTab('horarios')" id="tab-btn-horarios" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium transition-all text-indigo-200 hover:text-white hover:bg-indigo-800/50">
-          <i class="ph ph-calendar mr-1.5"></i>Horarios y Guardias
+        <button onclick="switchTab('horarios')" id="tab-btn-horarios" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-blue-100 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+          <i class="ph-bold ph-table"></i>
+          <span>Cuadrante y Horarios</span>
         </button>
-        <button onclick="switchTab('historial')" id="tab-btn-historial" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium transition-all text-indigo-200 hover:text-white hover:bg-indigo-800/50">
-          <i class="ph ph-clock-counter-clockwise mr-1.5"></i>Historial y Balance
+        <button onclick="switchTab('historial')" id="tab-btn-historial" class="tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-blue-100 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+          <i class="ph-bold ph-chart-bar"></i>
+          <span>Historial y Balance</span>
         </button>
-        <button onclick="switchTab('importar')" id="tab-btn-importar" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium transition-all text-indigo-200 hover:text-white hover:bg-indigo-800/50">
-          <i class="ph ph-file-arrow-up mr-1.5"></i>Cargar Horarios
+        <button onclick="switchTab('importar')" id="tab-btn-importar" class="tab-btn px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all text-blue-100 hover:text-white hover:bg-white/10 flex items-center gap-1.5" title="Configuración e Importación JSON">
+          <i class="ph-bold ph-gear"></i>
+          <span class="hidden md:inline">Datos</span>
         </button>
-        <a href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-1.5 shadow transition ml-2 border border-emerald-400/40">
-          <i class="ph-bold ph-calendar"></i>
-          <span>Calendario Oficial</span>
-          <i class="ph ph-arrow-square-out text-[11px]"></i>
+        <a href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white flex items-center gap-1.5 shadow-md hover:shadow-lg transition ml-1 border border-emerald-300/30">
+          <i class="ph-bold ph-calendar-check text-sm"></i>
+          <span class="hidden sm:inline">Google Calendar</span>
+          <i class="ph-bold ph-arrow-up-right text-[11px]"></i>
         </a>
       </nav>
     </div>
@@ -70,66 +113,97 @@
     <!-- ========================================== -->
     <!-- PESTAÑA 1: ASIGNAR SUSTITUCIÓN (PRINCIPAL) -->
     <!-- ========================================== -->
-    <section id="tab-asignar" class="tab-content block space-y-6">
+    <section id="tab-asignar" class="tab-content block space-y-6 animate-fade-in">
       
-      <!-- Banner informativo / Indicador de estado -->
-      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-2xl p-4 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center text-lg flex-shrink-0">
-            <i class="ph-bold ph-info"></i>
+      <!-- Tarjetas KPI de Resumen Rápido -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 shadow-xs flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 flex items-center justify-center text-xl flex-shrink-0">
+            <i class="ph-duotone ph-users-three"></i>
           </div>
           <div>
-            <h2 class="text-sm font-semibold text-slate-800">Motor de Asignación Automática</h2>
-            <p class="text-xs text-slate-600">Introduce la ausencia. El sistema filtrará docentes libres, priorizará a quienes estén en <strong>guardia de aula</strong>, afinidad pedagógica y menor carga acumulada.</p>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Claustro Primaria</div>
+            <div class="text-base font-extrabold text-slate-900"><span id="kpi-total-profesores">25</span> docentes</div>
           </div>
         </div>
-        <div class="hidden sm:flex items-center gap-2 text-xs font-medium text-slate-600">
-          <span class="inline-flex items-center px-2 py-1 rounded-md bg-emerald-100 text-emerald-800"><i class="ph-bold ph-calendar-check mr-1 text-emerald-600"></i> Google Calendar listo</span>
-          <span class="inline-flex items-center px-2 py-1 rounded-md bg-green-100 text-green-800"><i class="ph-bold ph-whatsapp-logo mr-1 text-green-600"></i> WhatsApp directo</span>
+
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 shadow-xs flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-xl flex-shrink-0">
+            <i class="ph-duotone ph-ranking"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Orden Prelación</div>
+            <div class="text-xs font-bold text-slate-800 truncate">Isabel › Grupo 2 › Bea/Rubén</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 shadow-xs flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-xl flex-shrink-0">
+            <i class="ph-duotone ph-calendar-check"></i>
+          </div>
+          <div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">En Fecha Seleccionada</div>
+            <div class="text-base font-extrabold text-emerald-700"><span id="kpi-sustituciones-fecha">0</span> sustituciones</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 shadow-xs flex items-center justify-between gap-2">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-xl flex-shrink-0">
+              <i class="ph-duotone ph-archive"></i>
+            </div>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Curso</div>
+              <div class="text-base font-extrabold text-slate-900"><span id="kpi-sustituciones-total">0</span> registradas</div>
+            </div>
+          </div>
+          <button onclick="switchTab('historial')" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold p-1.5 rounded-lg hover:bg-indigo-50 transition" title="Ver historial">
+            <i class="ph-bold ph-caret-right"></i>
+          </button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Formulario de Ausencia (Izquierda) -->
-        <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i class="ph-bold ph-user-minus text-rose-500"></i>
-            1. Datos de la Ausencia
-          </h2>
+        <!-- Formulario de Ausencia (Izquierda - 5 cols) -->
+        <div class="lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-sm relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-600 via-blue-600 to-amber-400"></div>
+
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center text-sm font-black">1</span>
+              <span>Datos de la Ausencia</span>
+            </h2>
+            <span id="label-dia-semana" class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200"></span>
+          </div>
 
           <form id="form-ausencia" onsubmit="event.preventDefault(); buscarSustitutos();" class="space-y-4">
-            <!-- Fecha con Calendario Mensual Interactivo -->
+            
+            <!-- 1. Calendario Mensual Interactivo -->
             <div>
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Fecha de la ausencia</label>
-                <span id="label-dia-semana" class="text-xs font-bold text-indigo-700 bg-indigo-100 px-2.5 py-0.5 rounded-full border border-indigo-200"></span>
-              </div>
-
-              <!-- Calendario Mensual -->
-              <div class="bg-slate-50 border border-slate-300/80 rounded-2xl p-3 shadow-xs space-y-2.5">
+              <div class="bg-slate-50/90 border border-slate-200/90 rounded-2xl p-3.5 space-y-2.5">
                 <!-- Cabecera del mes con controles -->
-                <div class="flex items-center justify-between px-1">
-                  <div class="flex items-center space-x-1.5">
-                    <button type="button" onclick="cambiarMes(-1)" title="Mes anterior" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 transition shadow-2xs">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-1">
+                    <button type="button" onclick="cambiarMes(-1)" title="Mes anterior" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition shadow-2xs">
                       <i class="ph-bold ph-caret-left"></i>
                     </button>
-                    <span id="cal-mes-ano" class="text-xs font-bold text-slate-800 capitalize tracking-tight px-1"></span>
-                    <button type="button" onclick="cambiarMes(1)" title="Mes siguiente" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 transition shadow-2xs">
+                    <span id="cal-mes-ano" class="text-xs font-extrabold text-slate-800 capitalize tracking-tight px-2 min-w-[110px] text-center"></span>
+                    <button type="button" onclick="cambiarMes(1)" title="Mes siguiente" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition shadow-2xs">
                       <i class="ph-bold ph-caret-right"></i>
                     </button>
                   </div>
 
-                  <!-- Botones rápidos -->
+                  <!-- Botones rápidos Hoy / Mañana -->
                   <div class="flex items-center gap-1">
-                    <button type="button" onclick="setFechaRelativa(0)" class="px-2 py-0.5 text-[10px] font-semibold rounded-md bg-white hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 shadow-2xs transition">Hoy</button>
-                    <button type="button" onclick="setFechaRelativa(1)" class="px-2 py-0.5 text-[10px] font-semibold rounded-md bg-white hover:bg-indigo-50 hover:text-indigo-700 text-slate-700 border border-slate-200 shadow-2xs transition">Mañana</button>
+                    <button type="button" onclick="setFechaRelativa(0)" class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-white hover:bg-indigo-600 hover:text-white text-slate-700 border border-slate-200 shadow-2xs transition">Hoy</button>
+                    <button type="button" onclick="setFechaRelativa(1)" class="px-2.5 py-1 text-[10px] font-bold rounded-lg bg-white hover:bg-indigo-600 hover:text-white text-slate-700 border border-slate-200 shadow-2xs transition">Mañana</button>
                   </div>
                 </div>
 
                 <!-- Cabecera de días (L M X J V S D) -->
-                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 select-none">
-                  <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span class="text-slate-300">S</span><span class="text-slate-300">D</span>
+                <div class="grid grid-cols-7 gap-1 text-center text-[10px] font-extrabold text-slate-400 select-none pt-1">
+                  <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span class="text-rose-300">S</span><span class="text-rose-300">D</span>
                 </div>
 
                 <!-- Días del mes (clickables) -->
@@ -139,8 +213,8 @@
 
                 <!-- Resumen de fecha seleccionada -->
                 <div class="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
-                  <span class="text-slate-500">Seleccionado:</span>
-                  <span id="cal-fecha-seleccionada" class="font-bold text-indigo-700"></span>
+                  <span class="text-slate-500 font-medium flex items-center gap-1"><i class="ph-fill ph-calendar-blank text-indigo-500"></i> Fecha activa:</span>
+                  <span id="cal-fecha-seleccionada" class="font-extrabold text-indigo-900"></span>
                 </div>
               </div>
 
@@ -148,233 +222,313 @@
               <input type="hidden" id="input-fecha" required>
             </div>
 
-            <!-- Tramo Horario -->
+            <!-- 2. Selector Visual de Tramo Horario (1-Clic) + Select sincronizado -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Hora / Tramo lectivo</label>
-              <select id="select-tramo" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
-                <option value="">Cargando tramos...</option>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">2. Hora / Tramo Lectivo</label>
+                <span class="text-[10px] text-slate-400 font-medium">Clic rápido</span>
+              </div>
+              
+              <!-- Botonera rápida de tramos 1H a 6H -->
+              <div id="pills-tramos" class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 mb-2">
+                <!-- Generado dinámicamente por app.js -->
+              </div>
+
+              <select id="select-tramo" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+                <option value="">Selecciona hora / tramo...</option>
               </select>
             </div>
 
-            <!-- Profesor Ausente -->
+            <!-- 3. Profesor Ausente -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Profesor que falta</label>
-              <select id="select-profesor-ausente" required class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
-                <option value="">Selecciona profesor ausente...</option>
-              </select>
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">3. Profesor que se ausenta</label>
+              <div class="relative">
+                <select id="select-profesor-ausente" required class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition appearance-none">
+                  <option value="">Selecciona profesor ausente...</option>
+                </select>
+                <i class="ph-bold ph-user-Switch absolute left-3 top-3 text-slate-400 text-base pointer-events-none"></i>
+                <i class="ph-bold ph-caret-down absolute right-3.5 top-3 text-slate-400 text-xs pointer-events-none"></i>
+              </div>
+
+              <!-- Indicador inteligente de clase detectada -->
+              <div id="badge-clase-detectada" class="hidden mt-2 p-2.5 rounded-xl border text-xs transition-all"></div>
             </div>
 
-            <!-- Aula y Grupo -->
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Aula</label>
-                <input type="text" id="input-aula" placeholder="Ej. Aula 204" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+            <!-- 4. Aula, Grupo y Materia (Autocompletados) -->
+            <div class="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Datos de la sesión (Autocompletado)</span>
+                <span class="text-[10px] text-indigo-600 font-semibold flex items-center gap-0.5"><i class="ph-fill ph-magic-wand"></i> Automático</span>
+              </div>
+              <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Aula</label>
+                  <input type="text" id="input-aula" placeholder="Ej. 5ºEP-A" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Curso / Grupo</label>
+                  <input type="text" id="input-grupo" placeholder="Ej. 5º EP-A" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
+                </div>
               </div>
               <div>
-                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Curso / Grupo</label>
-                <input type="text" id="input-grupo" placeholder="Ej. 2º ESO B" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">Materia / Asignatura</label>
+                <input type="text" id="input-materia" placeholder="Ej. Matemáticas, Lengua, Música..." class="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none transition">
               </div>
             </div>
 
-            <!-- Materia -->
+            <!-- 5. Tareas / Indicaciones -->
             <div>
-              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Materia</label>
-              <input type="text" id="input-materia" placeholder="Ej. Matemáticas, Lengua, Física..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Indicaciones o tarea para el aula <span class="text-slate-400 font-normal lowercase">(opcional)</span></label>
+              <textarea id="input-observaciones" rows="2" placeholder="Ej. Hacer ejercicios pág. 32, vigilar lectura comprensiva..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition"></textarea>
             </div>
 
-            <!-- Tareas / Indicaciones -->
-            <div>
-              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Tareas o indicaciones para el aula</label>
-              <textarea id="input-observaciones" rows="2" placeholder="Ej. Trabajar ejercicios de la pág 54. Mantener silencio para examen." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition"></textarea>
-            </div>
-
-            <button type="submit" id="btn-buscar" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2">
-              <i class="ph-bold ph-sparkle text-amber-300"></i>
-              Calcular Sustituto Idóneo
+            <button type="submit" id="btn-buscar" class="w-full py-3.5 px-5 bg-gradient-to-r from-[#132a56] via-indigo-700 to-blue-700 hover:from-indigo-800 hover:to-blue-800 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-[0.99]">
+              <i class="ph-fill ph-sparkle text-amber-300 text-lg"></i>
+              <span>Buscar Sustituto Idóneo</span>
             </button>
           </form>
         </div>
 
-        <!-- Resultados y Recomendación (Derecha) -->
-        <div class="lg:col-span-7 space-y-4">
+        <!-- Resultados, Recomendación y Confirmación (Derecha - 7 cols) -->
+        <div class="lg:col-span-7 space-y-5">
           
-          <!-- Estado Inicial (Vacío) -->
-          <div id="panel-inicial" class="bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-sm flex flex-col items-center justify-center">
-            <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center text-3xl mb-3">
-              <i class="ph-duotone ph-magnifying-glass"></i>
+          <!-- Estado Inicial (Vacío + Guía Rápida de Prioridad) -->
+          <div id="panel-inicial" class="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-10 text-center shadow-sm flex flex-col items-center justify-center">
+            <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-indigo-50 to-amber-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-4xl mb-4 shadow-inner">
+              <i class="ph-duotone ph-user-check"></i>
             </div>
-            <h3 class="text-base font-bold text-slate-800">Selecciona los datos de la ausencia</h3>
-            <p class="text-sm text-slate-500 max-w-sm mt-1">El motor evaluará quién está en guardia de aula, quién tiene hora libre y sugerirá la mejor opción respetando la equidad del centro.</p>
+            <h3 class="text-lg font-extrabold text-slate-900">Motor de Sustituciones Preparado</h3>
+            <p class="text-xs sm:text-sm text-slate-500 max-w-md mt-1.5 leading-relaxed">
+              Selecciona la <strong>fecha</strong>, el <strong>tramo horario</strong> y el <strong>profesor ausente</strong>. El sistema detectará automáticamente su aula y asignatura y te propondrá al sustituto óptimo.
+            </p>
+
+            <!-- Escalafón visual de prelación oficial -->
+            <div class="mt-7 w-full max-w-lg bg-slate-50/90 border border-slate-200/80 rounded-2xl p-4 text-left">
+              <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
+                <i class="ph-fill ph-crown text-amber-500 text-sm"></i> Orden Oficial de Prelación Activo
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
+                  <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] flex items-center justify-center shrink-0">1º</span>
+                  <span class="font-bold text-slate-800">Isabel Peña <span class="text-[10px] font-normal text-slate-400">(Mañanas)</span></span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
+                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">2º</span>
+                  <span class="font-semibold text-slate-700 truncate" title="Carmen, Pilar F., Pilar P., Cristina D., Paula G.">Carmen, Pilares, Cristina, Paula G.</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
+                  <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px] flex items-center justify-center shrink-0">3º</span>
+                  <span class="font-medium text-slate-700">Bea de León y Rubén Recio</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
+                  <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0">4º</span>
+                  <span class="font-medium text-slate-600">José M. › Belén › Dani y María</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Spinner Cargando -->
-          <div id="panel-cargando" class="hidden bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-sm">
-            <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-indigo-600 border-t-transparent mb-3"></div>
-            <p class="text-sm font-medium text-slate-700">Analizando disponibilidad y criterios de guardia...</p>
+          <div id="panel-cargando" class="hidden bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm">
+            <div class="inline-block animate-spin rounded-full h-11 w-11 border-4 border-indigo-600 border-t-transparent mb-3"></div>
+            <p class="text-sm font-bold text-slate-800">Evaluando cuadrante y disponibilidad...</p>
+            <p class="text-xs text-slate-400 mt-1">Comprobando clases lectivas y orden de prioridad</p>
           </div>
 
           <!-- Panel de Resultados -->
-          <div id="panel-resultados" class="hidden space-y-4">
+          <div id="panel-resultados" class="hidden space-y-4 animate-fade-in">
             
             <!-- TARJETA DESTACADA: RECOMENDADO -->
-            <div id="card-recomendado" class="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-2xl p-5 shadow-xl border border-indigo-700/50 relative overflow-hidden">
-              <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
+            <div id="card-recomendado" class="bg-gradient-to-br from-[#0c1d3d] via-[#172e5c] to-indigo-950 text-white rounded-3xl p-6 shadow-xl border border-indigo-500/30 relative overflow-hidden">
+              <div class="absolute -right-8 -top-8 w-40 h-40 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+              <div class="absolute -left-8 -bottom-8 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
               
-              <div class="flex items-start justify-between mb-3">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-4 relative z-10">
                 <div class="flex items-center gap-2">
-                  <span class="bg-amber-400 text-slate-950 text-xs font-extrabold uppercase px-2.5 py-1 rounded-full flex items-center gap-1 shadow">
-                    <i class="ph-fill ph-star"></i> Recomendación Principal
+                  <span class="bg-gradient-to-r from-amber-300 to-amber-400 text-slate-950 text-xs font-extrabold uppercase px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                    <i class="ph-fill ph-crown"></i> Opción Óptima Recomendada
                   </span>
-                  <span id="rec-puntuacion" class="text-xs bg-indigo-800/80 text-indigo-200 px-2.5 py-1 rounded-full font-mono"></span>
+                  <span id="rec-puntuacion" class="text-[11px] bg-white/10 text-blue-200 px-2.5 py-1 rounded-full font-mono border border-white/10"></span>
                 </div>
-                <span id="rec-disponibilidad" class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"></span>
+                <span id="rec-disponibilidad" class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30"></span>
               </div>
 
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
-                <div>
-                  <h3 id="rec-nombre" class="text-xl font-bold tracking-tight text-white"></h3>
-                  <div class="flex flex-wrap items-center gap-3 text-xs text-slate-300 mt-1">
-                    <span id="rec-depto" class="flex items-center gap-1"><i class="ph ph-books"></i> <span class="val"></span></span>
-                    <span id="rec-etapa" class="flex items-center gap-1"><i class="ph ph-graduation-cap"></i> <span class="val"></span></span>
-                    <span id="rec-telefono" class="flex items-center gap-1"><i class="ph ph-phone"></i> <span class="val"></span></span>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2 relative z-10">
+                <div class="flex items-center gap-3.5">
+                  <div id="rec-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 font-black text-lg flex items-center justify-center shadow-lg ring-2 ring-white/20 shrink-0">
+                    IP
+                  </div>
+                  <div>
+                    <h3 id="rec-nombre" class="text-xl sm:text-2xl font-extrabold tracking-tight text-white"></h3>
+                    <div class="flex flex-wrap items-center gap-3 text-xs text-blue-200/90 mt-1">
+                      <span id="rec-depto" class="flex items-center gap-1"><i class="ph-bold ph-books text-amber-300"></i> <span class="val"></span></span>
+                      <span id="rec-etapa" class="flex items-center gap-1"><i class="ph-bold ph-graduation-cap text-amber-300"></i> <span class="val"></span></span>
+                      <span id="rec-telefono" class="flex items-center gap-1"><i class="ph-bold ph-envelope-simple text-amber-300"></i> <span class="val"></span></span>
+                    </div>
                   </div>
                 </div>
 
-                <button onclick="asignarRecomendado()" class="py-2.5 px-5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2 flex-shrink-0">
-                  <i class="ph-bold ph-check-circle"></i>
-                  Asignar a este profesor
+                <button onclick="asignarRecomendado()" class="py-3 px-6 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-extrabold rounded-2xl shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer active:scale-95 text-sm">
+                  <i class="ph-bold ph-check-circle text-lg"></i>
+                  <span>Asignar Sustitución</span>
                 </button>
               </div>
 
               <!-- Motivo detallado -->
-              <div class="mt-4 pt-3 border-t border-indigo-800/60 flex items-center gap-2 text-xs text-indigo-200">
-                <i class="ph-bold ph-sparkle text-amber-300"></i>
-                <span class="font-medium text-slate-300">Criterio:</span>
-                <span id="rec-motivo" class="text-white font-medium"></span>
+              <div class="mt-4 pt-3.5 border-t border-white/10 flex items-center gap-2 text-xs text-blue-100 relative z-10">
+                <i class="ph-fill ph-sparkle text-amber-300 shrink-0"></i>
+                <span class="font-semibold text-blue-300 shrink-0">Prioridad aplicada:</span>
+                <span id="rec-motivo" class="text-white font-semibold truncate"></span>
               </div>
             </div>
 
             <!-- OTRAS ALTERNATIVAS DISPONIBLES -->
-            <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-              <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center justify-between">
-                <span>Otras alternativas disponibles (<span id="count-alternativas">0</span>)</span>
-                <span class="text-[11px] text-slate-400 font-normal">Ordenadas por compatibilidad y menor carga</span>
-              </h3>
+            <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-sm">
+              <div class="flex items-center justify-between mb-3.5">
+                <h3 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                  <i class="ph-bold ph-users text-indigo-600 text-sm"></i>
+                  <span>Otros Docentes Disponibles en este Tramo (<span id="count-alternativas">0</span>)</span>
+                </h3>
+                <span class="text-[11px] text-slate-400 font-medium">Por orden estricto de prioridad</span>
+              </div>
               
-              <div id="lista-alternativas" class="space-y-2">
+              <div id="lista-alternativas" class="space-y-2.5">
                 <!-- Se llena dinámicamente -->
               </div>
             </div>
 
             <!-- PROFESORES NO DISPONIBLES EN ESTA HORA -->
-            <details class="bg-slate-50 rounded-2xl border border-slate-200 p-3 text-xs">
-              <summary class="font-semibold text-slate-600 cursor-pointer flex items-center justify-between hover:text-slate-900">
-                <span class="flex items-center gap-1.5"><i class="ph ph-prohibit text-rose-500"></i> Profesores no disponibles en este tramo (<span id="count-nodisponibles">0</span>)</span>
-                <span class="text-indigo-600 text-[11px]">Ver motivos</span>
+            <details class="bg-white rounded-2xl border border-slate-200/80 p-3.5 text-xs group">
+              <summary class="font-bold text-slate-600 cursor-pointer flex items-center justify-between hover:text-slate-900 list-none">
+                <span class="flex items-center gap-2">
+                  <span class="w-6 h-6 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center"><i class="ph-bold ph-prohibit"></i></span>
+                  <span>Docentes con clase o no disponibles en este tramo (<span id="count-nodisponibles">0</span>)</span>
+                </span>
+                <span class="text-indigo-600 text-[11px] font-semibold flex items-center gap-1 group-open:rotate-180 transition-transform">
+                  <i class="ph-bold ph-caret-down"></i>
+                </span>
               </summary>
-              <div id="lista-nodisponibles" class="mt-3 divide-y divide-slate-200 space-y-1.5 text-slate-600 max-h-48 overflow-y-auto">
+              <div id="lista-nodisponibles" class="mt-3 pt-2 border-t border-slate-100 divide-y divide-slate-100 space-y-1 text-slate-600 max-h-52 overflow-y-auto pr-1">
                 <!-- Se llena dinámicamente -->
               </div>
             </details>
 
           </div>
 
-          <!-- PANEL DE ÉXITO TRAS ASIGNAR (ACCIONES CALENDAR + WHATSAPP) -->
-          <div id="panel-confirmacion" class="hidden bg-white rounded-2xl border-2 border-emerald-500 p-6 shadow-xl space-y-5">
-            <div class="flex items-start justify-between border-b border-slate-100 pb-4">
-              <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0">
-                  <i class="ph-bold ph-check-fat"></i>
+          <!-- PANEL DE ÉXITO TRAS ASIGNAR (ACCIONES CALENDAR + WHATSAPP + EMAIL) -->
+          <div id="panel-confirmacion" class="hidden bg-white rounded-3xl border-2 border-emerald-500 p-6 shadow-xl space-y-5 animate-fade-in">
+            <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-4">
+              <div class="flex items-center space-x-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl flex-shrink-0 shadow-inner">
+                  <i class="ph-fill ph-check-circle"></i>
                 </div>
                 <div>
-                  <h3 class="text-base font-bold text-slate-900">¡Sustitución Asignada con Éxito!</h3>
-                  <p class="text-xs text-slate-500" id="conf-resumen"></p>
+                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Registrada Correctamente</span>
+                  <h3 class="text-lg font-extrabold text-slate-900 mt-0.5">¡Sustitución Asignada!</h3>
+                  <p class="text-xs font-medium text-slate-600 mt-0.5" id="conf-resumen"></p>
                 </div>
               </div>
-              <button onclick="nuevaSustitucion()" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 bg-indigo-50 px-3 py-1.5 rounded-lg">
-                + Asignar otra
+              <button onclick="nuevaSustitucion()" class="text-xs font-bold text-indigo-700 hover:text-white bg-indigo-50 hover:bg-indigo-600 px-3.5 py-2 rounded-xl border border-indigo-200 transition flex items-center gap-1.5 cursor-pointer">
+                <i class="ph-bold ph-plus"></i> Asignar otra hora
               </button>
             </div>
 
             <!-- BOTONES DE ACCIÓN DIRECTA -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              
-              <!-- Botón Google Calendar (Añadir Evento) -->
-              <a id="btn-calendar" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-xl border border-blue-200 bg-blue-50/70 hover:bg-blue-100 hover:border-blue-300 transition group shadow-xs">
-                <div class="flex items-center space-x-2.5">
-                  <div class="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center text-lg shadow-xs flex-shrink-0">
-                    <i class="ph-bold ph-calendar-plus"></i>
+            <div>
+              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">Notificar y sincronizar con 1 clic:</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                
+                <!-- Botón Google Calendar (Añadir Evento + Invitar por Email) -->
+                <a id="btn-calendar" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl border-2 border-blue-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/60 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition group shadow-xs">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
+                      <i class="ph-bold ph-calendar-plus"></i>
+                    </div>
+                    <div class="text-left">
+                      <div class="text-xs font-extrabold text-slate-900 group-hover:text-blue-950">1. Añadir a Google Calendar</div>
+                      <div class="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
+                        <i class="ph-fill ph-paper-plane-tilt"></i> Invita y envía aviso por email
+                      </div>
+                    </div>
                   </div>
-                  <div class="text-left">
-                    <div class="text-xs font-bold text-slate-900 group-hover:text-blue-900">Añadir a Calendar</div>
-                    <div class="text-[10px] text-emerald-600 font-medium">Invita y avisa por email</div>
-                  </div>
-                </div>
-                <i class="ph-bold ph-arrow-square-out text-blue-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-              </a>
+                  <i class="ph-bold ph-arrow-square-out text-blue-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
 
-              <!-- Botón Ver Calendario Oficial Completo -->
-              <a id="btn-calendar-view" href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100 hover:border-indigo-300 transition group shadow-xs">
-                <div class="flex items-center space-x-2.5">
-                  <div class="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-lg shadow-xs flex-shrink-0">
-                    <i class="ph-bold ph-calendar"></i>
+                <!-- Botón WhatsApp -->
+                <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 hover:border-emerald-300 transition group shadow-xs">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
+                      <i class="ph-bold ph-whatsapp-logo"></i>
+                    </div>
+                    <div class="text-left">
+                      <div class="text-xs font-extrabold text-slate-900 group-hover:text-emerald-950">2. Enviar por WhatsApp</div>
+                      <div class="text-[11px] text-slate-500">Mensaje directo pre-rellenado</div>
+                    </div>
                   </div>
-                  <div class="text-left">
-                    <div class="text-xs font-bold text-slate-900 group-hover:text-indigo-900">Ver Calendario</div>
-                    <div class="text-[10px] text-slate-500">San Buenaventura</div>
-                  </div>
-                </div>
-                <i class="ph-bold ph-arrow-square-out text-indigo-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-              </a>
+                  <i class="ph-bold ph-arrow-square-out text-emerald-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
 
-              <!-- Botón WhatsApp -->
-              <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 hover:border-emerald-300 transition group shadow-xs">
-                <div class="flex items-center space-x-2.5">
-                  <div class="w-9 h-9 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-lg shadow-xs flex-shrink-0">
-                    <i class="ph-bold ph-whatsapp-logo"></i>
+                <!-- Botón Email Institucional Directo -->
+                <a id="btn-email" href="#" class="flex items-center justify-between p-3.5 rounded-2xl border border-violet-200 bg-violet-50/60 hover:bg-violet-100 hover:border-violet-300 transition group shadow-xs">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
+                      <i class="ph-bold ph-envelope-simple"></i>
+                    </div>
+                    <div class="text-left">
+                      <div class="text-xs font-bold text-slate-900 group-hover:text-violet-950">Abrir Cliente de Correo</div>
+                      <div id="btn-email-sub" class="text-[10px] text-violet-700 font-medium truncate max-w-[160px]">@sanbuenaventura.org</div>
+                    </div>
                   </div>
-                  <div class="text-left">
-                    <div class="text-xs font-bold text-slate-900 group-hover:text-emerald-900">Avisar WhatsApp</div>
-                    <div class="text-[10px] text-slate-500">Mensaje directo al docente</div>
-                  </div>
-                </div>
-                <i class="ph-bold ph-arrow-square-out text-emerald-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-              </a>
+                  <i class="ph-bold ph-arrow-square-out text-violet-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
 
-              <!-- Botón Email Institucional -->
-              <a id="btn-email" href="#" class="flex items-center justify-between p-3.5 rounded-xl border border-violet-200 bg-violet-50/70 hover:bg-violet-100 hover:border-violet-300 transition group shadow-xs">
-                <div class="flex items-center space-x-2.5">
-                  <div class="w-9 h-9 rounded-lg bg-violet-600 text-white flex items-center justify-center text-lg shadow-xs flex-shrink-0">
-                    <i class="ph-bold ph-envelope-simple"></i>
+                <!-- Botón Ver Calendario Oficial Completo -->
+                <a id="btn-calendar-view" href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 transition group shadow-xs">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-slate-700 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
+                      <i class="ph-bold ph-calendar"></i>
+                    </div>
+                    <div class="text-left">
+                      <div class="text-xs font-bold text-slate-900">Ver Calendario del Centro</div>
+                      <div class="text-[10px] text-slate-500">Vista mensual San Buenaventura</div>
+                    </div>
                   </div>
-                  <div class="text-left">
-                    <div class="text-xs font-bold text-slate-900 group-hover:text-violet-900">Avisar por Email</div>
-                    <div id="btn-email-sub" class="text-[10px] text-slate-500 truncate max-w-[110px]">Email docente</div>
-                  </div>
-                </div>
-                <i class="ph-bold ph-arrow-square-out text-violet-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-              </a>
+                  <i class="ph-bold ph-arrow-square-out text-slate-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
+                </a>
 
+              </div>
             </div>
 
             <!-- Vista previa del mensaje de WhatsApp -->
-            <div class="bg-slate-50 rounded-xl p-3 border border-slate-200">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1">
-                  <i class="ph ph-chats-circle text-emerald-600"></i> Texto generado para WhatsApp
+            <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/90">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                  <i class="ph-fill ph-chat-circle-text text-emerald-600 text-sm"></i> Texto listo para enviar o copiar
                 </span>
                 <div class="flex items-center gap-2">
-                  <a id="btn-ics" href="#" download class="text-[11px] text-indigo-600 hover:underline flex items-center gap-1">
-                    <i class="ph ph-download-simple"></i> Descargar .ics
+                  <a id="btn-ics" href="#" download class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-indigo-50 transition">
+                    <i class="ph-bold ph-download-simple"></i> .ics
                   </a>
-                  <button onclick="copiarMensajeWA()" class="text-[11px] font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-300 px-2 py-0.5 rounded shadow-xs flex items-center gap-1">
-                    <i class="ph ph-copy"></i> Copiar
+                  <button onclick="copiarMensajeWA()" class="text-xs font-bold text-slate-700 hover:text-slate-950 bg-white hover:bg-amber-50 border border-slate-300 px-3 py-1 rounded-lg shadow-2xs flex items-center gap-1.5 transition cursor-pointer">
+                    <i class="ph-bold ph-copy"></i> Copiar texto
                   </button>
                 </div>
               </div>
-              <pre id="pre-whatsapp" class="text-xs text-slate-700 whitespace-pre-wrap font-sans bg-white p-2.5 rounded-lg border border-slate-200 max-h-36 overflow-y-auto"></pre>
+              <pre id="pre-whatsapp" class="text-xs text-slate-700 whitespace-pre-wrap font-sans bg-white p-3 rounded-xl border border-slate-200/80 max-h-36 overflow-y-auto leading-relaxed"></pre>
             </div>
 
+          </div>
+
+          <!-- Mini-panel: Sustituciones ya registradas en la fecha seleccionada -->
+          <div id="panel-sustituciones-dia" class="hidden bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-2">
+                <i class="ph-fill ph-calendar-check text-emerald-600 text-base"></i>
+                <span>Sustituciones ya asignadas este día (<span id="count-sust-dia">0</span>)</span>
+              </h3>
+              <button onclick="switchTab('historial')" class="text-[11px] font-bold text-indigo-600 hover:underline">Ver todas</button>
+            </div>
+            <div id="lista-sustituciones-dia" class="space-y-2"></div>
           </div>
 
         </div>
@@ -384,54 +538,73 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- PESTAÑA 2: HORARIOS Y GUARDIAS             -->
+    <!-- PESTAÑA 2: CUADRANTE Y HORARIOS            -->
     <!-- ========================================== -->
-    <section id="tab-horarios" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-4 mb-4">
+    <section id="tab-horarios" class="tab-content hidden space-y-6 animate-fade-in">
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm print-card">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-200 pb-4 mb-5">
           <div>
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="ph-bold ph-calendar text-indigo-600"></i>
-              Cuadrante Semanal y Configuración de Horas
-            </h2>
-            <p class="text-xs text-slate-500">Visualiza qué profesores tienen clase lectiva, guardia de aula o están disponibles para sustituciones.</p>
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center text-lg font-bold">
+                <i class="ph-bold ph-table"></i>
+              </span>
+              <h2 class="text-lg font-extrabold text-slate-900">
+                Cuadrante Oficial de Disponibilidad y Horarios (Octubre - Mayo)
+              </h2>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              Consulta en cada hora quién está disponible para sustituir (ordenado de 1º a 6º por prioridad) o filtra el horario lectivo de cualquier docente.
+            </p>
           </div>
 
-          <div class="flex flex-wrap items-center gap-3">
-            <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 border border-slate-300 px-3 py-1.5 rounded-lg cursor-pointer hover:bg-slate-100">
-              <input type="checkbox" id="check-solo-guardias" checked onchange="renderHorarioProfesor(document.getElementById('select-filtro-profesor').value)" class="rounded text-indigo-600 focus:ring-indigo-500">
-              <span>Solo Guardias y Horas Libres</span>
+          <div class="flex flex-wrap items-center gap-2.5 no-print">
+            <label class="inline-flex items-center gap-2 text-xs font-bold text-indigo-900 bg-indigo-50/90 border border-indigo-200 px-3.5 py-2 rounded-xl cursor-pointer hover:bg-indigo-100 transition select-none">
+              <input type="checkbox" id="check-solo-guardias" checked onchange="renderHorarioProfesor(document.getElementById('select-filtro-profesor').value)" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+              <span>Ver Sustitutos Disponibles (Por Prioridad)</span>
             </label>
+
             <div class="flex items-center gap-2">
-              <label class="text-xs font-semibold text-slate-600">Filtrar por Profesor:</label>
-              <select id="select-filtro-profesor" onchange="renderHorarioProfesor(this.value)" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500">
-                <option value="todos">Todos los profesores</option>
+              <select id="select-filtro-profesor" onchange="renderHorarioProfesor(this.value)" class="text-xs font-bold bg-slate-50 border border-slate-300 text-slate-800 rounded-xl px-3.5 py-2 focus:ring-2 focus:ring-indigo-500">
+                <option value="todos">-- Vista Global del Claustro --</option>
               </select>
             </div>
+
+            <button onclick="window.print()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center gap-1.5 transition cursor-pointer" title="Imprimir cuadrante">
+              <i class="ph-bold ph-printer"></i> Imprimir
+            </button>
           </div>
         </div>
 
-        <!-- Leyenda de colores -->
-        <div class="flex flex-wrap items-center gap-3 text-xs mb-4 p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <span class="font-semibold text-slate-700">Leyenda:</span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> <strong>Guardia de Aula</strong> (Máxima prioridad)</span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500"></span> <strong>Disponible / Hueco Libre</strong></span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-400"></span> <strong>Clase Lectiva</strong> (No disponible)</span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-rose-500"></span> <strong>No Computable / Reunión</strong></span>
-          <span class="inline-flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500"></span> <strong>Guardia Recreo</strong></span>
+        <!-- Leyenda de prioridades y colores -->
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs mb-5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="font-extrabold text-slate-700 uppercase text-[11px] tracking-wider">Prioridad de Sustitución:</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-950 font-bold border border-amber-300 text-[11px]">
+              <i class="ph-fill ph-crown text-amber-600"></i> 1º Isabel Peña
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-bold border border-emerald-300 text-[11px]">
+              2º Carmen, Pilares, Cristina, Paula G.
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-900 font-semibold border border-blue-300 text-[11px]">
+              3º Bea y Rubén
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 font-medium border border-slate-300 text-[11px]">
+              4º-6º José M. › Belén › Dani / María V.
+            </span>
+          </div>
         </div>
 
         <!-- Tabla de horarios -->
-        <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-2xs">
           <table class="w-full text-xs text-left border-collapse" id="tabla-horarios">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+            <thead class="bg-[#132a56] text-white uppercase font-bold border-b border-slate-300">
               <tr>
-                <th class="p-3 border-r border-slate-200 w-36">Tramo / Hora</th>
-                <th class="p-3 border-r border-slate-200">Lunes</th>
-                <th class="p-3 border-r border-slate-200">Martes</th>
-                <th class="p-3 border-r border-slate-200">Miércoles</th>
-                <th class="p-3 border-r border-slate-200">Jueves</th>
-                <th class="p-3">Viernes</th>
+                <th class="p-3.5 border-r border-white/15 w-36">Tramo / Hora</th>
+                <th class="p-3.5 border-r border-white/15 w-[18%]">Lunes</th>
+                <th class="p-3.5 border-r border-white/15 w-[18%]">Martes</th>
+                <th class="p-3.5 border-r border-white/15 w-[18%]">Miércoles</th>
+                <th class="p-3.5 border-r border-white/15 w-[18%]">Jueves</th>
+                <th class="p-3.5 w-[18%]">Viernes</th>
               </tr>
             </thead>
             <tbody id="tbody-horarios" class="divide-y divide-slate-200 bg-white">
@@ -445,54 +618,61 @@
     <!-- ========================================== -->
     <!-- PESTAÑA 3: HISTORIAL Y BALANCE DE CARGA    -->
     <!-- ========================================== -->
-    <section id="tab-historial" class="tab-content hidden space-y-6">
+    <section id="tab-historial" class="tab-content hidden space-y-6 animate-fade-in">
       
       <!-- Ranking de Sustituciones Realizadas -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <h2 class="text-base font-bold text-slate-900 mb-1 flex items-center gap-2">
-          <i class="ph-bold ph-scales text-indigo-600"></i>
-          Balance Acumulado de Sustituciones
-        </h2>
-        <p class="text-xs text-slate-500 mb-4">Registro acumulado del número de sustituciones realizadas por cada docente del claustro.</p>
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-scales text-indigo-600"></i>
+              Balance Acumulado de Sustituciones por Docente
+            </h2>
+            <p class="text-xs text-slate-500">Recuento total de sustituciones realizadas a lo largo del curso escolar.</p>
+          </div>
+        </div>
         
-        <div id="grid-estadisticas" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        <div id="grid-estadisticas" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           <!-- Estadísticas dinámicas -->
         </div>
       </div>
 
       <!-- Tabla de Sustituciones Realizadas -->
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-          <div class="flex items-center gap-2">
-            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              <i class="ph-bold ph-list-dashes text-indigo-600"></i>
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div class="flex items-center gap-2.5">
+            <h2 class="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="ph-bold ph-clock-counter-clockwise text-indigo-600"></i>
               Registro Histórico de Sustituciones
             </h2>
-            <span class="text-xs bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full" id="total-sustituciones-badge">0 registros</span>
+            <span class="text-xs bg-indigo-100 text-indigo-800 font-extrabold px-3 py-1 rounded-full border border-indigo-200" id="total-sustituciones-badge">0 registros</span>
           </div>
 
           <!-- Filtros de búsqueda en historial -->
           <div class="flex flex-wrap items-center gap-2">
-            <input type="text" id="filtro-historial-texto" oninput="filtrarHistorial()" placeholder="🔍 Buscar profesor, aula..." class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-indigo-500 w-48">
-            <input type="date" id="filtro-historial-fecha" onchange="filtrarHistorial()" class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 focus:ring-2 focus:ring-indigo-500">
-            <button onclick="limpiarFiltrosHistorial()" title="Limpiar filtros" class="text-xs font-semibold text-slate-500 hover:text-slate-800 px-2 py-1.5 bg-slate-100 rounded-lg border border-slate-200">
-              <i class="ph ph-arrow-counter-clockwise"></i> Limpiar
+            <div class="relative">
+              <input type="text" id="filtro-historial-texto" oninput="filtrarHistorial()" placeholder="Buscar docente, aula, materia..." class="text-xs bg-slate-50 border border-slate-300 rounded-xl pl-8 pr-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:bg-white w-56 font-medium">
+              <i class="ph-bold ph-magnifying-glass absolute left-2.5 top-2.5 text-slate-400"></i>
+            </div>
+            <input type="date" id="filtro-historial-fecha" onchange="filtrarHistorial()" class="text-xs bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 font-medium">
+            <button onclick="limpiarFiltrosHistorial()" title="Limpiar filtros" class="text-xs font-bold text-slate-600 hover:text-slate-900 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-xl border border-slate-200 transition cursor-pointer flex items-center gap-1">
+              <i class="ph-bold ph-arrow-counter-clockwise"></i> Limpiar
             </button>
           </div>
         </div>
 
-        <div class="overflow-x-auto rounded-xl border border-slate-200">
+        <div class="overflow-x-auto rounded-2xl border border-slate-200">
           <table class="w-full text-xs text-left">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-semibold border-b border-slate-200">
+            <thead class="bg-slate-100/90 text-slate-700 uppercase font-extrabold border-b border-slate-200">
               <tr>
-                <th class="p-3">Fecha y Hora</th>
-                <th class="p-3">Profesor Ausente</th>
-                <th class="p-3">Profesor Sustituto</th>
-                <th class="p-3">Aula / Materia</th>
-                <th class="p-3 text-center">Acciones</th>
+                <th class="p-3.5">Fecha y Tramo</th>
+                <th class="p-3.5">Profesor Ausente</th>
+                <th class="p-3.5">Profesor Sustituto</th>
+                <th class="p-3.5">Aula / Materia</th>
+                <th class="p-3.5 text-center">Notificar / Acciones</th>
               </tr>
             </thead>
-            <tbody id="tbody-historial" class="divide-y divide-slate-200">
+            <tbody id="tbody-historial" class="divide-y divide-slate-200/80">
               <!-- Se puebla dinámicamente -->
             </tbody>
           </table>
@@ -504,35 +684,35 @@
     <!-- ========================================== -->
     <!-- PESTAÑA 4: CARGAR / IMPORTAR HORARIOS      -->
     <!-- ========================================== -->
-    <section id="tab-importar" class="tab-content hidden space-y-6">
-      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm max-w-3xl mx-auto">
+    <section id="tab-importar" class="tab-content hidden space-y-6 animate-fade-in">
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-sm max-w-3xl mx-auto">
         <div class="text-center mb-6">
-          <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mx-auto mb-2">
-            <i class="ph-bold ph-cloud-arrow-up"></i>
+          <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-3xl mx-auto mb-3">
+            <i class="ph-duotone ph-database"></i>
           </div>
-          <h2 class="text-lg font-bold text-slate-900">Carga de Horarios del Colegio</h2>
-          <p class="text-xs text-slate-500">Aquí podrás pegar o importar la estructura definitiva de profesores y horarios cuando los tengas listos.</p>
+          <h2 class="text-xl font-extrabold text-slate-900">Gestión Avanzada de Datos y Horarios</h2>
+          <p class="text-xs text-slate-500 mt-1">El horario oficial de Octubre-Mayo (540 sesiones lectivas + cuadrante de disponibilidad) ya se encuentra cargado y activo en SQLite.</p>
         </div>
 
-        <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3 mb-5">
-          <h3 class="text-xs font-bold text-slate-700 uppercase">Tipos de horas a diferenciar:</h3>
+        <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2.5 mb-5">
+          <h3 class="text-xs font-extrabold text-slate-700 uppercase">Tipos de actividad soportados en el motor:</h3>
           <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-            <li><span class="font-semibold text-emerald-700">GUARDIA_AULA:</span> Guardia ordinaria de pasillo/aula. Tiene la máxima prioridad cuando hay que cubrir una falta.</li>
-            <li><span class="font-semibold text-blue-700">DISPONIBLE:</span> Hora complementaria o libre que indicas que SÍ puede ser utilizada para sustitución.</li>
-            <li><span class="font-semibold text-rose-700">NO_DISPONIBLE:</span> Horas con alumnos (lectivas), tutorías con familias, reuniones de departamento o jefatura que NO se deben tocar.</li>
+            <li><span class="font-bold text-emerald-700">DISPONIBLE / HUECO:</span> Docente sin clase lectiva y habilitado para cubrir ausencias según su nivel de prioridad.</li>
+            <li><span class="font-bold text-indigo-700">LECTIVA:</span> Clase regular con grupo asignado (bloquea al docente para no ser propuesto como sustituto en esa hora).</li>
+            <li><span class="font-bold text-rose-700">NO_DISPONIBLE:</span> Tramo en el que el docente no asiste al centro o está exento de sustituciones.</li>
           </ul>
         </div>
 
         <div class="space-y-3">
-          <label class="block text-xs font-semibold text-slate-700">Estructura JSON lista para importar (o editar directamente):</label>
-          <textarea id="textarea-importar" rows="8" class="w-full font-mono text-xs p-3 bg-slate-900 text-slate-100 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder='{"profesores": [...], "horarios": [...]}'></textarea>
+          <label class="block text-xs font-bold text-slate-700">Importación manual en formato JSON:</label>
+          <textarea id="textarea-importar" rows="8" class="w-full font-mono text-xs p-3.5 bg-slate-900 text-slate-100 rounded-2xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder='{"profesores": [...], "horarios": [...]}'></textarea>
           
           <div class="flex items-center justify-between pt-2">
-            <button onclick="cargarEjemploJSON()" class="text-xs text-indigo-600 font-semibold hover:underline">
+            <button onclick="cargarEjemploJSON()" class="text-xs text-indigo-600 font-bold hover:underline cursor-pointer">
               Cargar plantilla de ejemplo
             </button>
-            <button onclick="ejecutarImportacion()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow transition">
-              Guardar e Importar Horarios
+            <button onclick="ejecutarImportacion()" class="py-2.5 px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow transition cursor-pointer">
+              Guardar e Importar JSON
             </button>
           </div>
         </div>
@@ -542,10 +722,17 @@
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-4 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-      Sistema de Sustituciones Escolares · Colegio San Buenaventura / Franciscanos · Integrado con Google Calendar y WhatsApp
+  <!-- Footer Institucional -->
+  <footer class="bg-white border-t border-slate-200/80 py-4 mt-10 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <img src="{{ url_for('static', filename='img/logo_csb.png') }}" alt="CSB" class="w-5 h-5 object-contain">
+        <span class="font-bold text-slate-700">Colegio San Buenaventura · Franciscanos</span>
+        <span>— Educación Primaria</span>
+      </div>
+      <div class="text-[11px] text-slate-400">
+        Sincronizado con Google Calendar &amp; Correo Institucional <span class="text-emerald-600 font-semibold">@sanbuenaventura.org</span>
+      </div>
     </div>
   </footer>
 

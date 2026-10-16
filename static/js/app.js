@@ -1,5 +1,5 @@
 /**
- * Lógica de cliente para el Sistema de Sustituciones Escolares
+ * Lógica de cliente para el Sistema de Sustituciones Escolares · Colegio San Buenaventura
  */
 
 // Estado global de la aplicación
@@ -15,37 +15,27 @@ let appState = {
 
 const DIAS_SEMANA = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-document.addEventListener("DOMContentLoaded", () => {
-  inicializarFecha();
-  cargarDatosIniciales();
-  configurarListeners();
-});
-
-function switchTab(tabId) {
-  document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
-  document.querySelectorAll(".tab-btn").forEach(btn => {
-    btn.classList.remove("bg-indigo-600", "text-white", "shadow");
-    btn.classList.add("text-indigo-200");
-  });
-
-  const targetTab = document.getElementById(`tab-${tabId}`);
-  const targetBtn = document.getElementById(`tab-btn-${tabId}`);
-
-  if (targetTab) targetTab.classList.remove("hidden");
-  if (targetBtn) {
-    targetBtn.classList.add("bg-indigo-600", "text-white", "shadow");
-    targetBtn.classList.remove("text-indigo-200");
-  }
-
-  if (tabId === "horarios") {
-    cargarHorariosSemana();
-  }
-}
-
 const NOMBRES_MESES = [
   "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
+
+// Orden oficial de prioridad del centro (para el cuadrante visual y desempates)
+const ORDEN_PRIORIDAD = {
+  "ipena":     { orden: 1, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
+  "m654":      { orden: 2, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "p740":      { orden: 3, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "mar1":      { orden: 4, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "cduerto":   { orden: 5, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "pgonzalez": { orden: 6, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "bleo0":     { orden: 7, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
+  "r299":      { orden: 8, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
+  "jos7":      { orden: 9, nivel: "4º", badge: "bg-indigo-50 text-indigo-900 border-indigo-200 font-medium", icon: "•" },
+  "j414":      { orden: 10, nivel: "4º", badge: "bg-indigo-50 text-indigo-900 border-indigo-200 font-medium", icon: "•" },
+  "m851":      { orden: 11, nivel: "5º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" },
+  "dasenjo":   { orden: 12, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" },
+  "mvazquez":  { orden: 13, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" }
+};
 
 let calVisual = {
   ano: new Date().getFullYear(),
@@ -55,10 +45,117 @@ let calVisual = {
   diaSel: new Date().getDate()
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  iniciarRelojEscolar();
+  inicializarFecha();
+  cargarDatosIniciales();
+  configurarListeners();
+});
+
+// ===============================================
+// SISTEMA DE NOTIFICACIONES TOAST Y UTILIDADES
+// ===============================================
+
+function showToast(mensaje, tipo = "success") {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+
+  const toast = document.createElement("div");
+  let colores = "bg-slate-900 text-white border-emerald-500";
+  let icono = '<i class="ph-fill ph-check-circle text-emerald-400 text-xl shrink-0"></i>';
+
+  if (tipo === "warning") {
+    colores = "bg-slate-900 text-white border-amber-400";
+    icono = '<i class="ph-fill ph-warning-circle text-amber-400 text-xl shrink-0"></i>';
+  } else if (tipo === "error") {
+    colores = "bg-rose-950 text-white border-rose-500";
+    icono = '<i class="ph-fill ph-x-circle text-rose-400 text-xl shrink-0"></i>';
+  } else if (tipo === "info") {
+    colores = "bg-indigo-950 text-white border-indigo-400";
+    icono = '<i class="ph-fill ph-info text-indigo-400 text-xl shrink-0"></i>';
+  }
+
+  toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-2xl border-l-4 ${colores} text-xs font-semibold animate-fade-in transition-all duration-300`;
+  toast.innerHTML = `
+    ${icono}
+    <div class="flex-1 leading-snug">${mensaje}</div>
+  `;
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(8px)";
+    setTimeout(() => toast.remove(), 300);
+  }, 3800);
+}
+
+function obtenerIniciales(nombre) {
+  if (!nombre) return "CSB";
+  const limpias = nombre.replace(/Mª|María/gi, "M").trim().split(/\s+/);
+  if (limpias.length === 1) return limpias[0].substring(0, 2).toUpperCase();
+  return (limpias[0][0] + limpias[1][0]).toUpperCase();
+}
+
+function iniciarRelojEscolar() {
+  const actualizar = () => {
+    const el = document.getElementById("reloj-escolar");
+    if (!el) return;
+    const ahora = new Date();
+    const hh = String(ahora.getHours()).padStart(2, "0");
+    const mm = String(ahora.getMinutes()).padStart(2, "0");
+    const minTotal = ahora.getHours() * 60 + ahora.getMinutes();
+
+    let tramoActual = "Fuera de horario lectivo";
+    if (minTotal >= 540 && minTotal < 585) tramoActual = "En 1ª Hora (09:00-09:45)";
+    else if (minTotal >= 585 && minTotal < 630) tramoActual = "En 2ª Hora (09:45-10:30)";
+    else if (minTotal >= 630 && minTotal < 660) tramoActual = "En Recreo (10:30-11:00)";
+    else if (minTotal >= 660 && minTotal < 705) tramoActual = "En 3ª Hora (11:00-11:45)";
+    else if (minTotal >= 705 && minTotal < 750) tramoActual = "En 4ª Hora (11:45-12:30)";
+    else if (minTotal >= 750 && minTotal < 855) tramoActual = "Comedor / Mediodía";
+    else if (minTotal >= 855 && minTotal < 915) tramoActual = "En 5ª Hora (14:15-15:15)";
+    else if (minTotal >= 915 && minTotal < 975) tramoActual = "En 6ª Hora (15:15-16:15)";
+
+    el.innerHTML = `<i class="ph-fill ph-clock"></i> <span>${hh}:${mm} · ${tramoActual}</span>`;
+  };
+  actualizar();
+  setInterval(actualizar, 15000);
+}
+
+// ===============================================
+// NAVEGACIÓN POR PESTAÑAS
+// ===============================================
+
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("bg-white", "text-slate-900", "shadow-md", "font-bold");
+    btn.classList.add("text-blue-100", "font-semibold");
+  });
+
+  const targetTab = document.getElementById(`tab-${tabId}`);
+  const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+
+  if (targetTab) targetTab.classList.remove("hidden");
+  if (targetBtn) {
+    targetBtn.classList.add("bg-white", "text-slate-900", "shadow-md", "font-bold");
+    targetBtn.classList.remove("text-blue-100", "font-semibold");
+  }
+
+  if (tabId === "horarios") {
+    cargarHorariosSemana();
+  } else if (tabId === "historial") {
+    renderEstadisticas();
+    renderHistorial();
+  }
+}
+
+// ===============================================
+// GESTIÓN DE FECHAS Y CALENDARIO MENSUAL
+// ===============================================
+
 function inicializarFecha() {
   const hoy = new Date();
-  
-  // Si hoy es fin de semana, por defecto apuntar al próximo lunes
   let fechaDefecto = new Date(hoy);
   if (hoy.getDay() === 0) fechaDefecto.setDate(hoy.getDate() + 1); // Domingo -> Lunes
   if (hoy.getDay() === 6) fechaDefecto.setDate(hoy.getDate() + 2); // Sábado -> Lunes
@@ -76,6 +173,9 @@ function inicializarFecha() {
 function setFechaRelativa(offsetDias) {
   const d = new Date();
   d.setDate(d.getDate() + offsetDias);
+  if (d.getDay() === 0) d.setDate(d.getDate() + 1);
+  if (d.getDay() === 6) d.setDate(d.getDate() + 2);
+
   calVisual.ano = d.getFullYear();
   calVisual.mes = d.getMonth();
   calVisual.anoSel = d.getFullYear();
@@ -83,25 +183,6 @@ function setFechaRelativa(offsetDias) {
   calVisual.diaSel = d.getDate();
   setInputValueFromDate(d);
   renderCalendarioMensual();
-}
-
-function setDiaSemanaActual(diaTargetIndex) { // 0=Lunes, 1=Martes, 2=Mié, 3=Jue, 4=Vie
-  const d = new Date();
-  const currentJsDay = d.getDay();
-  const currentSchoolDay = (currentJsDay + 6) % 7; // 0=Lunes, ..., 6=Domingo
-  const diff = diaTargetIndex - currentSchoolDay;
-  d.setDate(d.getDate() + diff);
-  calVisual.ano = d.getFullYear();
-  calVisual.mes = d.getMonth();
-  calVisual.anoSel = d.getFullYear();
-  calVisual.mesSel = d.getMonth();
-  calVisual.diaSel = d.getDate();
-  setInputValueFromDate(d);
-  renderCalendarioMensual();
-}
-
-function irAHoy() {
-  setFechaRelativa(0);
 }
 
 function cambiarMes(delta) {
@@ -136,7 +217,6 @@ function renderCalendarioMensual() {
   if (!grid || !mesLabel) return;
 
   mesLabel.textContent = `${NOMBRES_MESES[calVisual.mes]} ${calVisual.ano}`;
-
   grid.innerHTML = "";
 
   const hoy = new Date();
@@ -144,17 +224,19 @@ function renderCalendarioMensual() {
   const hoyM = hoy.getMonth();
   const hoyD = hoy.getDate();
 
-  // Primer día de este mes: 0=Domingo, ..., 6=Sábado -> convertir a 0=Lunes, 6=Domingo
+  // Mapa de fechas que tienen sustituciones para pintar indicador visual
+  const fechasConSustitucion = new Set((appState.sustituciones || []).map(s => s.fecha));
+
   const primerDiaSemana = (new Date(calVisual.ano, calVisual.mes, 1).getDay() + 6) % 7;
   const totalDiasMes = new Date(calVisual.ano, calVisual.mes + 1, 0).getDate();
   const totalDiasMesAnt = new Date(calVisual.ano, calVisual.mes, 0).getDate();
 
-  // Días del mes anterior (padding inicial)
+  // Días del mes anterior
   for (let i = primerDiaSemana - 1; i >= 0; i--) {
     const diaNum = totalDiasMesAnt - i;
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "py-1.5 rounded-lg text-slate-300 hover:text-slate-500 text-[11px] transition";
+    btn.className = "py-1.5 rounded-xl text-slate-300 hover:text-slate-500 text-[11px] transition";
     btn.textContent = diaNum;
     const prevM = calVisual.mes === 0 ? 11 : calVisual.mes - 1;
     const prevY = calVisual.mes === 0 ? calVisual.ano - 1 : calVisual.ano;
@@ -169,36 +251,42 @@ function renderCalendarioMensual() {
     const diaSemana = (new Date(calVisual.ano, calVisual.mes, d).getDay() + 6) % 7;
     const esFinDeSemana = diaSemana >= 5;
 
+    const fechaStr = `${calVisual.ano}-${String(calVisual.mes + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const tieneSust = fechasConSustitucion.has(fechaStr);
+
     const esSeleccionado = (calVisual.ano === calVisual.anoSel && 
                             calVisual.mes === calVisual.mesSel && 
                             d === calVisual.diaSel);
     const esHoy = (calVisual.ano === hoyY && calVisual.mes === hoyM && d === hoyD);
 
-    let classes = "py-1.5 rounded-lg text-xs font-medium transition flex items-center justify-center ";
+    let classes = "relative py-1.5 rounded-xl text-xs font-bold transition flex flex-col items-center justify-center cursor-pointer ";
 
     if (esSeleccionado) {
-      classes += "bg-indigo-600 text-white font-bold shadow-sm scale-105 z-10 ";
+      classes += "bg-gradient-to-br from-[#132a56] to-indigo-600 text-white shadow-md scale-105 z-10 ";
     } else if (esHoy) {
-      classes += "border border-indigo-400 text-indigo-700 font-bold bg-indigo-50/50 hover:bg-indigo-100 ";
+      classes += "border border-indigo-400 text-indigo-700 bg-indigo-50/70 hover:bg-indigo-100 ";
     } else if (esFinDeSemana) {
-      classes += "text-slate-300 hover:bg-slate-100 ";
+      classes += "text-slate-300 hover:bg-slate-100 font-medium ";
     } else {
-      classes += "text-slate-700 hover:bg-indigo-100/70 hover:text-indigo-900 ";
+      classes += "text-slate-700 hover:bg-indigo-50 hover:text-indigo-900 ";
     }
 
     btn.className = classes;
-    btn.textContent = d;
+    btn.innerHTML = `
+      <span>${d}</span>
+      ${tieneSust ? `<span class="w-1 h-1 rounded-full ${esSeleccionado ? 'bg-amber-300' : 'bg-emerald-500'} mt-0.5"></span>` : ''}
+    `;
     btn.onclick = () => seleccionarDiaCalendario(calVisual.ano, calVisual.mes, d);
     grid.appendChild(btn);
   }
 
-  // Días del mes siguiente (padding final hasta completar semanas de 7)
+  // Días del mes siguiente
   const celdasUsadas = primerDiaSemana + totalDiasMes;
   const celdasRestantes = (7 - (celdasUsadas % 7)) % 7;
   for (let d = 1; d <= celdasRestantes; d++) {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "py-1.5 rounded-lg text-slate-300 hover:text-slate-500 text-[11px] transition";
+    btn.className = "py-1.5 rounded-xl text-slate-300 hover:text-slate-500 text-[11px] transition";
     btn.textContent = d;
     const nextM = calVisual.mes === 11 ? 0 : calVisual.mes + 1;
     const nextY = calVisual.mes === 11 ? calVisual.ano + 1 : calVisual.ano;
@@ -221,6 +309,7 @@ function setInputValueFromDate(d) {
     input.value = `${yyyy}-${mm}-${dd}`;
     actualizarEtiquetaDiaSemana();
     consultarActividadProgramada();
+    actualizarSustitucionesDelDia();
   }
 }
 
@@ -238,16 +327,15 @@ function actualizarEtiquetaDiaSemana() {
   const fechaObj = new Date(y, m, d);
 
   const jsDay = fechaObj.getDay();
-  const diaSemanaIndex = (jsDay + 6) % 7; // 0=Lunes, 4=Viernes, 5=Sábado, 6=Domingo
-  
+  const diaSemanaIndex = (jsDay + 6) % 7;
   const nombreDia = DIAS_SEMANA[diaSemanaIndex] || "";
   
   if (diaSemanaIndex >= 5) {
-    labelDia.textContent = `⚠️ ${nombreDia} (Sin clase)`;
-    labelDia.className = "text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300";
+    labelDia.textContent = `⚠️ ${nombreDia} (No lectivo)`;
+    labelDia.className = "text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300";
   } else {
     labelDia.textContent = `📅 ${nombreDia}`;
-    labelDia.className = "text-xs font-bold text-indigo-700 bg-indigo-100 px-2.5 py-0.5 rounded-full border border-indigo-200";
+    labelDia.className = "text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200";
   }
 }
 
@@ -285,15 +373,18 @@ function sincronizarFechaDesdeInput() {
   renderCalendarioMensual();
   actualizarEtiquetaDiaSemana();
   consultarActividadProgramada();
+  actualizarSustitucionesDelDia();
 }
 
 function limpiarCamposActividad() {
   const inAula = document.getElementById("input-aula");
   const inGrupo = document.getElementById("input-grupo");
   const inMat = document.getElementById("input-materia");
+  const badge = document.getElementById("badge-clase-detectada");
   if (inAula) inAula.value = "";
   if (inGrupo) inGrupo.value = "";
   if (inMat) inMat.value = "";
+  if (badge) badge.classList.add("hidden");
 }
 
 function configurarListeners() {
@@ -301,14 +392,37 @@ function configurarListeners() {
   inputFecha.addEventListener("change", sincronizarFechaDesdeInput);
   inputFecha.addEventListener("input", sincronizarFechaDesdeInput);
 
-  document.getElementById("select-tramo").addEventListener("change", consultarActividadProgramada);
+  document.getElementById("select-tramo").addEventListener("change", (e) => {
+    actualizarPillsTramo(e.target.value);
+    consultarActividadProgramada();
+  });
   document.getElementById("select-profesor-ausente").addEventListener("change", consultarActividadProgramada);
+}
+
+function seleccionarTramoRapido(tramoId) {
+  const select = document.getElementById("select-tramo");
+  if (select) {
+    select.value = tramoId;
+    actualizarPillsTramo(tramoId);
+    consultarActividadProgramada();
+  }
+}
+
+function actualizarPillsTramo(tramoActivoId) {
+  document.querySelectorAll(".pill-tramo-btn").forEach(btn => {
+    if (btn.dataset.tramo === tramoActivoId) {
+      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white font-extrabold text-center shadow-sm transition scale-[1.02] cursor-pointer";
+    } else {
+      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+    }
+  });
 }
 
 async function consultarActividadProgramada() {
   const fecha = document.getElementById("input-fecha").value;
   const periodo_id = document.getElementById("select-tramo").value;
   const profesor_id = document.getElementById("select-profesor-ausente").value;
+  const badge = document.getElementById("badge-clase-detectada");
 
   if (!fecha || !periodo_id || !profesor_id) {
     limpiarCamposActividad();
@@ -318,17 +432,39 @@ async function consultarActividadProgramada() {
   try {
     const res = await fetch(`/api/actividad-docente?profesor_id=${profesor_id}&periodo_id=${periodo_id}&fecha=${fecha}`);
     const data = await res.json();
-    if (data && data.encontrado) {
+    if (data && data.encontrado && data.tipo_actividad === "LECTIVA") {
       document.getElementById("input-aula").value = data.aula || "";
       document.getElementById("input-grupo").value = data.curso_grupo || (data.aula && data.aula.includes("EP") ? data.aula : "");
       document.getElementById("input-materia").value = data.materia || "";
+
+      if (badge) {
+        badge.className = "mt-2 p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-950 text-xs flex items-center justify-between animate-fade-in";
+        badge.innerHTML = `
+          <div class="flex items-center gap-2">
+            <i class="ph-fill ph-chalkboard-teacher text-indigo-600 text-base"></i>
+            <span>Clase detectada: <strong>${data.materia}</strong></span>
+          </div>
+          <span class="px-2 py-0.5 rounded-md bg-indigo-600 text-white font-extrabold text-[11px]">${data.aula || data.curso_grupo}</span>
+        `;
+      }
     } else {
       limpiarCamposActividad();
+      if (badge) {
+        badge.className = "mt-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs flex items-center gap-2 animate-fade-in";
+        badge.innerHTML = `
+          <i class="ph-fill ph-info text-amber-600 text-base shrink-0"></i>
+          <span>Este docente <strong>no tiene clase lectiva asignada</strong> en este tramo horario. Puedes rellenar el aula manualmente si es necesario.</span>
+        `;
+      }
     }
   } catch (e) {
     console.error("Error al consultar actividad programada:", e);
   }
 }
+
+// ===============================================
+// CARGA INICIAL DE DATOS
+// ===============================================
 
 async function cargarDatosIniciales() {
   try {
@@ -340,44 +476,150 @@ async function cargarDatosIniciales() {
     appState.sustituciones = data.ultimas_sustituciones || [];
     appState.estadisticas = data.estadisticas || [];
 
+    // Cargar también horarios en memoria para la pestaña de cuadrante
+    fetch("/api/horarios")
+      .then(r => r.json())
+      .then(h => { appState.horarios = h || []; });
+
     poblarSelects();
     renderEstadisticas();
-    renderHistorial();
+    await renderHistorial();
+    actualizarKPIs();
+    actualizarSustitucionesDelDia();
+    renderCalendarioMensual();
   } catch (err) {
     console.error("Error al cargar datos maestros:", err);
   }
 }
 
-function poblarSelects() {
-  // 1. Select de tramos
-  const selectTramo = document.getElementById("select-tramo");
-  selectTramo.innerHTML = '<option value="">-- Selecciona hora / tramo --</option>';
-  appState.tramos.forEach(t => {
-    const option = document.createElement("option");
-    option.value = t.id;
-    option.textContent = `${t.nombre} (${t.hora_inicio} - ${t.hora_fin})${t.es_recreo ? ' [Recreo]' : ''}`;
-    selectTramo.appendChild(option);
+function actualizarKPIs() {
+  const kpiProf = document.getElementById("kpi-total-profesores");
+  const kpiTotal = document.getElementById("kpi-sustituciones-total");
+  if (kpiProf) kpiProf.textContent = appState.profesores.length;
+  if (kpiTotal) kpiTotal.textContent = appState.sustituciones.length;
+}
+
+function actualizarSustitucionesDelDia() {
+  const fechaActual = document.getElementById("input-fecha")?.value;
+  const kpiFecha = document.getElementById("kpi-sustituciones-fecha");
+  const panelDia = document.getElementById("panel-sustituciones-dia");
+  const countDia = document.getElementById("count-sust-dia");
+  const listaDia = document.getElementById("lista-sustituciones-dia");
+
+  const delDia = (appState.sustituciones || []).filter(s => s.fecha === fechaActual);
+  if (kpiFecha) kpiFecha.textContent = delDia.length;
+
+  if (!panelDia || !listaDia) return;
+
+  if (delDia.length === 0) {
+    panelDia.classList.add("hidden");
+    return;
+  }
+
+  panelDia.classList.remove("hidden");
+  if (countDia) countDia.textContent = delDia.length;
+  listaDia.innerHTML = "";
+
+  delDia.forEach(s => {
+    const div = document.createElement("div");
+    div.className = "flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-slate-50 border border-slate-200/80 text-xs";
+    div.innerHTML = `
+      <div class="flex items-center gap-2.5">
+        <span class="px-2.5 py-1 rounded-lg bg-[#132a56] text-white font-extrabold text-[11px]">${s.periodo_id}</span>
+        <div>
+          <div class="font-bold text-slate-900">
+            <span class="text-emerald-700">${s.profesor_sustituto_nombre}</span>
+            <span class="text-slate-400 font-normal mx-1">sustituye a</span>
+            <span class="text-rose-700">${s.profesor_ausente_nombre}</span>
+          </div>
+          <div class="text-[11px] text-slate-500">${s.aula} · ${s.materia || 'Sin materia'}</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5">
+        ${s.calendar_url ? `<a href="${s.calendar_url}" target="_blank" title="Añadir a Google Calendar" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white transition"><i class="ph-bold ph-calendar-plus text-sm"></i></a>` : ''}
+        ${s.whatsapp_url ? `<a href="${s.whatsapp_url}" target="_blank" title="Enviar WhatsApp" class="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white transition"><i class="ph-bold ph-whatsapp-logo text-sm"></i></a>` : ''}
+        <button onclick="eliminarSustitucion('${s.id}')" title="Anular sustitución" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition cursor-pointer"><i class="ph-bold ph-trash text-sm"></i></button>
+      </div>
+    `;
+    listaDia.appendChild(div);
   });
+}
+
+function poblarSelects() {
+  // 1. Select y Pills de tramos
+  const selectTramo = document.getElementById("select-tramo");
+  const pillsContainer = document.getElementById("pills-tramos");
+  const currentTramoVal = selectTramo ? selectTramo.value : "";
+
+  if (selectTramo) {
+    selectTramo.innerHTML = '<option value="">-- Selecciona hora / tramo --</option>';
+  }
+  if (pillsContainer) {
+    pillsContainer.innerHTML = "";
+  }
+
+  appState.tramos.forEach(t => {
+    if (selectTramo) {
+      const option = document.createElement("option");
+      option.value = t.id;
+      option.textContent = `${t.nombre} (${t.hora_inicio} - ${t.hora_fin})${t.es_recreo ? ' [Recreo]' : ''}`;
+      selectTramo.appendChild(option);
+    }
+
+    // Crear botón rápido para las horas lectivas (1H a 6H)
+    if (pillsContainer && !t.es_recreo) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.dataset.tramo = t.id;
+      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.onclick = () => seleccionarTramoRapido(t.id);
+      btn.innerHTML = `
+        <div class="text-xs font-extrabold">${t.id}</div>
+        <div class="text-[9px] opacity-75 font-medium">${t.hora_inicio}</div>
+      `;
+      pillsContainer.appendChild(btn);
+    }
+  });
+
+  if (selectTramo && currentTramoVal) {
+    selectTramo.value = currentTramoVal;
+    actualizarPillsTramo(currentTramoVal);
+  }
 
   // 2. Select de profesores ausentes
   const selectAusente = document.getElementById("select-profesor-ausente");
-  selectAusente.innerHTML = '<option value="">-- Selecciona profesor ausente --</option>';
+  const currentAusenteVal = selectAusente ? selectAusente.value : "";
+  if (selectAusente) {
+    selectAusente.innerHTML = '<option value="">-- Selecciona profesor ausente --</option>';
+  }
   
   // 3. Select de filtro de profesor en cuadrante
   const selectFiltro = document.getElementById("select-filtro-profesor");
-  selectFiltro.innerHTML = '<option value="todos">-- Vista global (Todos los profesores) --</option>';
+  if (selectFiltro) {
+    selectFiltro.innerHTML = '<option value="todos">-- Vista Global del Claustro --</option>';
+  }
 
-  appState.profesores.forEach(p => {
-    const optAusente = document.createElement("option");
-    optAusente.value = p.id;
-    optAusente.textContent = `${p.nombre} (${p.departamento} - ${p.etapa})`;
-    selectAusente.appendChild(optAusente);
+  const profsOrdenados = [...appState.profesores].sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-    const optFiltro = document.createElement("option");
-    optFiltro.value = p.id;
-    optFiltro.textContent = `${p.nombre} (${p.departamento})`;
-    selectFiltro.appendChild(optFiltro);
+  profsOrdenados.forEach(p => {
+    if (selectAusente) {
+      const optAusente = document.createElement("option");
+      optAusente.value = p.id;
+      optAusente.textContent = `${p.nombre}`;
+      selectAusente.appendChild(optAusente);
+    }
+
+    if (selectFiltro) {
+      const optFiltro = document.createElement("option");
+      optFiltro.value = p.id;
+      optFiltro.textContent = `${p.nombre}`;
+      selectFiltro.appendChild(optFiltro);
+    }
   });
+
+  if (selectAusente && currentAusenteVal) {
+    selectAusente.value = currentAusenteVal;
+  }
 }
 
 // ===============================================
@@ -389,12 +631,10 @@ async function buscarSustitutos() {
   const periodo_id = document.getElementById("select-tramo").value;
   const profesor_ausente_id = document.getElementById("select-profesor-ausente").value;
   const aula = document.getElementById("input-aula").value;
-  const curso_grupo = document.getElementById("input-grupo").value;
   const materia = document.getElementById("input-materia").value;
-  const observaciones = document.getElementById("input-observaciones").value;
 
   if (!fecha || !periodo_id || !profesor_ausente_id) {
-    alert("Por favor completa al menos la fecha, la hora y el profesor ausente.");
+    showToast("Selecciona la fecha, el tramo horario y el profesor ausente.", "warning");
     return;
   }
 
@@ -404,7 +644,7 @@ async function buscarSustitutos() {
     const dObj = new Date(parseInt(partesF[0], 10), parseInt(partesF[1], 10) - 1, parseInt(partesF[2], 10));
     const diaSem = (dObj.getDay() + 6) % 7;
     if (diaSem >= 5) {
-      alert("⚠️ El día seleccionado corresponde a fin de semana (sin actividad escolar). Por favor selecciona un día lectivo de lunes a viernes.");
+      showToast("El día seleccionado es fin de semana. Elige un día de lunes a viernes.", "warning");
       return;
     }
   }
@@ -415,7 +655,6 @@ async function buscarSustitutos() {
     btnBuscar.classList.add("opacity-75", "cursor-not-allowed");
   }
 
-  // Ocultar paneles y mostrar spinner
   document.getElementById("panel-inicial").classList.add("hidden");
   document.getElementById("panel-confirmacion").classList.add("hidden");
   document.getElementById("panel-resultados").classList.add("hidden");
@@ -438,7 +677,7 @@ async function buscarSustitutos() {
     document.getElementById("panel-cargando").classList.add("hidden");
 
     if (data.error) {
-      alert("Aviso: " + data.error);
+      showToast(data.error, "error");
       document.getElementById("panel-inicial").classList.remove("hidden");
       return;
     }
@@ -448,7 +687,7 @@ async function buscarSustitutos() {
 
   } catch (err) {
     document.getElementById("panel-cargando").classList.add("hidden");
-    alert("Error de conexión al buscar sustitutos");
+    showToast("Error de conexión al buscar sustitutos", "error");
     console.error(err);
   } finally {
     if (btnBuscar) {
@@ -467,25 +706,29 @@ function renderResultadosBusqueda(data) {
   if (!rec) {
     document.getElementById("card-recomendado").classList.add("hidden");
     document.getElementById("lista-alternativas").innerHTML = `
-      <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 text-xs">
-        ⚠️ No se han encontrado profesores disponibles en guardia o libres en este tramo.
+      <div class="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-900 text-xs font-semibold flex items-center gap-2">
+        <i class="ph-fill ph-warning text-lg text-amber-600"></i>
+        <span>No hay docentes libres disponibles en este tramo horario.</span>
       </div>
     `;
     renderNoDisponibles(data.no_disponibles);
     return;
   }
 
-  // Tarjeta recomendada
+  // Tarjeta recomendada principal
   document.getElementById("card-recomendado").classList.remove("hidden");
   document.getElementById("rec-nombre").textContent = rec.profesor.nombre;
-  document.getElementById("rec-depto").querySelector(".val").textContent = rec.profesor.departamento;
-  document.getElementById("rec-etapa").querySelector(".val").textContent = rec.profesor.etapa;
-  document.getElementById("rec-telefono").querySelector(".val").textContent = rec.profesor.telefono || "Sin teléfono";
+  const avatarEl = document.getElementById("rec-avatar");
+  if (avatarEl) avatarEl.textContent = obtenerIniciales(rec.profesor.nombre);
+
+  document.getElementById("rec-depto").querySelector(".val").textContent = rec.profesor.departamento || "Primaria";
+  document.getElementById("rec-etapa").querySelector(".val").textContent = rec.profesor.etapa || "Primaria";
+  document.getElementById("rec-telefono").querySelector(".val").textContent = rec.profesor.email || "Sin correo";
   document.getElementById("rec-motivo").textContent = rec.motivo;
-  document.getElementById("rec-puntuacion").textContent = `Puntos: ${rec.puntuacion.toFixed(0)}`;
   
-  const dispoLabel = rec.tipo_disponibilidad === "GUARDIA_AULA" ? "🛡️ En Guardia de Aula" : "🟢 Hora Libre / Complementaria";
-  document.getElementById("rec-disponibilidad").textContent = dispoLabel;
+  const infoPrio = ORDEN_PRIORIDAD[rec.profesor.id] || { nivel: "Disp." };
+  document.getElementById("rec-puntuacion").textContent = `Prelación ${infoPrio.nivel}`;
+  document.getElementById("rec-disponibilidad").textContent = "🟢 Disponible en este tramo";
 
   // Alternativas
   const alternativas = (data.candidatos || []).slice(1);
@@ -497,31 +740,39 @@ function renderResultadosBusqueda(data) {
   if (alternativas.length === 0) {
     listaAlt.innerHTML = `<p class="text-xs text-slate-400 italic py-2">No hay más profesores disponibles en este tramo.</p>`;
   } else {
-    alternativas.forEach(c => {
+    alternativas.forEach((c, idx) => {
+      const rankNum = idx + 2;
+      const pInfo = ORDEN_PRIORIDAD[c.profesor.id] || { nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200" };
+      const iniciales = obtenerIniciales(c.profesor.nombre);
+
       const card = document.createElement("div");
-      card.className = "flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-indigo-300 hover:bg-slate-50 transition";
-      
-      const badgeGuardia = c.tipo_disponibilidad === "GUARDIA_AULA" 
-        ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded">Guardia Aula</span>`
-        : `<span class="bg-blue-100 text-blue-800 text-[10px] font-semibold px-2 py-0.5 rounded">Disponible</span>`;
+      card.className = "flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl border border-slate-200/90 hover:border-indigo-300 hover:bg-indigo-50/30 transition group";
 
       card.innerHTML = `
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-800 text-xs">${c.profesor.nombre}</span>
-            ${badgeGuardia}
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-indigo-100 text-slate-700 group-hover:text-indigo-800 font-extrabold text-xs flex items-center justify-center shrink-0 transition">
+            ${iniciales}
           </div>
-          <div class="text-[11px] text-slate-500 mt-0.5">${c.motivo}</div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-[11px] font-black text-slate-400">#${rankNum}</span>
+              <span class="font-extrabold text-slate-900 text-sm">${c.profesor.nombre}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-md border ${pInfo.badge}">Prioridad ${pInfo.nivel}</span>
+            </div>
+            <div class="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-2">
+              <span>${c.motivo}</span>
+              ${c.profesor.email ? `<span class="text-slate-300">•</span><span class="text-indigo-600/80">${c.profesor.email}</span>` : ''}
+            </div>
+          </div>
         </div>
-        <button onclick="asignarCandidato('${c.profesor.id}')" class="py-1.5 px-3 bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-700 font-semibold text-xs rounded-lg transition border border-indigo-200 hover:border-indigo-600">
-          Elegir este
+        <button onclick="asignarCandidato('${c.profesor.id}', this)" class="py-2 px-4 bg-white hover:bg-indigo-600 text-indigo-700 hover:text-white font-bold text-xs rounded-xl transition border border-indigo-200 hover:border-indigo-600 shadow-2xs shrink-0 cursor-pointer">
+          Asignar
         </button>
       `;
       listaAlt.appendChild(card);
     });
   }
 
-  // No disponibles
   renderNoDisponibles(data.no_disponibles);
 }
 
@@ -532,10 +783,11 @@ function renderNoDisponibles(noDisponibles = []) {
 
   noDisponibles.forEach(nd => {
     const item = document.createElement("div");
-    item.className = "py-1.5 flex items-center justify-between text-xs";
+    item.className = "py-2 flex items-center justify-between text-xs";
+    const esClase = nd.motivo && nd.motivo.toLowerCase().includes("clase");
     item.innerHTML = `
-      <span class="font-medium text-slate-700">${nd.profesor_nombre}</span>
-      <span class="text-slate-400 text-[11px]">${nd.motivo}</span>
+      <span class="font-semibold text-slate-700">${nd.profesor_nombre}</span>
+      <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold ${esClase ? 'bg-indigo-50 text-indigo-700' : 'bg-slate-100 text-slate-500'}">${nd.motivo}</span>
     `;
     listaND.appendChild(item);
   });
@@ -548,7 +800,7 @@ function asignarRecomendado() {
 }
 
 // ===============================================
-// ASIGNACIÓN, CALENDAR Y WHATSAPP
+// ASIGNACIÓN, CALENDAR, WHATSAPP Y CORREO
 // ===============================================
 
 async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
@@ -583,7 +835,7 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
 
     const data = await res.json();
     if (data.error) {
-      alert("Aviso: " + data.error);
+      showToast(data.error, "error");
       if (btnTrigger) {
         btnTrigger.disabled = false;
         btnTrigger.classList.remove("opacity-70", "cursor-not-allowed");
@@ -592,23 +844,20 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
     }
 
     appState.ultimaSustitucionAsignada = data;
+    showToast(`Sustitución asignada a ${data.record.profesor_sustituto_nombre}`, "success");
 
-    // Mostrar panel de éxito
+    // Mostrar panel de confirmación
     document.getElementById("panel-resultados").classList.add("hidden");
     const confPanel = document.getElementById("panel-confirmacion");
     confPanel.classList.remove("hidden");
 
     const r = data.record;
     document.getElementById("conf-resumen").textContent = 
-      `${r.profesor_sustituto_nombre} sustituirá a ${r.profesor_ausente_nombre} el ${formatFechaEsp(r.fecha)} en ${r.periodo_nombre} (${r.aula}).`;
+      `${r.profesor_sustituto_nombre} cubrirá a ${r.profesor_ausente_nombre} el ${formatFechaEsp(r.fecha)} en ${r.periodo_nombre} (${r.aula}${r.materia ? ' · ' + r.materia : ''}).`;
 
-    // Configurar enlace Google Calendar
     document.getElementById("btn-calendar").href = data.calendar_url;
-
-    // Configurar enlace WhatsApp
     document.getElementById("btn-whatsapp").href = data.whatsapp_url;
 
-    // Configurar enlace Email
     const btnEmail = document.getElementById("btn-email");
     if (btnEmail) {
       btnEmail.href = data.email_url || "#";
@@ -618,17 +867,13 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
       }
     }
 
-    // Configurar descarga .ics
     document.getElementById("btn-ics").href = data.ics_url;
-
-    // Mostrar vista previa mensaje WhatsApp
     document.getElementById("pre-whatsapp").textContent = data.whatsapp_text;
 
-    // Recargar historial y estadísticas
-    cargarDatosIniciales();
+    await cargarDatosIniciales();
 
   } catch (err) {
-    alert("Error de red al registrar la sustitución");
+    showToast("Error de red al registrar la sustitución", "error");
     console.error(err);
     if (btnTrigger) {
       btnTrigger.disabled = false;
@@ -641,10 +886,10 @@ function nuevaSustitucion() {
   document.getElementById("panel-confirmacion").classList.add("hidden");
   document.getElementById("panel-inicial").classList.remove("hidden");
   
-  // Mantener la fecha seleccionada para comodidad del usuario
   const fechaActual = document.getElementById("input-fecha").value;
   
   document.getElementById("select-tramo").value = "";
+  actualizarPillsTramo("");
   document.getElementById("select-profesor-ausente").value = "";
   limpiarCamposActividad();
   document.getElementById("input-observaciones").value = "";
@@ -658,19 +903,22 @@ function nuevaSustitucion() {
 function copiarMensajeWA() {
   const texto = document.getElementById("pre-whatsapp").textContent;
   navigator.clipboard.writeText(texto).then(() => {
-    alert("¡Mensaje copiado al portapapeles! Listo para pegar en WhatsApp.");
+    showToast("Mensaje copiado al portapapeles", "info");
   });
 }
 
 // ===============================================
-// VISOR DE HORARIOS Y CUADRANTE
+// PESTAÑA 2: VISOR DE CUADRANTE Y HORARIOS
 // ===============================================
 
 async function cargarHorariosSemana() {
   try {
-    const res = await fetch("/api/horarios");
-    appState.horarios = await res.json();
-    renderHorarioProfesor("todos");
+    if (!appState.horarios || appState.horarios.length === 0) {
+      const res = await fetch("/api/horarios");
+      appState.horarios = await res.json();
+    }
+    const filtroActual = document.getElementById("select-filtro-profesor")?.value || "todos";
+    renderHorarioProfesor(filtroActual);
   } catch (err) {
     console.error("Error al cargar horarios:", err);
   }
@@ -678,77 +926,105 @@ async function cargarHorariosSemana() {
 
 function renderHorarioProfesor(filtroProfesorId) {
   const tbody = document.getElementById("tbody-horarios");
+  if (!tbody) return;
   tbody.innerHTML = "";
 
   const checkSoloGuardias = document.getElementById("check-solo-guardias");
-  const soloGuardias = checkSoloGuardias ? checkSoloGuardias.checked : false;
+  const verSustitutosDisponibles = checkSoloGuardias ? checkSoloGuardias.checked : true;
 
   const dias = [0, 1, 2, 3, 4]; // Lunes a Viernes
 
+  // Indexar horarios por (dia, periodo, profesor_id)
+  const mapaHorario = {};
+  (appState.horarios || []).forEach(h => {
+    mapaHorario[`${h.dia_semana}_${h.periodo_id}_${h.profesor_id}`] = h;
+  });
+
   appState.tramos.forEach(tramo => {
     const tr = document.createElement("tr");
-    tr.className = tramo.es_recreo ? "bg-amber-50/60 font-semibold" : "hover:bg-slate-50";
+    tr.className = tramo.es_recreo ? "bg-amber-50/50" : "hover:bg-slate-50/60 transition";
 
-    // Celda de tramo
     let html = `
-      <td class="p-3 border-r border-slate-200 font-medium text-slate-900">
-        <div>${tramo.nombre}</div>
-        <div class="text-[10px] text-slate-500 font-normal">${tramo.hora_inicio} - ${tramo.hora_fin}</div>
+      <td class="p-3.5 border-r border-slate-200 font-bold text-slate-900 bg-slate-50/70">
+        <div class="text-xs font-extrabold text-[#132a56]">${tramo.nombre}</div>
+        <div class="text-[10px] text-slate-500 font-semibold mt-0.5">${tramo.hora_inicio} - ${tramo.hora_fin}</div>
       </td>
     `;
 
-    // Celdas por día
     dias.forEach(dia => {
-      let items = appState.horarios.filter(h => 
-        h.dia_semana === dia && 
-        h.periodo_id === tramo.id &&
-        (filtroProfesorId === "todos" || h.profesor_id === filtroProfesorId)
-      );
-
-      // Si está activado "Solo guardias y horas libres" y vemos todos los profesores
-      if (soloGuardias && filtroProfesorId === "todos") {
-        items = items.filter(h => 
-          h.tipo_actividad === "GUARDIA_AULA" || 
-          h.tipo_actividad === "DISPONIBLE" || 
-          h.tipo_actividad === "GUARDIA_RECREO"
-        );
+      if (tramo.es_recreo) {
+        html += `<td class="p-2.5 border-r border-slate-200 text-center text-[11px] font-bold text-amber-700/70 italic">☕ Recreo</td>`;
+        return;
       }
 
-      html += `<td class="p-2 border-r border-slate-200 align-top">`;
-      
-      if (items.length === 0) {
-        html += `<span class="text-[11px] text-slate-300">-</span>`;
-      } else {
-        html += `<div class="space-y-1.5">`;
-        items.forEach(it => {
-          const prof = appState.profesores.find(p => p.id === it.profesor_id);
-          const profName = prof ? prof.nombre : it.profesor_id;
+      html += `<td class="p-2.5 border-r border-slate-200 align-top">`;
 
-          let badgeClass = "bg-slate-100 text-slate-700 border-slate-200";
-          let tipoLabel = it.tipo_actividad;
-          if (it.tipo_actividad === "GUARDIA_AULA") {
-            badgeClass = "bg-emerald-100 text-emerald-900 border-emerald-300 font-semibold";
-            tipoLabel = "Guardia Aula";
-          } else if (it.tipo_actividad === "DISPONIBLE") {
-            badgeClass = "bg-blue-100 text-blue-900 border-blue-300 font-medium";
-            tipoLabel = "Apoyo / Libre";
-          } else if (it.tipo_actividad === "NO_DISPONIBLE") {
-            badgeClass = "bg-rose-100 text-rose-800 border-rose-300";
-            tipoLabel = "No disponible";
-          } else if (it.tipo_actividad === "GUARDIA_RECREO") {
-            badgeClass = "bg-amber-100 text-amber-900 border-amber-300";
-            tipoLabel = "Guardia Recreo";
-          } else if (it.tipo_actividad === "LECTIVA") {
-            tipoLabel = "Clase";
-          }
-
+      // CASO A: Vista de un profesor concreto
+      if (filtroProfesorId !== "todos") {
+        const act = mapaHorario[`${dia}_${tramo.id}_${filtroProfesorId}`];
+        if (act && act.tipo_actividad === "LECTIVA") {
           html += `
-            <div class="px-2 py-1 rounded-lg border text-[11px] ${badgeClass} shadow-2xs">
-              <div class="font-bold flex items-center justify-between gap-1">
-                <span class="truncate">${profName}</span>
-                <span class="text-[9px] opacity-80 uppercase shrink-0">${tipoLabel}</span>
+            <div class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 text-indigo-950 shadow-2xs">
+              <div class="text-[10px] font-extrabold uppercase text-indigo-600">🔴 Clase Lectiva</div>
+              <div class="font-extrabold text-xs mt-0.5">${act.materia || 'Clase'}</div>
+              <div class="text-[11px] font-semibold text-indigo-800 mt-0.5">Aula: ${act.aula || '-'}</div>
+            </div>
+          `;
+        } else if (act && act.tipo_actividad === "NO_DISPONIBLE") {
+          html += `
+            <div class="p-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 text-[11px] text-center">
+              ⚪ No disponible
+            </div>
+          `;
+        } else {
+          const pInfo = ORDEN_PRIORIDAD[filtroProfesorId] || { nivel: "Disp." };
+          html += `
+            <div class="p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-2xs">
+              <div class="text-[10px] font-extrabold uppercase text-emerald-700">🟢 Disponible Sustitución</div>
+              <div class="text-[11px] font-bold mt-0.5">Prioridad ${pInfo.nivel}</div>
+            </div>
+          `;
+        }
+        html += `</td>`;
+        return;
+      }
+
+      // CASO B: Vista Global -> Sustitutos Disponibles ordenados por Prioridad Oficial
+      if (verSustitutosDisponibles) {
+        const disponiblesEnTramo = [];
+        appState.profesores.forEach(prof => {
+          const act = mapaHorario[`${dia}_${tramo.id}_${prof.id}`];
+          if (!act || act.tipo_actividad === "DISPONIBLE" || act.tipo_actividad === "GUARDIA_AULA") {
+            const pInfo = ORDEN_PRIORIDAD[prof.id] || { orden: 99, nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200", icon: "•" };
+            disponiblesEnTramo.push({ prof, pInfo });
+          }
+        });
+
+        disponiblesEnTramo.sort((a, b) => a.pInfo.orden - b.pInfo.orden);
+
+        html += `<div class="space-y-1.5">`;
+        disponiblesEnTramo.forEach((item, idx) => {
+          html += `
+            <div class="px-2.5 py-1.5 rounded-xl border text-[11px] ${item.pInfo.badge} flex items-center justify-between gap-1 shadow-2xs">
+              <span class="truncate"><strong>${idx + 1}.</strong> ${item.prof.nombre}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-white/60 font-extrabold shrink-0">${item.pInfo.nivel}</span>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      } else {
+        // Mostrar todas las clases lectivas de ese día y hora
+        const clases = (appState.horarios || []).filter(h => h.dia_semana === dia && h.periodo_id === tramo.id && h.tipo_actividad === "LECTIVA");
+        html += `<div class="space-y-1 max-h-48 overflow-y-auto pr-1">`;
+        clases.forEach(c => {
+          const prof = appState.profesores.find(p => p.id === c.profesor_id);
+          html += `
+            <div class="px-2 py-1 rounded-lg border border-slate-200 bg-slate-50 text-[10px]">
+              <div class="font-bold text-indigo-900 flex justify-between">
+                <span>${c.aula}</span>
+                <span class="text-slate-500 font-normal truncate max-w-[90px]">${c.materia}</span>
               </div>
-              <div class="text-[10px] opacity-75 truncate">${it.materia || it.aula || ''}</div>
+              <div class="text-slate-600 truncate">${prof ? prof.nombre : c.profesor_id}</div>
             </div>
           `;
         });
@@ -764,26 +1040,51 @@ function renderHorarioProfesor(filtroProfesorId) {
 }
 
 // ===============================================
-// HISTORIAL Y ESTADÍSTICAS
+// PESTAÑA 3: HISTORIAL Y BALANCE DE CARGA
 // ===============================================
 
 function renderEstadisticas() {
   const grid = document.getElementById("grid-estadisticas");
+  if (!grid) return;
   grid.innerHTML = "";
 
-  appState.estadisticas.forEach(s => {
+  const maxSust = Math.max(1, ...appState.estadisticas.map(s => s.sustituciones || 0));
+
+  // Ordenar por mayor número de sustituciones y luego por orden de prioridad
+  const ordenadas = [...appState.estadisticas].sort((a, b) => {
+    if (b.sustituciones !== a.sustituciones) return b.sustituciones - a.sustituciones;
+    const oa = ORDEN_PRIORIDAD[a.id]?.orden || 99;
+    const ob = ORDEN_PRIORIDAD[b.id]?.orden || 99;
+    return oa - ob;
+  });
+
+  ordenadas.forEach(s => {
+    const pct = Math.round(((s.sustituciones || 0) / maxSust) * 100);
+    const pInfo = ORDEN_PRIORIDAD[s.id];
     const card = document.createElement("div");
-    card.className = "bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between";
+    card.className = "bg-slate-50/80 hover:bg-white border border-slate-200/90 rounded-2xl p-3.5 transition shadow-2xs flex flex-col justify-between gap-2";
     card.innerHTML = `
-      <div>
-        <div class="text-xs font-bold text-slate-800">${s.nombre}</div>
-        <div class="text-[10px] text-slate-500">${s.departamento}</div>
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-xl ${s.sustituciones > 0 ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600'} font-extrabold text-xs flex items-center justify-center shrink-0">
+            ${obtenerIniciales(s.nombre)}
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-extrabold text-slate-900 truncate">${s.nombre}</div>
+            <div class="text-[10px] text-slate-500 flex items-center gap-1">
+              <span>${s.departamento || 'Primaria'}</span>
+              ${pInfo ? `<span class="text-indigo-600 font-bold">· Prioridad ${pInfo.nivel}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-extrabold ${s.sustituciones > 0 ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' : 'bg-slate-200/70 text-slate-500'}">
+            ${s.sustituciones}
+          </span>
+        </div>
       </div>
-      <div class="text-center">
-        <span class="inline-block px-2 py-0.5 rounded-full text-xs font-bold ${s.sustituciones > 0 ? 'bg-indigo-100 text-indigo-800' : 'bg-slate-200 text-slate-600'}">
-          ${s.sustituciones}
-        </span>
-        <div class="text-[9px] text-slate-400">hechas</div>
+      <div class="w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-500 to-emerald-500 h-full rounded-full transition-all duration-500" style="width: ${s.sustituciones > 0 ? Math.max(12, pct) : 0}%"></div>
       </div>
     `;
     grid.appendChild(card);
@@ -807,6 +1108,9 @@ async function renderHistorial() {
     const res = await fetch("/api/sustituciones");
     const data = await res.json();
     appState.sustituciones = data;
+
+    actualizarKPIs();
+    actualizarSustitucionesDelDia();
 
     const fTextEl = document.getElementById("filtro-historial-texto");
     const fFechaEl = document.getElementById("filtro-historial-fecha");
@@ -833,39 +1137,67 @@ async function renderHistorial() {
     }
 
     const tbody = document.getElementById("tbody-historial");
+    if (!tbody) return;
     tbody.innerHTML = "";
 
     if (filtradas.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-xs text-slate-400">No se encontraron sustituciones con los filtros aplicados.</td></tr>`;
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" class="p-8 text-center text-xs text-slate-400">
+            <i class="ph-duotone ph-folder-open text-2xl block mx-auto mb-1 text-slate-300"></i>
+            No hay sustituciones registradas con los filtros seleccionados.
+          </td>
+        </tr>`;
       return;
     }
 
     filtradas.forEach(sub => {
       const tr = document.createElement("tr");
-      tr.className = "hover:bg-slate-50 transition";
+      tr.className = "hover:bg-slate-50/90 transition";
       tr.innerHTML = `
-        <td class="p-3">
-          <div class="font-semibold text-slate-800">${formatFechaEsp(sub.fecha)}</div>
-          <div class="text-[11px] text-indigo-600 font-medium">${sub.periodo_nombre}</div>
+        <td class="p-3.5">
+          <div class="font-extrabold text-slate-900">${formatFechaEsp(sub.fecha)}</div>
+          <span class="inline-block mt-0.5 text-[10px] bg-indigo-50 text-indigo-700 font-bold px-2 py-0.5 rounded-md border border-indigo-100">${sub.periodo_nombre}</span>
         </td>
-        <td class="p-3">
-          <div class="font-medium text-rose-700">${sub.profesor_ausente_nombre}</div>
+        <td class="p-3.5">
+          <div class="font-bold text-rose-700 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            <span>${sub.profesor_ausente_nombre}</span>
+          </div>
         </td>
-        <td class="p-3">
-          <div class="font-semibold text-emerald-700">${sub.profesor_sustituto_nombre}</div>
-          <div class="text-[10px] text-slate-500">${sub.profesor_sustituto_email || ''}</div>
+        <td class="p-3.5">
+          <div class="font-extrabold text-emerald-700 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>${sub.profesor_sustituto_nombre}</span>
+          </div>
+          <div class="text-[10px] text-slate-400 pl-3.5">${sub.profesor_sustituto_email || ''}</div>
         </td>
-        <td class="p-3">
-          <div class="font-medium text-slate-800">${sub.aula} ${sub.curso_grupo ? '(' + sub.curso_grupo + ')' : ''}</div>
-          <div class="text-[11px] text-slate-500">${sub.materia}</div>
+        <td class="p-3.5">
+          <div class="font-bold text-slate-800">${sub.aula} ${sub.curso_grupo && sub.curso_grupo !== sub.aula ? '(' + sub.curso_grupo + ')' : ''}</div>
+          <div class="text-[11px] text-slate-500">${sub.materia || ''}</div>
         </td>
-        <td class="p-3 text-center">
+        <td class="p-3.5 text-center">
           <div class="flex items-center justify-center gap-1.5">
-            <a href="/api/descargar-ics/${sub.id}" title="Descargar iCal .ics" class="p-1.5 rounded-lg bg-slate-100 hover:bg-indigo-100 text-indigo-600 transition">
-              <i class="ph ph-calendar-plus text-base"></i>
+            ${sub.calendar_url ? `
+              <a href="${sub.calendar_url}" target="_blank" title="Añadir a Google Calendar e invitar por email" class="p-2 rounded-xl bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white transition">
+                <i class="ph-bold ph-calendar-plus text-sm"></i>
+              </a>
+            ` : ''}
+            ${sub.whatsapp_url ? `
+              <a href="${sub.whatsapp_url}" target="_blank" title="Avisar por WhatsApp" class="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white transition">
+                <i class="ph-bold ph-whatsapp-logo text-sm"></i>
+              </a>
+            ` : ''}
+            ${sub.email_url ? `
+              <a href="${sub.email_url}" title="Enviar correo" class="p-2 rounded-xl bg-violet-50 hover:bg-violet-600 text-violet-600 hover:text-white transition">
+                <i class="ph-bold ph-envelope-simple text-sm"></i>
+              </a>
+            ` : ''}
+            <a href="/api/descargar-ics/${sub.id}" title="Descargar archivo .ics" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-700 text-slate-600 hover:text-white transition">
+              <i class="ph-bold ph-download-simple text-sm"></i>
             </a>
-            <button onclick="eliminarSustitucion('${sub.id}')" title="Eliminar registro" class="p-1.5 rounded-lg bg-slate-100 hover:bg-rose-100 text-rose-600 transition">
-              <i class="ph ph-trash text-base"></i>
+            <button onclick="eliminarSustitucion('${sub.id}')" title="Anular sustitución" class="p-2 rounded-xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition cursor-pointer">
+              <i class="ph-bold ph-trash text-sm"></i>
             </button>
           </div>
         </td>
@@ -879,48 +1211,48 @@ async function renderHistorial() {
 }
 
 async function eliminarSustitucion(id) {
-  if (!confirm("¿Deseas anular esta sustitución? Se restará del balance del profesor sustituto.")) return;
+  if (!confirm("¿Deseas anular esta sustitución? Se descontará del balance acumulado del profesor sustituto.")) return;
   try {
     const res = await fetch(`/api/sustituciones/${id}`, { method: "DELETE" });
     if (res.ok) {
-      alert("✅ Sustitución anulada correctamente en el sistema.\n\n⚠️ Recuerda: Si ya habías añadido el evento a Google Calendar, debes eliminarlo también desde allí.");
-      cargarDatosIniciales();
+      showToast("Sustitución anulada correctamente", "info");
+      await cargarDatosIniciales();
     } else {
       const err = await res.json();
-      alert("No se pudo anular: " + (err.error || "Error del servidor"));
+      showToast("No se pudo anular: " + (err.error || "Error del servidor"), "error");
     }
   } catch (err) {
-    alert("Error de conexión al intentar anular la sustitución.");
+    showToast("Error de conexión al intentar anular la sustitución.", "error");
   }
 }
 
 // ===============================================
-// IMPORTACIÓN DE HORARIOS
+// IMPORTACIÓN DE HORARIOS JSON
 // ===============================================
 
 function cargarEjemploJSON() {
   const ejemplo = {
     "profesores": [
       {
-        "id": "antonio-perez",
-        "nombre": "Antonio Pérez Gómez",
-        "telefono": "+34600000001",
-        "email": "antonio.perez@colegio.es",
-        "departamento": "Matemáticas",
-        "etapa": "Secundaria",
+        "id": "ipena",
+        "nombre": "Isabel Peña Escudero",
+        "telefono": "",
+        "email": "isabelpena@sanbuenaventura.org",
+        "departamento": "Primaria",
+        "etapa": "Primaria",
         "activo": true,
         "sustituciones_realizadas": 0
       }
     ],
     "horarios": [
       {
-        "profesor_id": "antonio-perez",
+        "profesor_id": "ipena",
         "dia_semana": 0,
         "periodo_id": "1H",
-        "tipo_actividad": "GUARDIA_AULA",
-        "aula": "Planta 1",
-        "materia": "Guardia",
-        "descripcion": "Disponible para sustitución"
+        "tipo_actividad": "LECTIVA",
+        "aula": "6ºEP-A",
+        "materia": "Religión",
+        "descripcion": "Religión en 6ºEP-A"
       }
     ]
   };
@@ -930,7 +1262,7 @@ function cargarEjemploJSON() {
 async function ejecutarImportacion() {
   const contenido = document.getElementById("textarea-importar").value.trim();
   if (!contenido) {
-    alert("Introduce los datos en formato JSON.");
+    showToast("Introduce los datos en formato JSON.", "warning");
     return;
   }
 
@@ -944,13 +1276,14 @@ async function ejecutarImportacion() {
 
     const resultado = await res.json();
     if (resultado.success) {
-      alert(`¡Horarios importados con éxito!\n- Profesores: ${resultado.total_profesores}\n- Horarios: ${resultado.total_horarios}`);
-      cargarDatosIniciales();
+      showToast(`Horarios actualizados (${resultado.total_profesores} docentes)`, "success");
+      appState.horarios = [];
+      await cargarDatosIniciales();
       switchTab("horarios");
     } else {
-      alert("Error en la importación: " + (resultado.error || "Formato incorrecto"));
+      showToast("Error en la importación: " + (resultado.error || "Formato incorrecto"), "error");
     }
   } catch (err) {
-    alert("El JSON no es válido: " + err.message);
+    showToast("El JSON no es válido: " + err.message, "error");
   }
 }
