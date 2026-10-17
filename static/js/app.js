@@ -9,7 +9,10 @@ let appState = {
   horarios: [],
   sustituciones: [],
   estadisticas: [],
+  tramosSeleccionados: [], // Lista de periodo_id seleccionados (ej. ["1H", "2H"])
   ultimoResultadoBusqueda: null,
+  ultimoResultadoMultiple: null,
+  seleccionesMultiples: {}, // { periodo_id: { activo, profesor_sustituto_id, aula, curso_grupo, materia } }
   ultimaSustitucionAsignada: null
 };
 
@@ -392,73 +395,224 @@ function configurarListeners() {
   inputFecha.addEventListener("change", sincronizarFechaDesdeInput);
   inputFecha.addEventListener("input", sincronizarFechaDesdeInput);
 
-  document.getElementById("select-tramo").addEventListener("change", (e) => {
-    actualizarPillsTramo(e.target.value);
-    consultarActividadProgramada();
-  });
+  const selectTramo = document.getElementById("select-tramo");
+  if (selectTramo) {
+    selectTramo.addEventListener("change", (e) => {
+      if (e.target.value) {
+        appState.tramosSeleccionados = [e.target.value];
+      } else {
+        appState.tramosSeleccionados = [];
+      }
+      actualizarPillsTramo();
+      consultarActividadProgramada();
+    });
+  }
   document.getElementById("select-profesor-ausente").addEventListener("change", consultarActividadProgramada);
 }
 
-function seleccionarTramoRapido(tramoId) {
-  const select = document.getElementById("select-tramo");
-  if (select) {
-    select.value = tramoId;
-    actualizarPillsTramo(tramoId);
-    consultarActividadProgramada();
-  }
+function ordenarTramosCronologicamente(listaIds) {
+  const ordenOficial = ["1H", "2H", "REC", "3H", "4H", "5H", "6H"];
+  return [...new Set(listaIds)].sort((a, b) => {
+    const ia = ordenOficial.indexOf(a);
+    const ib = ordenOficial.indexOf(b);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  });
 }
 
-function actualizarPillsTramo(tramoActivoId) {
+function seleccionarTramoRapido(tramoId) {
+  const idx = appState.tramosSeleccionados.indexOf(tramoId);
+  if (idx >= 0) {
+    appState.tramosSeleccionados.splice(idx, 1);
+  } else {
+    appState.tramosSeleccionados.push(tramoId);
+  }
+  appState.tramosSeleccionados = ordenarTramosCronologicamente(appState.tramosSeleccionados);
+
+  const select = document.getElementById("select-tramo");
+  if (select) {
+    select.value = appState.tramosSeleccionados[0] || "";
+  }
+  actualizarPillsTramo();
+  consultarActividadProgramada();
+}
+
+function seleccionarPresetTramos(preset) {
+  if (preset === "DIA_COMPLETO") {
+    appState.tramosSeleccionados = ["1H", "2H", "3H", "4H", "5H", "6H"];
+  } else if (preset === "MANANA") {
+    appState.tramosSeleccionados = ["1H", "2H", "3H", "4H"];
+  } else if (preset === "TARDE") {
+    appState.tramosSeleccionados = ["5H", "6H"];
+  } else {
+    appState.tramosSeleccionados = [];
+  }
+
+  const select = document.getElementById("select-tramo");
+  if (select) {
+    select.value = appState.tramosSeleccionados[0] || "";
+  }
+  actualizarPillsTramo();
+  consultarActividadProgramada();
+}
+
+function actualizarPillsTramo() {
+  const seleccionados = new Set(appState.tramosSeleccionados || []);
+
   document.querySelectorAll(".pill-tramo-btn").forEach(btn => {
-    if (btn.dataset.tramo === tramoActivoId) {
-      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border-2 border-indigo-600 bg-indigo-600 text-white font-extrabold text-center shadow-sm transition scale-[1.02] cursor-pointer";
+    const tid = btn.dataset.tramo;
+    const tramoObj = (appState.tramos || []).find(t => t.id === tid);
+    const horaIni = tramoObj ? tramoObj.hora_inicio : "";
+
+    if (seleccionados.has(tid)) {
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border-2 border-indigo-600 bg-gradient-to-br from-[#132a56] to-indigo-600 text-white font-extrabold text-center shadow-md transition scale-[1.02] cursor-pointer";
+      btn.innerHTML = `
+        <span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-emerald-400 text-slate-950 flex items-center justify-center text-[9px] font-black shadow-2xs">✓</span>
+        <div class="text-xs font-extrabold">${tid}</div>
+        <div class="text-[9px] text-indigo-100 font-medium">${horaIni}</div>
+      `;
     } else {
-      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.innerHTML = `
+        <div class="text-xs font-extrabold">${tid}</div>
+        <div class="text-[9px] opacity-75 font-medium">${horaIni}</div>
+      `;
     }
   });
+
+  // Actualizar badge de resumen y texto del botón de búsqueda
+  const badgeHoras = document.getElementById("badge-horas-seleccionadas");
+  const btnTexto = document.getElementById("btn-buscar-texto");
+  const boxSesionUnica = document.getElementById("box-datos-sesion-unica");
+  const n = appState.tramosSeleccionados.length;
+
+  if (badgeHoras) {
+    if (n === 0) {
+      badgeHoras.textContent = "Ninguna seleccionada";
+      badgeHoras.className = "text-[10px] font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200";
+    } else if (n === 6) {
+      badgeHoras.textContent = "☀️ Día Completo (6 horas)";
+      badgeHoras.className = "text-[10px] font-extrabold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300";
+    } else if (n === 1) {
+      badgeHoras.textContent = `1 hora (${appState.tramosSeleccionados[0]})`;
+      badgeHoras.className = "text-[10px] font-extrabold text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-full border border-indigo-200";
+    } else {
+      badgeHoras.textContent = `${n} horas (${appState.tramosSeleccionados.join(", ")})`;
+      badgeHoras.className = "text-[10px] font-extrabold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200";
+    }
+  }
+
+  if (btnTexto) {
+    if (n > 1) {
+      btnTexto.textContent = n === 6 ? "Buscar Sustitutos para el Día Completo" : `Buscar Sustitutos para ${n} Horas`;
+    } else {
+      btnTexto.textContent = "Buscar Sustituto Idóneo";
+    }
+  }
+
+  if (boxSesionUnica) {
+    if (n > 1) {
+      boxSesionUnica.classList.add("hidden");
+    } else {
+      boxSesionUnica.classList.remove("hidden");
+    }
+  }
 }
 
 async function consultarActividadProgramada() {
   const fecha = document.getElementById("input-fecha").value;
-  const periodo_id = document.getElementById("select-tramo").value;
   const profesor_id = document.getElementById("select-profesor-ausente").value;
   const badge = document.getElementById("badge-clase-detectada");
+  const periodos = appState.tramosSeleccionados || [];
 
-  if (!fecha || !periodo_id || !profesor_id) {
+  if (!fecha || periodos.length === 0 || !profesor_id) {
     limpiarCamposActividad();
     return;
   }
 
-  try {
-    const res = await fetch(`/api/actividad-docente?profesor_id=${profesor_id}&periodo_id=${periodo_id}&fecha=${fecha}`);
-    const data = await res.json();
-    if (data && data.encontrado && data.tipo_actividad === "LECTIVA") {
-      document.getElementById("input-aula").value = data.aula || "";
-      document.getElementById("input-grupo").value = data.curso_grupo || (data.aula && data.aula.includes("EP") ? data.aula : "");
-      document.getElementById("input-materia").value = data.materia || "";
+  // CASO 1: Un solo tramo seleccionado
+  if (periodos.length === 1) {
+    const periodo_id = periodos[0];
+    try {
+      const res = await fetch(`/api/actividad-docente?profesor_id=${profesor_id}&periodo_id=${periodo_id}&fecha=${fecha}`);
+      const data = await res.json();
+      if (data && data.encontrado && data.tipo_actividad === "LECTIVA") {
+        document.getElementById("input-aula").value = data.aula || "";
+        document.getElementById("input-grupo").value = data.curso_grupo || (data.aula && data.aula.includes("EP") ? data.aula : "");
+        document.getElementById("input-materia").value = data.materia || "";
 
-      if (badge) {
-        badge.className = "mt-2 p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-950 text-xs flex items-center justify-between animate-fade-in";
-        badge.innerHTML = `
-          <div class="flex items-center gap-2">
-            <i class="ph-fill ph-chalkboard-teacher text-indigo-600 text-base"></i>
-            <span>Clase detectada: <strong>${data.materia}</strong></span>
-          </div>
-          <span class="px-2 py-0.5 rounded-md bg-indigo-600 text-white font-extrabold text-[11px]">${data.aula || data.curso_grupo}</span>
-        `;
+        if (badge) {
+          badge.className = "mt-2 p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/80 text-indigo-950 text-xs flex items-center justify-between animate-fade-in";
+          badge.innerHTML = `
+            <div class="flex items-center gap-2">
+              <i class="ph-fill ph-chalkboard-teacher text-indigo-600 text-base"></i>
+              <span>Clase detectada (${periodo_id}): <strong>${data.materia}</strong></span>
+            </div>
+            <span class="px-2 py-0.5 rounded-md bg-indigo-600 text-white font-extrabold text-[11px]">${data.aula || data.curso_grupo}</span>
+          `;
+        }
+      } else {
+        limpiarCamposActividad();
+        if (badge) {
+          badge.className = "mt-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs flex items-center gap-2 animate-fade-in";
+          badge.innerHTML = `
+            <i class="ph-fill ph-info text-amber-600 text-base shrink-0"></i>
+            <span>Este docente <strong>no tiene clase lectiva asignada</strong> en ${periodo_id}. Puedes rellenar el aula manualmente si es necesario.</span>
+          `;
+        }
       }
-    } else {
-      limpiarCamposActividad();
-      if (badge) {
-        badge.className = "mt-2 p-2.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs flex items-center gap-2 animate-fade-in";
-        badge.innerHTML = `
-          <i class="ph-fill ph-info text-amber-600 text-base shrink-0"></i>
-          <span>Este docente <strong>no tiene clase lectiva asignada</strong> en este tramo horario. Puedes rellenar el aula manualmente si es necesario.</span>
-        `;
-      }
+    } catch (e) {
+      console.error("Error al consultar actividad programada:", e);
+    }
+    return;
+  }
+
+  // CASO 2: Varios tramos o Día Completo seleccionados
+  try {
+    const res = await fetch("/api/actividad-docente-multiple", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profesor_id, fecha, periodos })
+    });
+    const data = await res.json();
+    const acts = data.actividades || [];
+    const lectivasCount = acts.filter(a => a.tiene_clase_lectiva).length;
+
+    if (badge) {
+      badge.className = "mt-2 p-3 rounded-2xl border border-indigo-200 bg-indigo-50/60 text-slate-800 text-xs space-y-2 animate-fade-in";
+      let rowsHtml = acts.map(a => {
+        if (a.tiene_clase_lectiva) {
+          return `
+            <div class="flex items-center justify-between bg-white px-2.5 py-1.5 rounded-xl border border-indigo-100 shadow-2xs">
+              <div class="flex items-center gap-2">
+                <span class="px-1.5 py-0.5 rounded bg-[#132a56] text-white font-extrabold text-[10px]">${a.periodo_id}</span>
+                <span class="font-bold text-slate-800">${a.materia}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-800 font-extrabold text-[10px]">${a.aula}</span>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="flex items-center justify-between bg-white/60 px-2.5 py-1 rounded-xl border border-slate-200/70 text-slate-400">
+              <div class="flex items-center gap-2">
+                <span class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-600 font-bold text-[10px]">${a.periodo_id}</span>
+                <span class="italic text-[11px]">Sin clase lectiva (hora libre)</span>
+              </div>
+              <span class="text-[10px] font-semibold">No requiere</span>
+            </div>
+          `;
+        }
+      }).join("");
+
+      badge.innerHTML = `
+        <div class="flex items-center justify-between text-[11px] font-extrabold text-indigo-950 pb-1 border-b border-indigo-200/60">
+          <span class="flex items-center gap-1.5"><i class="ph-fill ph-calendar-check text-indigo-600"></i> Horario detectado en los ${acts.length} tramos</span>
+          <span class="px-2 py-0.5 rounded-full bg-indigo-600 text-white text-[10px]">${lectivasCount} clase(s) a cubrir</span>
+        </div>
+        <div class="space-y-1 max-h-48 overflow-y-auto pr-0.5">${rowsHtml}</div>
+      `;
     }
   } catch (e) {
-    console.error("Error al consultar actividad programada:", e);
+    console.error("Error al consultar actividades múltiples:", e);
   }
 }
 
@@ -536,7 +690,8 @@ function actualizarSustitucionesDelDia() {
         </div>
       </div>
       <div class="flex items-center gap-1.5">
-        ${s.calendar_url ? `<a href="${s.calendar_url}" target="_blank" title="Añadir a Google Calendar" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white transition"><i class="ph-bold ph-calendar-plus text-sm"></i></a>` : ''}
+        ${s.calendar_url ? `<a href="${s.calendar_url}" target="_blank" title="Añadir a Google Calendar (+ aviso email)" class="p-1.5 rounded-lg bg-blue-50 hover:bg-blue-600 text-blue-600 hover:text-white transition"><i class="ph-bold ph-calendar-plus text-sm"></i></a>` : ''}
+        ${s.email_url ? `<a href="${s.email_url}" title="Enviar correo individual" class="p-1.5 rounded-lg bg-violet-50 hover:bg-violet-600 text-violet-600 hover:text-white transition"><i class="ph-bold ph-envelope-simple text-sm"></i></a>` : ''}
         ${s.whatsapp_url ? `<a href="${s.whatsapp_url}" target="_blank" title="Enviar WhatsApp" class="p-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-600 text-emerald-600 hover:text-white transition"><i class="ph-bold ph-whatsapp-logo text-sm"></i></a>` : ''}
         <button onclick="eliminarSustitucion('${s.id}')" title="Anular sustitución" class="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition cursor-pointer"><i class="ph-bold ph-trash text-sm"></i></button>
       </div>
@@ -549,7 +704,6 @@ function poblarSelects() {
   // 1. Select y Pills de tramos
   const selectTramo = document.getElementById("select-tramo");
   const pillsContainer = document.getElementById("pills-tramos");
-  const currentTramoVal = selectTramo ? selectTramo.value : "";
 
   if (selectTramo) {
     selectTramo.innerHTML = '<option value="">-- Selecciona hora / tramo --</option>';
@@ -566,12 +720,12 @@ function poblarSelects() {
       selectTramo.appendChild(option);
     }
 
-    // Crear botón rápido para las horas lectivas (1H a 6H)
+    // Crear botón multi-selección para las horas lectivas (1H a 6H)
     if (pillsContainer && !t.es_recreo) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.dataset.tramo = t.id;
-      btn.className = "pill-tramo-btn py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
       btn.onclick = () => seleccionarTramoRapido(t.id);
       btn.innerHTML = `
         <div class="text-xs font-extrabold">${t.id}</div>
@@ -581,10 +735,7 @@ function poblarSelects() {
     }
   });
 
-  if (selectTramo && currentTramoVal) {
-    selectTramo.value = currentTramoVal;
-    actualizarPillsTramo(currentTramoVal);
-  }
+  actualizarPillsTramo();
 
   // 2. Select de profesores ausentes
   const selectAusente = document.getElementById("select-profesor-ausente");
@@ -623,18 +774,16 @@ function poblarSelects() {
 }
 
 // ===============================================
-// BÚSQUEDA Y EVALUACIÓN DE CANDIDATOS
+// BÚSQUEDA Y EVALUACIÓN DE CANDIDATOS (1 O VARIOS TRAMOS)
 // ===============================================
 
 async function buscarSustitutos() {
   const fecha = document.getElementById("input-fecha").value;
-  const periodo_id = document.getElementById("select-tramo").value;
   const profesor_ausente_id = document.getElementById("select-profesor-ausente").value;
-  const aula = document.getElementById("input-aula").value;
-  const materia = document.getElementById("input-materia").value;
+  const periodos = appState.tramosSeleccionados || [];
 
-  if (!fecha || !periodo_id || !profesor_ausente_id) {
-    showToast("Selecciona la fecha, el tramo horario y el profesor ausente.", "warning");
+  if (!fecha || periodos.length === 0 || !profesor_ausente_id) {
+    showToast("Selecciona la fecha, al menos una hora (o Día Completo) y el profesor ausente.", "warning");
     return;
   }
 
@@ -658,18 +807,62 @@ async function buscarSustitutos() {
   document.getElementById("panel-inicial").classList.add("hidden");
   document.getElementById("panel-confirmacion").classList.add("hidden");
   document.getElementById("panel-resultados").classList.add("hidden");
+  document.getElementById("panel-resultados-multiple").classList.add("hidden");
   document.getElementById("panel-cargando").classList.remove("hidden");
 
+  // MODO 1 TRAMO
+  if (periodos.length === 1) {
+    const periodo_id = periodos[0];
+    const aula = document.getElementById("input-aula").value;
+    const materia = document.getElementById("input-materia").value;
+
+    try {
+      const res = await fetch("/api/buscar-sustitutos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fecha,
+          periodo_id,
+          profesor_ausente_id,
+          materia,
+          aula
+        })
+      });
+
+      const data = await res.json();
+      document.getElementById("panel-cargando").classList.add("hidden");
+
+      if (data.error) {
+        showToast(data.error, "error");
+        document.getElementById("panel-inicial").classList.remove("hidden");
+        return;
+      }
+
+      appState.ultimoResultadoBusqueda = data;
+      renderResultadosBusqueda(data);
+
+    } catch (err) {
+      document.getElementById("panel-cargando").classList.add("hidden");
+      showToast("Error de conexión al buscar sustitutos", "error");
+      console.error(err);
+    } finally {
+      if (btnBuscar) {
+        btnBuscar.disabled = false;
+        btnBuscar.classList.remove("opacity-75", "cursor-not-allowed");
+      }
+    }
+    return;
+  }
+
+  // MODO MULTI-HORA O DÍA COMPLETO
   try {
-    const res = await fetch("/api/buscar-sustitutos", {
+    const res = await fetch("/api/buscar-sustitutos-multiple", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         fecha,
-        periodo_id,
-        profesor_ausente_id,
-        materia,
-        aula
+        periodos,
+        profesor_ausente_id
       })
     });
 
@@ -682,12 +875,12 @@ async function buscarSustitutos() {
       return;
     }
 
-    appState.ultimoResultadoBusqueda = data;
-    renderResultadosBusqueda(data);
+    appState.ultimoResultadoMultiple = data;
+    renderResultadosMultiples(data);
 
   } catch (err) {
     document.getElementById("panel-cargando").classList.add("hidden");
-    showToast("Error de conexión al buscar sustitutos", "error");
+    showToast("Error de conexión al evaluar múltiples tramos", "error");
     console.error(err);
   } finally {
     if (btnBuscar) {
@@ -793,6 +986,414 @@ function renderNoDisponibles(noDisponibles = []) {
   });
 }
 
+// ===============================================
+// RENDERIZADO Y GESTIÓN MULTI-HORA / DÍA COMPLETO
+// ===============================================
+
+function renderResultadosMultiples(data) {
+  const panelMulti = document.getElementById("panel-resultados-multiple");
+  const listaContainer = document.getElementById("lista-tramos-multiple");
+  if (!panelMulti || !listaContainer) return;
+
+  panelMulti.classList.remove("hidden");
+  document.getElementById("multi-nombre-ausente").textContent = data.profesor_ausente?.nombre || "";
+  document.getElementById("multi-resumen-fecha").textContent = `📅 ${formatFechaEsp(data.fecha)}`;
+
+  appState.seleccionesMultiples = {};
+  listaContainer.innerHTML = "";
+
+  const tramos = data.tramos_evaluados || [];
+
+  tramos.forEach(t => {
+    const pid = t.periodo_id;
+    const rec = t.recomendado;
+    const yaAsignada = t.ya_asignada;
+    const activarPorDefecto = Boolean(t.tiene_clase_lectiva && !yaAsignada && rec);
+
+    appState.seleccionesMultiples[pid] = {
+      activo: activarPorDefecto,
+      profesor_sustituto_id: rec ? rec.profesor.id : "",
+      aula: t.aula || "",
+      curso_grupo: t.curso_grupo || t.aula || "",
+      materia: t.materia || ""
+    };
+
+    const card = document.createElement("div");
+    card.id = `multi-card-${pid}`;
+    card.className = `rounded-3xl border transition-all p-5 shadow-xs ${
+      yaAsignada
+        ? "bg-emerald-50/40 border-emerald-300"
+        : activarPorDefecto
+        ? "bg-white border-indigo-200/90 ring-1 ring-indigo-500/10"
+        : "bg-slate-50/80 border-slate-200/80 opacity-85"
+    }`;
+
+    // Construir selector de candidatos (pills interactivos + desplegable)
+    let candidatosHtml = "";
+    if (yaAsignada) {
+      candidatosHtml = `
+        <div class="mt-3 p-3 rounded-2xl bg-emerald-100/70 border border-emerald-300 text-emerald-950 text-xs flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <i class="ph-fill ph-check-circle text-emerald-600 text-base"></i>
+            <span>Ya cubierta en esta fecha por <strong>${yaAsignada.profesor_sustituto_nombre}</strong> (${yaAsignada.aula})</span>
+          </div>
+          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-600 text-white">Asignada</span>
+        </div>
+      `;
+    } else if (!t.candidatos || t.candidatos.length === 0) {
+      candidatosHtml = `
+        <div class="mt-3 p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+          ⚠️ No hay ningún profesor disponible en esta hora.
+        </div>
+      `;
+    } else {
+      const pillsCandidatos = t.candidatos.map((c, idx) => {
+        const esRec = idx === 0;
+        const pInfo = ORDEN_PRIORIDAD[c.profesor.id] || { nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200" };
+        const seleccionado = c.profesor.id === (rec ? rec.profesor.id : "");
+
+        return `
+          <button
+            type="button"
+            onclick="seleccionarCandidatoTramoMultiple('${pid}', '${c.profesor.id}')"
+            id="pill-cand-${pid}-${c.profesor.id}"
+            data-tramo="${pid}"
+            data-prof="${c.profesor.id}"
+            class="cand-multi-btn text-left p-2.5 rounded-2xl border transition flex items-center justify-between gap-2 cursor-pointer ${
+              seleccionado
+                ? "border-2 border-indigo-600 bg-indigo-50/90 shadow-xs"
+                : "border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50"
+            }"
+          >
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-xl ${
+                esRec ? "bg-amber-400 text-slate-950" : "bg-slate-100 text-slate-700"
+              } font-black text-[11px] flex items-center justify-center shrink-0">
+                ${esRec ? "👑 1º" : "#" + (idx + 1)}
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-extrabold text-xs text-slate-900 truncate">${c.profesor.nombre}</span>
+                  <span class="text-[9px] px-1.5 py-0.2 rounded border ${pInfo.badge} shrink-0">Prio. ${pInfo.nivel}</span>
+                </div>
+                <div class="text-[10px] text-slate-500 truncate">${c.profesor.email || c.motivo}</div>
+              </div>
+            </div>
+            <div class="cand-check-icon shrink-0 ${seleccionado ? "text-indigo-600" : "text-slate-300"}">
+              <i class="ph-fill ph-check-circle text-lg"></i>
+            </div>
+          </button>
+        `;
+      }).join("");
+
+      candidatosHtml = `
+        <div class="mt-3.5 pt-3 border-t border-slate-100">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <i class="ph-fill ph-users-three text-indigo-600"></i>
+              Docentes adecuados disponibles en ${t.periodo_nombre} (${t.candidatos.length}):
+            </span>
+            <span class="text-[10px] text-indigo-600 font-semibold">Pulsa otro docente si deseas cambiarlo</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
+            ${pillsCandidatos}
+          </div>
+        </div>
+      `;
+    }
+
+    card.innerHTML = `
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- Checkbox + Info de Hora y Clase -->
+        <label class="flex items-start sm:items-center gap-3 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            id="check-tramo-${pid}"
+            ${activarPorDefecto ? "checked" : ""}
+            ${yaAsignada || !rec ? "disabled" : ""}
+            onchange="toggleIncluirTramoMultiple('${pid}', this.checked)"
+            class="mt-1 sm:mt-0 w-5 h-5 rounded-lg text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+          >
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-xl bg-[#132a56] text-white font-extrabold text-xs shadow-2xs">
+              ${t.periodo_nombre} (${t.hora_inicio} - ${t.hora_fin})
+            </span>
+            ${
+              t.tiene_clase_lectiva
+                ? `<span class="px-2.5 py-1 rounded-xl bg-indigo-100 text-indigo-900 font-extrabold text-xs border border-indigo-200 flex items-center gap-1">
+                     <i class="ph-fill ph-chalkboard-teacher text-indigo-600"></i>
+                     ${t.aula} · ${t.materia}
+                   </span>`
+                : `<span class="px-2.5 py-1 rounded-xl bg-amber-50 text-amber-800 font-semibold text-xs border border-amber-200">
+                     Hora sin clase lectiva en horario (marca la casilla si deseas cubrirla)
+                   </span>`
+            }
+          </div>
+        </label>
+
+        <!-- Campos editables rápidos de Aula y Materia para esa hora -->
+        <div class="flex items-center gap-1.5">
+          <input
+            type="text"
+            value="${t.aula || ''}"
+            placeholder="Aula (ej. 5ºEP-A)"
+            oninput="actualizarDatoTramoMultiple('${pid}', 'aula', this.value)"
+            class="w-28 px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:ring-2 focus:ring-indigo-500"
+            title="Aula de esta hora"
+          >
+          <input
+            type="text"
+            value="${t.materia || ''}"
+            placeholder="Materia"
+            oninput="actualizarDatoTramoMultiple('${pid}', 'materia', this.value)"
+            class="w-32 px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:bg-white focus:ring-2 focus:ring-indigo-500"
+            title="Materia de esta hora"
+          >
+        </div>
+      </div>
+
+      ${candidatosHtml}
+    `;
+
+    listaContainer.appendChild(card);
+  });
+
+  actualizarContadorConfirmarMultiple();
+}
+
+function toggleIncluirTramoMultiple(periodoId, checked) {
+  if (!appState.seleccionesMultiples[periodoId]) return;
+  appState.seleccionesMultiples[periodoId].activo = checked;
+
+  const card = document.getElementById(`multi-card-${periodoId}`);
+  if (card) {
+    if (checked) {
+      card.classList.remove("bg-slate-50/80", "opacity-85");
+      card.classList.add("bg-white", "border-indigo-200/90");
+    } else {
+      card.classList.add("bg-slate-50/80", "opacity-85");
+      card.classList.remove("bg-white", "border-indigo-200/90");
+    }
+  }
+  actualizarContadorConfirmarMultiple();
+}
+
+function actualizarDatoTramoMultiple(periodoId, campo, valor) {
+  if (!appState.seleccionesMultiples[periodoId]) return;
+  appState.seleccionesMultiples[periodoId][campo] = valor;
+  if (campo === "aula") {
+    appState.seleccionesMultiples[periodoId].curso_grupo = valor;
+  }
+}
+
+function seleccionarCandidatoTramoMultiple(periodoId, profesorSustitutoId) {
+  if (!appState.seleccionesMultiples[periodoId]) return;
+  appState.seleccionesMultiples[periodoId].profesor_sustituto_id = profesorSustitutoId;
+  appState.seleccionesMultiples[periodoId].activo = true;
+
+  const chk = document.getElementById(`check-tramo-${periodoId}`);
+  if (chk && !chk.disabled) {
+    chk.checked = true;
+    toggleIncluirTramoMultiple(periodoId, true);
+  }
+
+  document.querySelectorAll(`.cand-multi-btn[data-tramo="${periodoId}"]`).forEach(btn => {
+    const esEste = btn.dataset.prof === profesorSustitutoId;
+    const iconDiv = btn.querySelector(".cand-check-icon");
+    if (esEste) {
+      btn.className = "cand-multi-btn text-left p-2.5 rounded-2xl border-2 border-indigo-600 bg-indigo-50/90 shadow-xs transition flex items-center justify-between gap-2 cursor-pointer";
+      if (iconDiv) iconDiv.className = "cand-check-icon shrink-0 text-indigo-600";
+    } else {
+      btn.className = "cand-multi-btn text-left p-2.5 rounded-2xl border border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50 transition flex items-center justify-between gap-2 cursor-pointer";
+      if (iconDiv) iconDiv.className = "cand-check-icon shrink-0 text-slate-300";
+    }
+  });
+
+  actualizarContadorConfirmarMultiple();
+}
+
+function actualizarContadorConfirmarMultiple() {
+  const lbl = document.getElementById("lbl-btn-confirmar-todas");
+  const activas = Object.values(appState.seleccionesMultiples || {}).filter(x => x.activo && x.profesor_sustituto_id);
+  if (lbl) {
+    lbl.textContent = `Confirmar y Asignar (${activas.length} ${activas.length === 1 ? "hora" : "horas"})`;
+  }
+}
+
+async function confirmarSustitucionesMultiples() {
+  const dataMulti = appState.ultimoResultadoMultiple;
+  if (!dataMulti) return;
+
+  const fecha = dataMulti.fecha;
+  const profesor_ausente_id = dataMulti.profesor_ausente.id;
+  const observaciones = document.getElementById("input-observaciones").value;
+
+  const asignaciones = [];
+  Object.entries(appState.seleccionesMultiples || {}).forEach(([periodo_id, sel]) => {
+    if (sel.activo && sel.profesor_sustituto_id) {
+      asignaciones.push({
+        periodo_id,
+        profesor_sustituto_id: sel.profesor_sustituto_id,
+        aula: sel.aula || "Aula asignada",
+        curso_grupo: sel.curso_grupo || sel.aula || "",
+        materia: sel.materia || "",
+        observaciones
+      });
+    }
+  });
+
+  if (asignaciones.length === 0) {
+    showToast("Marca al menos una hora con sustituto seleccionado para confirmar.", "warning");
+    return;
+  }
+
+  const btnTop = document.getElementById("btn-confirmar-todas-top");
+  if (btnTop) {
+    btnTop.disabled = true;
+    btnTop.classList.add("opacity-70", "cursor-not-allowed");
+  }
+
+  try {
+    const res = await fetch("/api/asignar-sustituciones-multiple", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fecha,
+        profesor_ausente_id,
+        observaciones,
+        asignaciones
+      })
+    });
+
+    const resultado = await res.json();
+    if (resultado.error && (!resultado.asignadas || resultado.asignadas.length === 0)) {
+      showToast(resultado.error, "error");
+      return;
+    }
+
+    const creadas = resultado.asignadas || [];
+    const errores = resultado.errores || [];
+
+    if (errores.length > 0) {
+      showToast(`Se asignaron ${creadas.length} horas. Hubo ${errores.length} aviso(s): ${errores[0].error}`, "warning");
+    } else {
+      showToast(`¡${creadas.length} sustituciones registradas correctamente!`, "success");
+    }
+
+    mostrarConfirmacionMultiple(creadas, dataMulti.profesor_ausente, fecha);
+    await cargarDatosIniciales();
+
+  } catch (err) {
+    showToast("Error de red al confirmar las sustituciones.", "error");
+    console.error(err);
+  } finally {
+    if (btnTop) {
+      btnTop.disabled = false;
+      btnTop.classList.remove("opacity-70", "cursor-not-allowed");
+    }
+  }
+}
+
+function mostrarConfirmacionMultiple(asignadas, profesorAusente, fecha) {
+  document.getElementById("panel-resultados").classList.add("hidden");
+  document.getElementById("panel-resultados-multiple").classList.add("hidden");
+
+  const confPanel = document.getElementById("panel-confirmacion");
+  confPanel.classList.remove("hidden");
+
+  document.getElementById("conf-modo-unico").classList.add("hidden");
+  const modoMulti = document.getElementById("conf-modo-multiple");
+  modoMulti.classList.remove("hidden");
+
+  document.getElementById("conf-badge-superior").textContent = `${asignadas.length} Horas Registradas`;
+  document.getElementById("conf-titulo").textContent = `¡${asignadas.length} Sustituciones Asignadas!`;
+  document.getElementById("conf-resumen").textContent =
+    `Ausencia de ${profesorAusente.nombre} el ${formatFechaEsp(fecha)}. Envía el correo individual y marca en Calendar cada hora a continuación:`;
+
+  const lista = document.getElementById("lista-confirmacion-multiple");
+  lista.innerHTML = "";
+
+  asignadas.forEach((item, idx) => {
+    const r = item.record;
+    const card = document.createElement("div");
+    card.className = "p-4 rounded-2xl border border-slate-200 bg-slate-50/70 hover:bg-white transition shadow-2xs space-y-3";
+
+    card.innerHTML = `
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-1 rounded-xl bg-[#132a56] text-white font-extrabold text-xs">
+            ${r.periodo_nombre} (${item.hora_inicio || ''}-${item.hora_fin || ''})
+          </span>
+          <div>
+            <div class="text-sm font-extrabold text-slate-900 flex items-center gap-1.5">
+              <i class="ph-fill ph-user-check text-emerald-600"></i>
+              <span>${r.profesor_sustituto_nombre}</span>
+            </div>
+            <div class="text-[11px] text-slate-500">
+              Aula <strong>${r.aula}</strong> ${r.materia ? '· ' + r.materia : ''}
+              ${r.profesor_sustituto_email ? `· <span class="text-indigo-600 font-semibold">${r.profesor_sustituto_email}</span>` : ''}
+            </div>
+          </div>
+        </div>
+        <span id="status-pill-${idx}" class="text-[10px] font-bold text-slate-500 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+          Pendiente de notificar
+        </span>
+      </div>
+
+      <!-- Botones individuales para este profesor sustituto y esta hora -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+        <a
+          href="${item.calendar_url}"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="marcarAccionEnviada(${idx}, 'cal', this)"
+          class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-xs transition cursor-pointer"
+        >
+          <i class="ph-bold ph-calendar-plus text-sm"></i>
+          <span>1. Marcar en Calendar (+ invitación)</span>
+        </a>
+
+        <a
+          href="${item.email_url}"
+          onclick="marcarAccionEnviada(${idx}, 'mail', this)"
+          class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs shadow-xs transition cursor-pointer"
+        >
+          <i class="ph-bold ph-envelope-simple text-sm"></i>
+          <span>2. Enviar Correo Individual</span>
+        </a>
+
+        <a
+          href="${item.whatsapp_url}"
+          target="_blank"
+          rel="noopener noreferrer"
+          onclick="marcarAccionEnviada(${idx}, 'wa', this)"
+          class="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition cursor-pointer"
+        >
+          <i class="ph-bold ph-whatsapp-logo text-sm"></i>
+          <span>WhatsApp Individual</span>
+        </a>
+      </div>
+    `;
+
+    lista.appendChild(card);
+  });
+}
+
+function marcarAccionEnviada(idx, tipo, btnEl) {
+  if (btnEl) {
+    btnEl.classList.add("ring-2", "ring-emerald-400", "opacity-90");
+    if (!btnEl.dataset.clicked) {
+      btnEl.dataset.clicked = "1";
+      btnEl.innerHTML += ` <i class="ph-bold ph-check text-amber-300"></i>`;
+    }
+  }
+  const pill = document.getElementById(`status-pill-${idx}`);
+  if (pill) {
+    pill.className = "text-[10px] font-extrabold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200";
+    pill.innerHTML = `<i class="ph-bold ph-check"></i> Abierto / Notificado`;
+  }
+}
+
 function asignarRecomendado() {
   if (appState.ultimoResultadoBusqueda && appState.ultimoResultadoBusqueda.recomendado) {
     asignarCandidato(appState.ultimoResultadoBusqueda.recomendado.profesor.id);
@@ -800,12 +1401,12 @@ function asignarRecomendado() {
 }
 
 // ===============================================
-// ASIGNACIÓN, CALENDAR, WHATSAPP Y CORREO
+// ASIGNACIÓN INDIVIDUAL (1 HORA), CALENDAR, WHATSAPP Y CORREO
 // ===============================================
 
 async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
   const fecha = document.getElementById("input-fecha").value;
-  const periodo_id = document.getElementById("select-tramo").value;
+  const periodo_id = (appState.tramosSeleccionados && appState.tramosSeleccionados[0]) || document.getElementById("select-tramo").value;
   const profesor_ausente_id = document.getElementById("select-profesor-ausente").value;
   const aula = document.getElementById("input-aula").value || "Aula asignada";
   const curso_grupo = document.getElementById("input-grupo").value;
@@ -846,12 +1447,18 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
     appState.ultimaSustitucionAsignada = data;
     showToast(`Sustitución asignada a ${data.record.profesor_sustituto_nombre}`, "success");
 
-    // Mostrar panel de confirmación
+    // Mostrar panel de confirmación en modo 1 hora
     document.getElementById("panel-resultados").classList.add("hidden");
+    document.getElementById("panel-resultados-multiple").classList.add("hidden");
     const confPanel = document.getElementById("panel-confirmacion");
     confPanel.classList.remove("hidden");
 
+    document.getElementById("conf-modo-multiple").classList.add("hidden");
+    document.getElementById("conf-modo-unico").classList.remove("hidden");
+
     const r = data.record;
+    document.getElementById("conf-badge-superior").textContent = "Registrada Correctamente";
+    document.getElementById("conf-titulo").textContent = "¡Sustitución Asignada!";
     document.getElementById("conf-resumen").textContent = 
       `${r.profesor_sustituto_nombre} cubrirá a ${r.profesor_ausente_nombre} el ${formatFechaEsp(r.fecha)} en ${r.periodo_nombre} (${r.aula}${r.materia ? ' · ' + r.materia : ''}).`;
 
@@ -884,12 +1491,16 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
 
 function nuevaSustitucion() {
   document.getElementById("panel-confirmacion").classList.add("hidden");
+  document.getElementById("panel-resultados").classList.add("hidden");
+  document.getElementById("panel-resultados-multiple").classList.add("hidden");
   document.getElementById("panel-inicial").classList.remove("hidden");
   
   const fechaActual = document.getElementById("input-fecha").value;
   
-  document.getElementById("select-tramo").value = "";
-  actualizarPillsTramo("");
+  appState.tramosSeleccionados = [];
+  const selectTramo = document.getElementById("select-tramo");
+  if (selectTramo) selectTramo.value = "";
+  actualizarPillsTramo();
   document.getElementById("select-profesor-ausente").value = "";
   limpiarCamposActividad();
   document.getElementById("input-observaciones").value = "";

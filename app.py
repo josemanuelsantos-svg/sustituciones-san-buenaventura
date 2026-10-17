@@ -162,6 +162,57 @@ def save_horarios():
     db.save_schedules(current_schedules)
     return jsonify({"success": True, "total": len(current_schedules)})
 
+@app.route("/api/actividad-docente-multiple", methods=["POST"])
+def get_actividad_docente_multiple():
+    """Devuelve las clases/actividades programadas de un docente para varios tramos de un mismo día."""
+    data = request.json or {}
+    profesor_id = data.get("profesor_id")
+    fecha_str = data.get("fecha")
+    periodos = data.get("periodos", [])
+
+    if not profesor_id or not fecha_str or not periodos:
+        return jsonify({"actividades": []})
+
+    try:
+        dia_semana = datetime.strptime(fecha_str, "%Y-%m-%d").weekday()
+    except Exception:
+        dia_semana = 0
+
+    slots_map = {s.id: s for s in db.get_time_slots()}
+    actividades = []
+    for pid in periodos:
+        slot = slots_map.get(pid)
+        item = db.get_slot_activity_for_teacher(profesor_id, dia_semana, pid)
+        if item and item.tipo_actividad == ActivityType.LECTIVA:
+            aula_val = item.aula or ""
+            grupo_val = aula_val if any(kw in aula_val.upper() for kw in ["EP", "ESO", "INF", "BAC"]) else ""
+            actividades.append({
+                "periodo_id": pid,
+                "periodo_nombre": slot.nombre if slot else pid,
+                "hora_inicio": slot.hora_inicio if slot else "",
+                "hora_fin": slot.hora_fin if slot else "",
+                "tiene_clase_lectiva": True,
+                "aula": aula_val,
+                "curso_grupo": grupo_val,
+                "materia": item.materia or "",
+                "tipo_actividad": item.tipo_actividad
+            })
+        else:
+            actividades.append({
+                "periodo_id": pid,
+                "periodo_nombre": slot.nombre if slot else pid,
+                "hora_inicio": slot.hora_inicio if slot else "",
+                "hora_fin": slot.hora_fin if slot else "",
+                "tiene_clase_lectiva": False,
+                "aula": "",
+                "curso_grupo": "",
+                "materia": "",
+                "tipo_actividad": item.tipo_actividad if item else "DISPONIBLE"
+            })
+
+    return jsonify({"actividades": actividades})
+
+
 @app.route("/api/buscar-sustitutos", methods=["POST"])
 def search_substitutes():
     """
@@ -189,38 +240,122 @@ def search_substitutes():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route("/api/asignar-sustitucion", methods=["POST"])
-def assign_substitution():
+
+@app.route("/api/buscar-sustitutos-multiple", methods=["POST"])
+def search_substitutes_multiple():
     """
-    Confirma y guarda una sustitución, generando los enlaces de Calendar y WhatsApp.
+    Evalúa múltiples tramos horarios (o el día completo) para un profesor ausente,
+    detectando su aula y asignatura en cada hora y devolviendo los candidatos idóneos por tramo.
     """
     data = request.json or {}
     fecha = data.get("fecha")
-    periodo_id = data.get("periodo_id")
+    periodos = data.get("periodos", [])
     profesor_ausente_id = data.get("profesor_ausente_id")
-    profesor_sustituto_id = data.get("profesor_sustituto_id")
-    aula = data.get("aula", "Sin aula")
-    curso_grupo = data.get("curso_grupo", "")
-    materia = data.get("materia", "")
-    observaciones = data.get("observaciones", "")
+    overrides = data.get("overrides", {})
 
-    if not all([fecha, periodo_id, profesor_ausente_id, profesor_sustituto_id]):
-        return jsonify({"error": "Faltan campos obligatorios para la asignación"}), 400
+    if not fecha or not periodos or not profesor_ausente_id:
+        return jsonify({"error": "fecha, periodos y profesor_ausente_id son obligatorios"}), 400
 
     ausente = db.get_teacher(profesor_ausente_id)
-    sustituto = db.get_teacher(profesor_sustituto_id)
-    slot = db.get_time_slot(periodo_id)
-
-    if not ausente or not sustituto or not slot:
-        return jsonify({"error": "Entidades no encontradas en el sistema"}), 404
+    if not ausente:
+        return jsonify({"error": "Profesor ausente no encontrado"}), 404
 
     try:
         fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
     except Exception:
         return jsonify({"error": "Formato de fecha inválido (debe ser YYYY-MM-DD)"}), 400
 
+    dia_semana = fecha_dt.weekday()
+    if dia_semana >= 5:
+        return jsonify({"error": "El día seleccionado es fin de semana (sin actividad lectiva)."}), 400
+
+    slots_all = db.get_time_slots()
+    slots_map = {s.id: s for s in slots_all}
+    orden_ids = [s.id for s in slots_all]
+
+    # Ordenar los periodos según el orden cronológico oficial
+    periodos_ordenados = sorted(
+        list(dict.fromkeys(periodos)),
+        key=lambda x: orden_ids.index(x) if x in orden_ids else 999
+    )
+
+    # Sustituciones ya existentes ese día para ese profesor ausente
+    sust_dia = [
+        s for s in db.get_substitutions()
+        if s.fecha == fecha and s.estado != "CANCELADA"
+    ]
+
+    tramos_evaluados = []
+    for pid in periodos_ordenados:
+        slot = slots_map.get(pid)
+        if not slot:
+            continue
+
+        item = db.get_slot_activity_for_teacher(profesor_ausente_id, dia_semana, pid)
+        ov = overrides.get(pid, {})
+
+        tiene_clase = bool(item and item.tipo_actividad == ActivityType.LECTIVA)
+        aula_auto = (item.aula or "") if tiene_clase else ""
+        grupo_auto = aula_auto if any(kw in aula_auto.upper() for kw in ["EP", "ESO", "INF", "BAC"]) else ""
+        materia_auto = (item.materia or "") if tiene_clase else ""
+
+        aula_final = ov.get("aula") if ov.get("aula") is not None else aula_auto
+        grupo_final = ov.get("curso_grupo") if ov.get("curso_grupo") is not None else grupo_auto
+        materia_final = ov.get("materia") if ov.get("materia") is not None else materia_auto
+
+        ya_asignada = next(
+            (s.to_dict() for s in sust_dia if s.periodo_id == pid and s.profesor_ausente_id == profesor_ausente_id),
+            None
+        )
+
+        evaluacion = engine.find_candidates(
+            fecha_str=fecha,
+            periodo_id=pid,
+            profesor_ausente_id=profesor_ausente_id,
+            materia=materia_final,
+            aula=aula_final
+        )
+
+        tramos_evaluados.append({
+            "periodo_id": pid,
+            "periodo_nombre": slot.nombre,
+            "hora_inicio": slot.hora_inicio,
+            "hora_fin": slot.hora_fin,
+            "tiene_clase_lectiva": tiene_clase,
+            "tipo_actividad_ausente": item.tipo_actividad if item else "DISPONIBLE",
+            "aula": aula_final,
+            "curso_grupo": grupo_final,
+            "materia": materia_final,
+            "ya_asignada": ya_asignada,
+            "recomendado": evaluacion.get("recomendado"),
+            "candidatos": evaluacion.get("candidatos", []),
+            "no_disponibles": evaluacion.get("no_disponibles", [])
+        })
+
+    return jsonify({
+        "fecha": fecha,
+        "dia_semana": dia_semana,
+        "profesor_ausente": ausente.to_dict(),
+        "tramos_evaluados": tramos_evaluados
+    })
+
+
+def _crear_registro_sustitucion(fecha, periodo_id, profesor_ausente_id, profesor_sustituto_id, aula, curso_grupo, materia, observaciones):
+    """Función auxiliar que valida y registra una sustitución individual y genera sus enlaces."""
+    ausente = db.get_teacher(profesor_ausente_id)
+    sustituto = db.get_teacher(profesor_sustituto_id)
+    slot = db.get_time_slot(periodo_id)
+
+    if not ausente or not sustituto or not slot:
+        raise ValueError("Entidades no encontradas en el sistema")
+
+    try:
+        fecha_dt = datetime.strptime(fecha, "%Y-%m-%d")
+    except Exception:
+        raise ValueError("Formato de fecha inválido (debe ser YYYY-MM-DD)")
+
     if fecha_dt.weekday() >= 5:
-        return jsonify({"error": "No se pueden registrar sustituciones en fines de semana."}), 400
+        raise ValueError("No se pueden registrar sustituciones en fines de semana.")
 
     # Comprobar si el sustituto ya tiene otra sustitución en ese mismo tramo
     sustituciones_existentes = [
@@ -229,14 +364,14 @@ def assign_substitution():
     ]
     for s in sustituciones_existentes:
         if s.profesor_sustituto_id == sustituto.id:
-            return jsonify({"error": f"{sustituto.nombre} ya tiene asignada otra sustitución en este mismo tramo ({s.aula})."}), 400
+            raise ValueError(f"{sustituto.nombre} ya tiene asignada otra sustitución en {slot.nombre} ({s.aula}).")
         if s.profesor_ausente_id == sustituto.id:
-            return jsonify({"error": f"{sustituto.nombre} figura como ausente en esta misma fecha y hora."}), 400
+            raise ValueError(f"{sustituto.nombre} figura como ausente en {slot.nombre}.")
 
     # Comprobar si el sustituto tiene clase lectiva
     actividad = db.get_slot_activity_for_teacher(sustituto.id, fecha_dt.weekday(), periodo_id)
     if actividad and actividad.tipo_actividad == ActivityType.LECTIVA:
-        return jsonify({"error": f"{sustituto.nombre} tiene clase lectiva en este tramo ({actividad.materia or actividad.aula})."}), 400
+        raise ValueError(f"{sustituto.nombre} tiene clase lectiva en {slot.nombre} ({actividad.materia or actividad.aula}).")
 
     record_id = f"sub-{datetime.now().strftime('%Y%m%d%H%M%S')}-{str(uuid.uuid4())[:4]}"
 
@@ -252,16 +387,15 @@ def assign_substitution():
         profesor_sustituto_nombre=sustituto.nombre,
         profesor_sustituto_telefono=sustituto.telefono,
         profesor_sustituto_email=sustituto.email,
-        aula=aula,
-        curso_grupo=curso_grupo,
-        materia=materia,
-        observaciones=observaciones,
+        aula=aula or "Aula asignada",
+        curso_grupo=curso_grupo or "",
+        materia=materia or "",
+        observaciones=observaciones or "",
         estado="ASIGNADA"
     )
 
     db.add_substitution(record)
 
-    # Generar enlaces listos para usar
     calendar_url = CalendarService.generate_google_calendar_url(record, slot)
     calendar_view_url = CalendarService.get_calendar_view_url()
     whatsapp_url = WhatsAppService.generate_whatsapp_url(record, slot)
@@ -269,9 +403,10 @@ def assign_substitution():
     email_url = EmailService.generate_mailto_url(record, slot)
     email_body = EmailService.format_email_body(record, slot)
 
-    return jsonify({
-        "success": True,
+    return {
         "record": record.to_dict(),
+        "hora_inicio": slot.hora_inicio,
+        "hora_fin": slot.hora_fin,
         "calendar_url": calendar_url,
         "calendar_view_url": calendar_view_url,
         "whatsapp_url": whatsapp_url,
@@ -279,6 +414,96 @@ def assign_substitution():
         "email_url": email_url,
         "email_body": email_body,
         "ics_url": f"/api/descargar-ics/{record.id}"
+    }
+
+
+@app.route("/api/asignar-sustitucion", methods=["POST"])
+def assign_substitution():
+    """
+    Confirma y guarda una sustitución individual, generando los enlaces de Calendar, Email y WhatsApp.
+    """
+    data = request.json or {}
+    fecha = data.get("fecha")
+    periodo_id = data.get("periodo_id")
+    profesor_ausente_id = data.get("profesor_ausente_id")
+    profesor_sustituto_id = data.get("profesor_sustituto_id")
+    aula = data.get("aula", "Sin aula")
+    curso_grupo = data.get("curso_grupo", "")
+    materia = data.get("materia", "")
+    observaciones = data.get("observaciones", "")
+
+    if not all([fecha, periodo_id, profesor_ausente_id, profesor_sustituto_id]):
+        return jsonify({"error": "Faltan campos obligatorios para la asignación"}), 400
+
+    try:
+        res = _crear_registro_sustitucion(
+            fecha=fecha,
+            periodo_id=periodo_id,
+            profesor_ausente_id=profesor_ausente_id,
+            profesor_sustituto_id=profesor_sustituto_id,
+            aula=aula,
+            curso_grupo=curso_grupo,
+            materia=materia,
+            observaciones=observaciones
+        )
+        res["success"] = True
+        return jsonify(res)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+
+@app.route("/api/asignar-sustituciones-multiple", methods=["POST"])
+def assign_substitutions_multiple():
+    """
+    Confirma y guarda varias sustituciones al mismo tiempo (varias horas o día completo),
+    devolviendo los enlaces individuales de Calendar y Correo para cada profesor sustituto.
+    """
+    data = request.json or {}
+    fecha = data.get("fecha")
+    profesor_ausente_id = data.get("profesor_ausente_id")
+    observaciones_globales = data.get("observaciones", "")
+    asignaciones = data.get("asignaciones", [])
+
+    if not fecha or not profesor_ausente_id or not asignaciones:
+        return jsonify({"error": "Faltan datos obligatorios para asignar las sustituciones."}), 400
+
+    asignadas = []
+    errores = []
+
+    for item in asignaciones:
+        periodo_id = item.get("periodo_id")
+        profesor_sustituto_id = item.get("profesor_sustituto_id")
+        if not periodo_id or not profesor_sustituto_id:
+            continue
+
+        aula = item.get("aula") or "Aula asignada"
+        curso_grupo = item.get("curso_grupo") or ""
+        materia = item.get("materia") or ""
+        obs = item.get("observaciones") if item.get("observaciones") is not None else observaciones_globales
+
+        try:
+            creada = _crear_registro_sustitucion(
+                fecha=fecha,
+                periodo_id=periodo_id,
+                profesor_ausente_id=profesor_ausente_id,
+                profesor_sustituto_id=profesor_sustituto_id,
+                aula=aula,
+                curso_grupo=curso_grupo,
+                materia=materia,
+                observaciones=obs
+            )
+            asignadas.append(creada)
+        except ValueError as e:
+            errores.append({"periodo_id": periodo_id, "error": str(e)})
+
+    if not asignadas and errores:
+        return jsonify({"error": errores[0]["error"], "errores": errores}), 400
+
+    return jsonify({
+        "success": True,
+        "asignadas": asignadas,
+        "errores": errores,
+        "calendar_view_url": CalendarService.get_calendar_view_url()
     })
 
 @app.route("/api/sustituciones", methods=["GET"])

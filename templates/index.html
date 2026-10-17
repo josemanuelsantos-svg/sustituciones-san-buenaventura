@@ -222,19 +222,41 @@
               <input type="hidden" id="input-fecha" required>
             </div>
 
-            <!-- 2. Selector Visual de Tramo Horario (1-Clic) + Select sincronizado -->
+            <!-- 2. Selector Visual de Tramos Horarios (Multi-selección + Día Completo) -->
             <div>
               <div class="flex items-center justify-between mb-1.5">
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">2. Hora / Tramo Lectivo</label>
-                <span class="text-[10px] text-slate-400 font-medium">Clic rápido</span>
-              </div>
-              
-              <!-- Botonera rápida de tramos 1H a 6H -->
-              <div id="pills-tramos" class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 mb-2">
-                <!-- Generado dinámicamente por app.js -->
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">2. Horas / Tramos a Sustituir</label>
+                <span id="badge-horas-seleccionadas" class="text-[10px] font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-200">Ninguna seleccionada</span>
               </div>
 
-              <select id="select-tramo" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 focus:bg-white focus:outline-none transition">
+              <!-- Botones rápidos de selección múltiple -->
+              <div class="grid grid-cols-4 gap-1.5 mb-2">
+                <button type="button" onclick="seleccionarPresetTramos('DIA_COMPLETO')" class="py-1.5 px-2 rounded-xl text-[10px] font-extrabold bg-gradient-to-r from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 text-amber-900 border border-amber-300/80 shadow-2xs transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="ph-fill ph-sun text-amber-500 text-xs"></i>
+                  <span>Día Completo</span>
+                </button>
+                <button type="button" onclick="seleccionarPresetTramos('MANANA')" class="py-1.5 px-2 rounded-xl text-[10px] font-bold bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="ph-bold ph-sun-horizon text-indigo-500 text-xs"></i>
+                  <span>Mañana (1H-4H)</span>
+                </button>
+                <button type="button" onclick="seleccionarPresetTramos('TARDE')" class="py-1.5 px-2 rounded-xl text-[10px] font-bold bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-800 border border-slate-200 hover:border-indigo-200 transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="ph-bold ph-moon-stars text-indigo-500 text-xs"></i>
+                  <span>Tarde (5H-6H)</span>
+                </button>
+                <button type="button" onclick="seleccionarPresetTramos('LIMPIAR')" class="py-1.5 px-2 rounded-xl text-[10px] font-semibold bg-white hover:bg-rose-50 text-slate-400 hover:text-rose-600 border border-slate-200 hover:border-rose-200 transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="ph-bold ph-x text-xs"></i>
+                  <span>Limpiar</span>
+                </button>
+              </div>
+              
+              <!-- Botonera multi-selección de tramos 1H a 6H -->
+              <div id="pills-tramos" class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 mb-1.5">
+                <!-- Generado dinámicamente por app.js -->
+              </div>
+              <p class="text-[10px] text-slate-400 font-medium">💡 Pulsa una o varias horas (o «Día Completo») para cubrir varias sesiones a la vez.</p>
+
+              <!-- Select oculto sincronizado por compatibilidad -->
+              <select id="select-tramo" class="hidden">
                 <option value="">Selecciona hora / tramo...</option>
               </select>
             </div>
@@ -250,12 +272,12 @@
                 <i class="ph-bold ph-caret-down absolute right-3.5 top-3 text-slate-400 text-xs pointer-events-none"></i>
               </div>
 
-              <!-- Indicador inteligente de clase detectada -->
+              <!-- Indicador inteligente de clase(s) detectada(s) -->
               <div id="badge-clase-detectada" class="hidden mt-2 p-2.5 rounded-xl border text-xs transition-all"></div>
             </div>
 
-            <!-- 4. Aula, Grupo y Materia (Autocompletados) -->
-            <div class="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 space-y-3">
+            <!-- 4. Aula, Grupo y Materia (Autocompletados cuando es 1 tramo; automático por hora en multi-tramo) -->
+            <div id="box-datos-sesion-unica" class="p-3.5 bg-slate-50/80 rounded-2xl border border-slate-200/80 space-y-3">
               <div class="flex items-center justify-between">
                 <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Datos de la sesión (Autocompletado)</span>
                 <span class="text-[10px] text-indigo-600 font-semibold flex items-center gap-0.5"><i class="ph-fill ph-magic-wand"></i> Automático</span>
@@ -284,7 +306,7 @@
 
             <button type="submit" id="btn-buscar" class="w-full py-3.5 px-5 bg-gradient-to-r from-[#132a56] via-indigo-700 to-blue-700 hover:from-indigo-800 hover:to-blue-800 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 text-sm cursor-pointer active:scale-[0.99]">
               <i class="ph-fill ph-sparkle text-amber-300 text-lg"></i>
-              <span>Buscar Sustituto Idóneo</span>
+              <span id="btn-buscar-texto">Buscar Sustituto Idóneo</span>
             </button>
           </form>
         </div>
@@ -299,7 +321,7 @@
             </div>
             <h3 class="text-lg font-extrabold text-slate-900">Motor de Sustituciones Preparado</h3>
             <p class="text-xs sm:text-sm text-slate-500 max-w-md mt-1.5 leading-relaxed">
-              Selecciona la <strong>fecha</strong>, el <strong>tramo horario</strong> y el <strong>profesor ausente</strong>. El sistema detectará automáticamente su aula y asignatura y te propondrá al sustituto óptimo.
+              Selecciona la <strong>fecha</strong>, <strong>una o varias horas</strong> (o <strong>Día Completo</strong>) y el <strong>profesor ausente</strong>. El sistema detectará sus clases en cada tramo y te propondrá los sustitutos idóneos.
             </p>
 
             <!-- Escalafón visual de prelación oficial -->
@@ -331,11 +353,11 @@
           <!-- Spinner Cargando -->
           <div id="panel-cargando" class="hidden bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm">
             <div class="inline-block animate-spin rounded-full h-11 w-11 border-4 border-indigo-600 border-t-transparent mb-3"></div>
-            <p class="text-sm font-bold text-slate-800">Evaluando cuadrante y disponibilidad...</p>
-            <p class="text-xs text-slate-400 mt-1">Comprobando clases lectivas y orden de prioridad</p>
+            <p class="text-sm font-bold text-slate-800">Evaluando cuadrante y disponibilidad por cada hora...</p>
+            <p class="text-xs text-slate-400 mt-1">Comprobando clases lectivas y orden de prioridad oficial</p>
           </div>
 
-          <!-- Panel de Resultados -->
+          <!-- Panel de Resultados (1 Tramo) -->
           <div id="panel-resultados" class="hidden space-y-4 animate-fade-in">
             
             <!-- TARJETA DESTACADA: RECOMENDADO -->
@@ -415,7 +437,52 @@
 
           </div>
 
-          <!-- PANEL DE ÉXITO TRAS ASIGNAR (ACCIONES CALENDAR + WHATSAPP + EMAIL) -->
+          <!-- PANEL DE RESULTADOS MÚLTIPLES (VARIAS HORAS O DÍA COMPLETO) -->
+          <div id="panel-resultados-multiple" class="hidden space-y-4 animate-fade-in">
+            <!-- Cabecera resumen multi-hora con botón de confirmación global -->
+            <div class="bg-gradient-to-br from-[#0c1d3d] via-[#172e5c] to-indigo-950 text-white rounded-3xl p-5 sm:p-6 shadow-xl border border-indigo-500/30">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="bg-amber-400 text-slate-950 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                      <i class="ph-fill ph-stack"></i> Planificación Multi-Hora
+                    </span>
+                    <span id="multi-resumen-fecha" class="text-xs text-blue-200 font-semibold"></span>
+                  </div>
+                  <h3 class="text-lg sm:text-xl font-extrabold text-white mt-1.5">
+                    Propuesta de Sustitutos por Hora para <span id="multi-nombre-ausente" class="text-amber-300 underline decoration-amber-400/40"></span>
+                  </h3>
+                  <p class="text-xs text-blue-200/90 mt-1">
+                    Revisa o cambia el sustituto propuesto en cada tramo y confirma todas las horas seleccionadas a la vez.
+                  </p>
+                </div>
+
+                <button type="button" onclick="confirmarSustitucionesMultiples()" id="btn-confirmar-todas-top" class="py-3 px-5 bg-gradient-to-r from-emerald-400 to-emerald-500 hover:from-emerald-300 hover:to-emerald-400 text-slate-950 font-extrabold rounded-2xl shadow-lg hover:shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer active:scale-95 text-xs sm:text-sm">
+                  <i class="ph-bold ph-checks text-lg"></i>
+                  <span id="lbl-btn-confirmar-todas">Confirmar Horas Seleccionadas</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de tarjetas por cada hora seleccionada -->
+            <div id="lista-tramos-multiple" class="space-y-3.5">
+              <!-- Inyectado dinámicamente por app.js -->
+            </div>
+
+            <!-- Botón inferior para confirmar todas las horas -->
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+              <div class="text-xs text-slate-600 font-medium flex items-center gap-2">
+                <i class="ph-fill ph-info text-indigo-600 text-base"></i>
+                <span>Tras confirmar, podrás enviar el <strong>correo individual</strong> y marcar en <strong>Google Calendar</strong> a cada sustituto.</span>
+              </div>
+              <button type="button" onclick="confirmarSustitucionesMultiples()" class="w-full sm:w-auto py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-extrabold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer text-xs sm:text-sm">
+                <i class="ph-bold ph-checks text-lg"></i>
+                <span>Confirmar y Generar Avisos Individuales</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PANEL DE ÉXITO TRAS ASIGNAR (1 HORA O MÚLTIPLES HORAS CON ACCIONES INDIVIDUALES) -->
           <div id="panel-confirmacion" class="hidden bg-white rounded-3xl border-2 border-emerald-500 p-6 shadow-xl space-y-5 animate-fade-in">
             <div class="flex flex-wrap items-start justify-between gap-3 border-b border-slate-100 pb-4">
               <div class="flex items-center space-x-3.5">
@@ -423,98 +490,114 @@
                   <i class="ph-fill ph-check-circle"></i>
                 </div>
                 <div>
-                  <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Registrada Correctamente</span>
-                  <h3 class="text-lg font-extrabold text-slate-900 mt-0.5">¡Sustitución Asignada!</h3>
+                  <span id="conf-badge-superior" class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">Registrada Correctamente</span>
+                  <h3 id="conf-titulo" class="text-lg font-extrabold text-slate-900 mt-0.5">¡Sustitución Asignada!</h3>
                   <p class="text-xs font-medium text-slate-600 mt-0.5" id="conf-resumen"></p>
                 </div>
               </div>
               <button onclick="nuevaSustitucion()" class="text-xs font-bold text-indigo-700 hover:text-white bg-indigo-50 hover:bg-indigo-600 px-3.5 py-2 rounded-xl border border-indigo-200 transition flex items-center gap-1.5 cursor-pointer">
-                <i class="ph-bold ph-plus"></i> Asignar otra hora
+                <i class="ph-bold ph-plus"></i> Nueva sustitución
               </button>
             </div>
 
-            <!-- BOTONES DE ACCIÓN DIRECTA -->
-            <div>
-              <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">Notificar y sincronizar con 1 clic:</div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                
-                <!-- Botón Google Calendar (Añadir Evento + Invitar por Email) -->
-                <a id="btn-calendar" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl border-2 border-blue-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/60 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition group shadow-xs">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
-                      <i class="ph-bold ph-calendar-plus"></i>
-                    </div>
-                    <div class="text-left">
-                      <div class="text-xs font-extrabold text-slate-900 group-hover:text-blue-950">1. Añadir a Google Calendar</div>
-                      <div class="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
-                        <i class="ph-fill ph-paper-plane-tilt"></i> Invita y envía aviso por email
+            <!-- CONTENEDOR MODO 1 HORA -->
+            <div id="conf-modo-unico" class="space-y-4">
+              <div>
+                <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">Notificar y sincronizar con 1 clic:</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  
+                  <!-- Botón Google Calendar (Añadir Evento + Invitar por Email) -->
+                  <a id="btn-calendar" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl border-2 border-blue-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/60 hover:from-blue-100 hover:to-indigo-100 hover:border-blue-400 transition group shadow-xs">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
+                        <i class="ph-bold ph-calendar-plus"></i>
+                      </div>
+                      <div class="text-left">
+                        <div class="text-xs font-extrabold text-slate-900 group-hover:text-blue-950">1. Añadir a Google Calendar</div>
+                        <div class="text-[11px] text-emerald-700 font-bold flex items-center gap-1">
+                          <i class="ph-fill ph-paper-plane-tilt"></i> Invita y envía aviso por email
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <i class="ph-bold ph-arrow-square-out text-blue-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
-                </a>
+                    <i class="ph-bold ph-arrow-square-out text-blue-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
+                  </a>
 
-                <!-- Botón WhatsApp -->
-                <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 hover:border-emerald-300 transition group shadow-xs">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
-                      <i class="ph-bold ph-whatsapp-logo"></i>
+                  <!-- Botón Email Institucional Directo -->
+                  <a id="btn-email" href="#" class="flex items-center justify-between p-4 rounded-2xl border-2 border-violet-200 bg-violet-50/60 hover:bg-violet-100 hover:border-violet-400 transition group shadow-xs">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-10 h-10 rounded-xl bg-violet-600 text-white flex items-center justify-center text-xl shadow-md flex-shrink-0 group-hover:scale-105 transition">
+                        <i class="ph-bold ph-envelope-simple"></i>
+                      </div>
+                      <div class="text-left">
+                        <div class="text-xs font-extrabold text-slate-900 group-hover:text-violet-950">2. Enviar Correo Individual</div>
+                        <div id="btn-email-sub" class="text-[10px] text-violet-700 font-bold truncate max-w-[170px]">@sanbuenaventura.org</div>
+                      </div>
                     </div>
-                    <div class="text-left">
-                      <div class="text-xs font-extrabold text-slate-900 group-hover:text-emerald-950">2. Enviar por WhatsApp</div>
-                      <div class="text-[11px] text-slate-500">Mensaje directo pre-rellenado</div>
-                    </div>
-                  </div>
-                  <i class="ph-bold ph-arrow-square-out text-emerald-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
-                </a>
+                    <i class="ph-bold ph-arrow-square-out text-violet-600 text-lg group-hover:translate-x-0.5 transition-transform"></i>
+                  </a>
 
-                <!-- Botón Email Institucional Directo -->
-                <a id="btn-email" href="#" class="flex items-center justify-between p-3.5 rounded-2xl border border-violet-200 bg-violet-50/60 hover:bg-violet-100 hover:border-violet-300 transition group shadow-xs">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
-                      <i class="ph-bold ph-envelope-simple"></i>
+                  <!-- Botón WhatsApp -->
+                  <a id="btn-whatsapp" href="#" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-2xl border border-emerald-200 bg-emerald-50/70 hover:bg-emerald-100 hover:border-emerald-300 transition group shadow-xs">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
+                        <i class="ph-bold ph-whatsapp-logo"></i>
+                      </div>
+                      <div class="text-left">
+                        <div class="text-xs font-bold text-slate-900 group-hover:text-emerald-950">Enviar por WhatsApp</div>
+                        <div class="text-[10px] text-slate-500">Mensaje directo pre-rellenado</div>
+                      </div>
                     </div>
-                    <div class="text-left">
-                      <div class="text-xs font-bold text-slate-900 group-hover:text-violet-950">Abrir Cliente de Correo</div>
-                      <div id="btn-email-sub" class="text-[10px] text-violet-700 font-medium truncate max-w-[160px]">@sanbuenaventura.org</div>
-                    </div>
-                  </div>
-                  <i class="ph-bold ph-arrow-square-out text-violet-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-                </a>
+                    <i class="ph-bold ph-arrow-square-out text-emerald-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
+                  </a>
 
-                <!-- Botón Ver Calendario Oficial Completo -->
-                <a id="btn-calendar-view" href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 transition group shadow-xs">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-9 h-9 rounded-xl bg-slate-700 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
-                      <i class="ph-bold ph-calendar"></i>
+                  <!-- Botón Ver Calendario Oficial Completo -->
+                  <a id="btn-calendar-view" href="https://calendar.google.com/calendar/u/0?cid=c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 hover:border-slate-300 transition group shadow-xs">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-9 h-9 rounded-xl bg-slate-700 text-white flex items-center justify-center text-lg shadow-sm flex-shrink-0">
+                        <i class="ph-bold ph-calendar"></i>
+                      </div>
+                      <div class="text-left">
+                        <div class="text-xs font-bold text-slate-900">Ver Calendario del Centro</div>
+                        <div class="text-[10px] text-slate-500">Vista mensual San Buenaventura</div>
+                      </div>
                     </div>
-                    <div class="text-left">
-                      <div class="text-xs font-bold text-slate-900">Ver Calendario del Centro</div>
-                      <div class="text-[10px] text-slate-500">Vista mensual San Buenaventura</div>
-                    </div>
-                  </div>
-                  <i class="ph-bold ph-arrow-square-out text-slate-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
-                </a>
+                    <i class="ph-bold ph-arrow-square-out text-slate-600 text-base group-hover:translate-x-0.5 transition-transform"></i>
+                  </a>
 
+                </div>
+              </div>
+
+              <!-- Vista previa del mensaje de WhatsApp -->
+              <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/90">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                    <i class="ph-fill ph-chat-circle-text text-emerald-600 text-sm"></i> Texto listo para enviar o copiar
+                  </span>
+                  <div class="flex items-center gap-2">
+                    <a id="btn-ics" href="#" download class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-indigo-50 transition">
+                      <i class="ph-bold ph-download-simple"></i> .ics
+                    </a>
+                    <button onclick="copiarMensajeWA()" class="text-xs font-bold text-slate-700 hover:text-slate-950 bg-white hover:bg-amber-50 border border-slate-300 px-3 py-1 rounded-lg shadow-2xs flex items-center gap-1.5 transition cursor-pointer">
+                      <i class="ph-bold ph-copy"></i> Copiar texto
+                    </button>
+                  </div>
+                </div>
+                <pre id="pre-whatsapp" class="text-xs text-slate-700 whitespace-pre-wrap font-sans bg-white p-3 rounded-xl border border-slate-200/80 max-h-36 overflow-y-auto leading-relaxed"></pre>
               </div>
             </div>
 
-            <!-- Vista previa del mensaje de WhatsApp -->
-            <div class="bg-slate-50 rounded-2xl p-3.5 border border-slate-200/90">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                  <i class="ph-fill ph-chat-circle-text text-emerald-600 text-sm"></i> Texto listo para enviar o copiar
-                </span>
-                <div class="flex items-center gap-2">
-                  <a id="btn-ics" href="#" download class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-indigo-50 transition">
-                    <i class="ph-bold ph-download-simple"></i> .ics
-                  </a>
-                  <button onclick="copiarMensajeWA()" class="text-xs font-bold text-slate-700 hover:text-slate-950 bg-white hover:bg-amber-50 border border-slate-300 px-3 py-1 rounded-lg shadow-2xs flex items-center gap-1.5 transition cursor-pointer">
-                    <i class="ph-bold ph-copy"></i> Copiar texto
-                  </button>
+            <!-- CONTENEDOR MODO MÚLTIPLES HORAS (ACCIONES INDIVIDUALES POR CADA SUSTITUTO Y HORA) -->
+            <div id="conf-modo-multiple" class="hidden space-y-4">
+              <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-xs text-indigo-950 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                  <i class="ph-fill ph-paper-plane-tilt text-indigo-600 text-lg shrink-0"></i>
+                  <span>Pulsa en <strong>«Calendar + Invitar»</strong> y <strong>«Enviar Correo»</strong> en cada hora para notificar y agendar individualmente a cada profesor sustituto:</span>
                 </div>
               </div>
-              <pre id="pre-whatsapp" class="text-xs text-slate-700 whitespace-pre-wrap font-sans bg-white p-3 rounded-xl border border-slate-200/80 max-h-36 overflow-y-auto leading-relaxed"></pre>
+
+              <div id="lista-confirmacion-multiple" class="space-y-3">
+                <!-- Tarjetas individuales por hora generadas por app.js -->
+              </div>
             </div>
 
           </div>
