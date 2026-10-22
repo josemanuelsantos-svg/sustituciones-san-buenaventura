@@ -83,7 +83,39 @@ document.addEventListener("DOMContentLoaded", () => {
   inicializarFecha();
   cargarDatosIniciales();
   configurarListeners();
+  iniciarSaludoLider();
 });
+
+// ===============================================
+// SALUDO IMPERIAL DEL LÍDER AL ENTRAR
+// ===============================================
+
+function iniciarSaludoLider() {
+  const modal = document.getElementById("modal-bienvenida-lider");
+  const nombreEl = document.getElementById("lider-saludo-nombre");
+  if (!modal) return;
+
+  const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
+  const nombre = esInfantil ? "Elena" : "Bea";
+  if (nombreEl) {
+    nombreEl.textContent = `¡Hola, ${nombre}!`;
+  }
+
+  // Mostrar el mensaje imperial de bienvenida al entrar tras breve delay
+  setTimeout(() => {
+    modal.classList.remove("hidden");
+  }, 350);
+}
+
+function cerrarModalLider() {
+  const modal = document.getElementById("modal-bienvenida-lider");
+  if (!modal) return;
+  modal.classList.add("hidden");
+
+  const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
+  const nombre = esInfantil ? "Elena" : "Bea";
+  showToast(`🫡 ¡Sumisión aceptada, ${nombre}! Tu líder te saluda: ¡¡VIVA EL LÍDER!!`, "success");
+}
 
 // ===============================================
 // SISTEMA DE NOTIFICACIONES TOAST Y UTILIDADES
