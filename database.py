@@ -246,6 +246,8 @@ class Database:
             ]
 
     def get_teacher(self, teacher_id: str) -> Optional[Teacher]:
+        if teacher_id and teacher_id.lower() in ["colivares", "casandra_olivares"]:
+            teacher_id = "jos7"
         with self._get_connection() as conn:
             cur = conn.cursor()
             cur.execute("SELECT id, nombre, telefono, email, departamento, etapa, activo, sustituciones_realizadas FROM profesores WHERE id = ?", (teacher_id,))
@@ -281,6 +283,8 @@ class Database:
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
 
     def update_teacher_substitution_count(self, teacher_id: str, delta: int = 1):
+        if teacher_id and teacher_id.lower() in ["colivares", "casandra_olivares"]:
+            teacher_id = "jos7"
         with self._get_connection() as conn:
             conn.execute("""
                 UPDATE profesores
@@ -342,6 +346,8 @@ class Database:
         self._sync_json(self.schedules_file, [s.to_dict() for s in schedules])
 
     def get_schedule_for_teacher(self, teacher_id: str) -> List[ScheduleItem]:
+        if teacher_id and teacher_id.lower() in ["colivares", "casandra_olivares"]:
+            teacher_id = "jos7"
         with self._get_connection() as conn:
             cur = conn.cursor()
             cur.execute("""
@@ -365,6 +371,8 @@ class Database:
             ]
 
     def get_slot_activity_for_teacher(self, teacher_id: str, dia_semana: int, periodo_id: str) -> Optional[ScheduleItem]:
+        if teacher_id and teacher_id.lower() in ["colivares", "casandra_olivares"]:
+            teacher_id = "jos7"
         with self._get_connection() as conn:
             cur = conn.cursor()
             cur.execute("""

@@ -63,7 +63,7 @@ PROFESORES_INFO = {
     "J326":  {"nombre": "Julia Rodríguez Gutiérrez", "depto": "Tutoría / General", "etapa": "Primaria"},
     "J414":  {"nombre": "Jose Antonio Utrillas Sánchez", "depto": "Tutoría / General", "etapa": "Primaria"},
     "J784":  {"nombre": "Juan Antonio Alfonso Pizarro", "depto": "Educación Física / General", "etapa": "Primaria"},
-    "JOS7":  {"nombre": "José Manuel Santos Alejano", "depto": "Tutoría / General", "etapa": "Primaria"},
+    "JOS7":  {"nombre": "Casandra Olivares", "depto": "Tutoría / General", "etapa": "Primaria"},
     "L681":  {"nombre": "Lorena Moreno Barrigas", "depto": "Tutoría / General", "etapa": "Primaria"},
     "M654":  {"nombre": "Mª Carmen Ibáñez Abad", "depto": "Inglés", "etapa": "Primaria"},
     "M851":  {"nombre": "Mª Belén Hernando Martín", "depto": "Tutoría / General", "etapa": "Primaria"},

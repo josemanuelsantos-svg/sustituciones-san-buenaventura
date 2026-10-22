@@ -156,15 +156,18 @@ class SubstitutionEngine:
             else:
                 # ============================================================
                 # APLICACIÓN INTERNA DEL ORDEN OFICIAL (PRIMARIA)
-                # 1º Isabel Peña
+                # 1º Casandra Olivares (primera línea) e Isabel Peña
                 # 2º Carmen, Pilar F., Pilar P., Cristina D., Paula G.
                 # 3º Bea y Rubén
-                # 4º Jose
+                # 4º Jose Antonio
                 # 5º Belén
                 # 6º Dani y María
                 # ============================================================
-                if pid == "ipena":
+                if pid in ["jos7", "colivares"]:
                     puntuacion = 1000.0
+                    motivos.append("Docente disponible")
+                elif pid == "ipena":
+                    puntuacion = 999.0
                     motivos.append("Docente disponible")
                 elif pid == "m654":
                     puntuacion = 900.0
@@ -184,7 +187,7 @@ class SubstitutionEngine:
                 elif pid in ["bleo0", "r299"]:
                     puntuacion = 500.0
                     motivos.append("Docente disponible")
-                elif pid in ["jos7", "j414"]:
+                elif pid in ["j414"]:
                     puntuacion = 300.0
                     motivos.append("Docente disponible")
                 elif pid == "m851":
