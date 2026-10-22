@@ -27,8 +27,20 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, "static"), "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 @app.route("/")
-def index():
+@app.route("/selector")
+def selector():
+    """Página de selección previa de usuario: Elena (Infantil) o Bea (Primaria)."""
+    return render_template("selector.html")
+
+@app.route("/primaria")
+def portal_primaria():
+    """Portal de gestión de sustituciones de Primaria (Bea)."""
     return render_template("index.html")
+
+@app.route("/infantil")
+def portal_infantil():
+    """Portal de gestión de sustituciones de Infantil (Elena)."""
+    return render_template("infantil.html")
 
 @app.route("/api/initial-data", methods=["GET"])
 def get_initial_data():

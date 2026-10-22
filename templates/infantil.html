@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-emerald-50/40">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sustituciones Infantil (Elena) · Colegio San Buenaventura</title>
+  <!-- Favicon oficial Colegio San Buenaventura -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo_csb.png') }}">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-image: radial-gradient(at 0% 0%, rgba(5, 150, 105, 0.05) 0px, transparent 50%),
+                        radial-gradient(at 100% 0%, rgba(20, 184, 166, 0.05) 0px, transparent 50%);
+    }
+    [x-cloak] { display: none !important; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f0fdf4; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb { background: #a7f3d0; border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6ee7b7; }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeInSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-full text-slate-800 flex flex-col selection:bg-emerald-600 selection:text-white">
+
+  <!-- Header / Navbar Institucional Infantil -->
+  <header class="bg-gradient-to-r from-[#042f2e] via-[#064e3b] to-[#0f766e] text-white shadow-xl border-b-2 border-emerald-400/40 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Identidad de Marca CSB + Saludo Elena -->
+      <div class="flex items-center space-x-3.5 group cursor-pointer" onclick="window.location.href='/infantil'">
+        <div class="w-12 h-12 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-lg ring-2 ring-emerald-400/50 group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+          <img src="{{ url_for('static', filename='img/logo_csb.png') }}" alt="Colegio San Buenaventura" class="w-full h-full object-contain">
+        </div>
+        <div>
+          <div class="flex items-center gap-2.5">
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-white">
+              Colegio San Buenaventura
+            </h1>
+            <span class="text-[11px] bg-gradient-to-r from-emerald-400/25 to-teal-400/25 text-emerald-200 font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-400/40 flex items-center gap-1.5 shadow-2xs">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>Hola, soy Elena · Infantil</span>
+            </span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2 text-xs text-emerald-200/90 mt-0.5">
+            <span>Gestión de Sustituciones · Educación Infantil</span>
+            <span class="hidden sm:inline text-emerald-400/60">•</span>
+            <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-300 bg-white/10 px-2 py-0.2 rounded-md">
+              <i class="ph-fill ph-baby"></i> 3, 4 y 5 años
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegación Principal y Switcher a Primaria -->
+      <nav class="flex flex-wrap items-center gap-1.5 bg-slate-950/40 p-1.5 rounded-2xl border border-white/10 backdrop-blur-xs">
+        <a href="#panel-asignar" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-emerald-950 shadow-md flex items-center gap-1.5">
+          <i class="ph-bold ph-lightning text-amber-500"></i>
+          <span>Portal Infantil</span>
+        </a>
+
+        <a href="https://calendar.google.com/calendar" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white flex items-center gap-1.5 shadow-md hover:shadow-lg transition ml-1 border border-emerald-300/30">
+          <i class="ph-bold ph-calendar-check text-sm"></i>
+          <span class="hidden sm:inline">Google Calendar</span>
+          <i class="ph-bold ph-arrow-up-right text-[11px]"></i>
+        </a>
+
+        <!-- Botón para Cambiar a Primaria (Bea) -->
+        <a href="/primaria" class="px-3 py-2 rounded-xl text-xs font-bold bg-blue-600/30 hover:bg-blue-600/50 text-blue-100 hover:text-white transition flex items-center gap-1.5 border border-blue-400/30 ml-0.5" title="Ir a las sustituciones de Primaria con Bea">
+          <i class="ph-bold ph-arrows-left-right text-amber-300"></i>
+          <span>Ir a Primaria (Bea)</span>
+        </a>
+
+        <!-- Botón Selector -->
+        <a href="/" class="p-2 rounded-xl text-xs font-bold bg-white/10 hover:bg-white/20 text-slate-200 transition" title="Volver al selector de usuarios">
+          <i class="ph-bold ph-house text-sm"></i>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Banner Personalizado de Bienvenida a Elena -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-teal-900 to-[#042f2e] text-white p-6 sm:p-8 shadow-xl border border-emerald-500/30 animate-fade-in">
+      <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-10 -top-10 w-60 h-60 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="flex items-start gap-4 sm:gap-5">
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 via-teal-400 to-emerald-600 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg ring-4 ring-emerald-400/25 shrink-0">
+            E
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-black uppercase tracking-wider text-emerald-300 bg-emerald-950/60 px-3 py-0.5 rounded-full border border-emerald-400/30">
+                Coordinación de Infantil
+              </span>
+              <span class="text-xs text-emerald-200/80">· Colegio San Buenaventura</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">
+              "Hola, soy Elena para el acceso a las sustituciones de Infantil"
+            </h2>
+            <p class="text-sm text-emerald-100/90 mt-2 max-w-2xl leading-relaxed">
+              Este es tu portal dedicado con temática y colores diferenciados para gestionar las ausencias y apoyos de <strong>Educación Infantil (3, 4 y 5 años)</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap md:flex-col gap-2 shrink-0">
+          <a href="/primaria" class="py-2.5 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/20 transition flex items-center justify-center gap-2">
+            <i class="ph-bold ph-arrow-square-out text-amber-300"></i>
+            <span>Ver Portal de Primaria (Bea)</span>
+          </a>
+          <a href="/" class="py-2.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2">
+            <i class="ph-bold ph-arrows-left-right"></i>
+            <span>Cambiar de Usuario</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tarjeta Informativa de la Siguiente Fase (Horarios y Personal Infantil) -->
+    <div class="bg-white rounded-3xl border border-emerald-200 p-6 sm:p-8 shadow-sm space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-2xl shrink-0">
+          <i class="ph-duotone ph-chalkboard"></i>
+        </div>
+        <div>
+          <h3 class="text-lg font-extrabold text-slate-900">
+            Fase de Configuración del Portal de Infantil
+          </h3>
+          <p class="text-xs sm:text-sm text-slate-500">
+            El entorno visual ya está preparado. A continuación cargaremos los datos específicos de tu etapa:
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <div class="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-1.5">
+          <div class="text-xs font-black uppercase text-emerald-800 flex items-center gap-1.5">
+            <i class="ph-fill ph-clock text-emerald-600 text-sm"></i>
+            <span>1. Horarios de Infantil</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Tramos adaptados a las jornadas y rutinas de Infantil (diferentes a las horas lectivas de Primaria).
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-teal-50/60 border border-teal-100 space-y-1.5">
+          <div class="text-xs font-black uppercase text-teal-800 flex items-center gap-1.5">
+            <i class="ph-fill ph-users-three text-teal-600 text-sm"></i>
+            <span>2. Personal de Infantil</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Tutores, especialistas y docentes de apoyo específicos de 3, 4 y 5 años con sus disponibilidades.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-1.5">
+          <div class="text-xs font-black uppercase text-amber-800 flex items-center gap-1.5">
+            <i class="ph-fill ph-sparkle text-amber-600 text-sm"></i>
+            <span>3. Mismo Motor Inteligente</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Cálculo automático de sustitutos, avisos por Google Calendar, correo individual y WhatsApp.
+          </p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-600">
+        <div class="flex items-center gap-2">
+          <i class="ph-fill ph-info text-emerald-600 text-base shrink-0"></i>
+          <span>¿Quieres gestionar ahora las sustituciones de Primaria configuradas con Bea?</span>
+        </div>
+        <a href="/primaria" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0b1936] text-white font-bold hover:bg-blue-900 transition shrink-0">
+          <span>Abrir Portal de Primaria (Bea)</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer Institucional Infantil -->
+  <footer class="border-t border-emerald-200/80 bg-white/80 py-4 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-slate-700">Colegio San Buenaventura</span>
+        <span>•</span>
+        <span>Educación Infantil · Madrid</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span>Gestión de Sustituciones de Elena</span>
+        <span>•</span>
+        <a href="/primaria" class="font-bold text-emerald-700 hover:underline">Ir a Primaria (Bea)</a>
+        <span>•</span>
+        <a href="/" class="font-bold text-slate-600 hover:underline">Cambiar etapa</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
