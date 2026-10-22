@@ -2,6 +2,15 @@
  * Lógica de cliente para el Sistema de Sustituciones Escolares · Colegio San Buenaventura
  */
 
+// Asegurar etapa activa de forma robusta según la URL o contexto
+if (!window.ETAPA_ACTIVA) {
+  if (typeof window !== "undefined" && window.location && window.location.pathname.includes("/infantil")) {
+    window.ETAPA_ACTIVA = "Infantil";
+  } else {
+    window.ETAPA_ACTIVA = "Primaria";
+  }
+}
+
 // Estado global de la aplicación
 let appState = {
   profesores: [],
@@ -739,9 +748,11 @@ async function cargarDatosIniciales() {
 }
 
 function actualizarKPIs() {
+  const etapaActual = window.ETAPA_ACTIVA || "Primaria";
   const kpiProf = document.getElementById("kpi-total-profesores");
   const kpiTotal = document.getElementById("kpi-sustituciones-total");
-  if (kpiProf) kpiProf.textContent = appState.profesores.length;
+  const profsEtapa = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
+  if (kpiProf) kpiProf.textContent = profsEtapa.length;
   if (kpiTotal) kpiTotal.textContent = appState.sustituciones.length;
 }
 
@@ -793,7 +804,9 @@ function actualizarSustitucionesDelDia() {
 }
 
 function poblarSelects() {
-  // 1. Select y Pills de tramos
+  const etapaActual = window.ETAPA_ACTIVA || "Primaria";
+
+  // 1. Select y Pills de tramos (filtrados estrictamente por etapa)
   const selectTramo = document.getElementById("select-tramo");
   const pillsContainer = document.getElementById("pills-tramos");
 
@@ -804,7 +817,9 @@ function poblarSelects() {
     pillsContainer.innerHTML = "";
   }
 
-  appState.tramos.forEach(t => {
+  const tramosFiltrados = (appState.tramos || []).filter(t => !t.etapa || t.etapa === etapaActual);
+
+  tramosFiltrados.forEach(t => {
     if (selectTramo) {
       const option = document.createElement("option");
       option.value = t.id;
@@ -817,7 +832,7 @@ function poblarSelects() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.dataset.tramo = t.id;
-      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50/50 hover:border-emerald-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
       btn.onclick = () => seleccionarTramoRapido(t.id);
       const label = t.id.replace("INF_", "");
       btn.innerHTML = `
@@ -843,7 +858,8 @@ function poblarSelects() {
     selectFiltro.innerHTML = '<option value="todos">-- Vista Global del Claustro --</option>';
   }
 
-  const profsOrdenados = [...appState.profesores].sort((a, b) => a.nombre.localeCompare(b.nombre));
+  const profsFiltrados = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
+  const profsOrdenados = [...profsFiltrados].sort((a, b) => a.nombre.localeCompare(b.nombre));
 
   profsOrdenados.forEach(p => {
     if (selectAusente) {
@@ -1638,6 +1654,7 @@ function renderHorarioProfesor(filtroProfesorId) {
   const verSustitutosDisponibles = checkSoloGuardias ? checkSoloGuardias.checked : true;
 
   const dias = [0, 1, 2, 3, 4]; // Lunes a Viernes
+  const etapaActual = window.ETAPA_ACTIVA || "Primaria";
 
   // Indexar horarios por (dia, periodo, profesor_id)
   const mapaHorario = {};
@@ -1645,7 +1662,10 @@ function renderHorarioProfesor(filtroProfesorId) {
     mapaHorario[`${h.dia_semana}_${h.periodo_id}_${h.profesor_id}`] = h;
   });
 
-  appState.tramos.forEach(tramo => {
+  // Filtrar estrictamente solo los tramos de la etapa activa
+  const tramosEtapa = (appState.tramos || []).filter(t => !t.etapa || t.etapa === etapaActual);
+
+  tramosEtapa.forEach(tramo => {
     const tr = document.createElement("tr");
     tr.className = tramo.es_recreo ? "bg-amber-50/50" : "hover:bg-slate-50/60 transition";
 
@@ -1697,7 +1717,8 @@ function renderHorarioProfesor(filtroProfesorId) {
       // CASO B: Vista Global -> Sustitutos Disponibles ordenados por Prioridad Oficial
       if (verSustitutosDisponibles) {
         const disponiblesEnTramo = [];
-        appState.profesores.forEach(prof => {
+        const profsEtapa = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
+        profsEtapa.forEach(prof => {
           const act = mapaHorario[`${dia}_${tramo.id}_${prof.id}`];
           if (!act || act.tipo_actividad === "DISPONIBLE" || act.tipo_actividad === "GUARDIA_AULA") {
             const pInfo = ORDEN_PRIORIDAD[prof.id] || { orden: 99, nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200", icon: "•" };

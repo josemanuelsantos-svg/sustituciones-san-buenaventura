@@ -46,14 +46,13 @@ def portal_infantil():
 def get_initial_data():
     """Devuelve los datos maestros para inicializar la interfaz rápidamente, filtrable por etapa."""
     etapa = request.args.get("etapa")
+    if not etapa:
+        etapa = "Primaria"
     teachers = db.get_teachers(etapa=etapa)
     slots = db.get_time_slots(etapa=etapa)
     all_subs = db.get_substitutions()
-    if etapa:
-        teacher_ids = {t.id for t in teachers}
-        substitutions = [s for s in all_subs if s.profesor_ausente_id in teacher_ids or s.profesor_sustituto_id in teacher_ids][:10]
-    else:
-        substitutions = all_subs[:10]
+    teacher_ids = {t.id for t in teachers}
+    substitutions = [s for s in all_subs if s.profesor_ausente_id in teacher_ids or s.profesor_sustituto_id in teacher_ids][:10]
     
     # Calcular estadísticas de equidad
     stats = []
@@ -117,6 +116,8 @@ def get_horarios():
     if profesor_id:
         items = db.get_schedule_for_teacher(profesor_id)
     else:
+        if not etapa:
+            etapa = "Primaria"
         items = db.get_schedules(etapa=etapa)
     return jsonify([item.to_dict() for item in items])
 
