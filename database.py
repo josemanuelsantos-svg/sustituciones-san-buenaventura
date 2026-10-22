@@ -221,14 +221,29 @@ class Database:
     def get_teachers(self, active_only: bool = False, etapa: Optional[str] = None) -> List[Teacher]:
         with self._get_connection() as conn:
             cur = conn.cursor()
-            query = "SELECT id, nombre, telefono, email, departamento, etapa, activo, sustituciones_realizadas FROM profesores WHERE 1=1"
+            query = """
+                SELECT p.id, p.nombre, p.telefono, p.email, p.departamento, p.etapa, p.activo,
+                       COALESCE(sub_counts.cnt, 0) AS sustituciones_realizadas
+                FROM profesores p
+                LEFT JOIN (
+                    SELECT profesor_sustituto_id, COUNT(*) as cnt
+                    FROM sustituciones
+                    WHERE estado != 'CANCELADA'
+                    GROUP BY profesor_sustituto_id
+                ) sub_counts ON (
+                    p.id = sub_counts.profesor_sustituto_id COLLATE NOCASE
+                    OR (p.id = 'jos7' AND sub_counts.profesor_sustituto_id COLLATE NOCASE = 'colivares')
+                    OR (p.id = 'cduerto' AND sub_counts.profesor_sustituto_id COLLATE NOCASE = 'cdue1')
+                )
+                WHERE 1=1
+            """
             params = []
             if active_only:
-                query += " AND activo = 1"
+                query += " AND p.activo = 1"
             if etapa:
-                query += " AND etapa = ?"
+                query += " AND p.etapa = ?"
                 params.append(etapa)
-            query += " ORDER BY nombre"
+            query += " ORDER BY p.nombre"
             cur.execute(query, tuple(params))
             rows = cur.fetchall()
             return [
@@ -250,7 +265,24 @@ class Database:
             teacher_id = "jos7"
         with self._get_connection() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, nombre, telefono, email, departamento, etapa, activo, sustituciones_realizadas FROM profesores WHERE id = ?", (teacher_id,))
+            query = """
+                SELECT p.id, p.nombre, p.telefono, p.email, p.departamento, p.etapa, p.activo,
+                       COALESCE(sub_counts.cnt, 0) AS sustituciones_realizadas
+                FROM profesores p
+                LEFT JOIN (
+                    SELECT profesor_sustituto_id, COUNT(*) as cnt
+                    FROM sustituciones
+                    WHERE estado != 'CANCELADA'
+                    GROUP BY profesor_sustituto_id
+                ) sub_counts ON (
+                    p.id = sub_counts.profesor_sustituto_id COLLATE NOCASE
+                    OR (p.id = 'jos7' AND sub_counts.profesor_sustituto_id COLLATE NOCASE = 'colivares')
+                    OR (p.id = 'cduerto' AND sub_counts.profesor_sustituto_id COLLATE NOCASE = 'cdue1')
+                )
+                WHERE p.id = ? COLLATE NOCASE
+                LIMIT 1
+            """
+            cur.execute(query, (teacher_id,))
             r = cur.fetchone()
             if r:
                 return Teacher(
@@ -476,12 +508,20 @@ class Database:
                 record.profesor_sustituto_nombre, record.profesor_sustituto_telefono, record.profesor_sustituto_email,
                 record.aula, record.curso_grupo, record.materia, record.observaciones, record.estado, record.creado_en
             ))
-            # Incrementar contador de sustituciones del profesor
+            # Sincronizar contador de sustituciones del profesor
             conn.execute("""
                 UPDATE profesores
-                SET sustituciones_realizadas = sustituciones_realizadas + 1
-                WHERE id = ?
-            """, (record.profesor_sustituto_id,))
+                SET sustituciones_realizadas = (
+                    SELECT COUNT(*) FROM sustituciones 
+                    WHERE (profesor_sustituto_id = profesores.id COLLATE NOCASE
+                           OR (profesores.id = 'jos7' AND profesor_sustituto_id COLLATE NOCASE = 'colivares')
+                           OR (profesores.id = 'cduerto' AND profesor_sustituto_id COLLATE NOCASE = 'cdue1'))
+                      AND estado != 'CANCELADA'
+                )
+                WHERE id = ? COLLATE NOCASE
+                   OR (id = 'jos7' AND ? COLLATE NOCASE = 'colivares')
+                   OR (id = 'cduerto' AND ? COLLATE NOCASE = 'cdue1')
+            """, (record.profesor_sustituto_id, record.profesor_sustituto_id, record.profesor_sustituto_id))
         
         self._sync_json(self.substitutions_file, [r.to_dict() for r in self.get_substitutions()])
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
@@ -499,9 +539,17 @@ class Database:
             conn.execute("DELETE FROM sustituciones WHERE id = ?", (record_id,))
             conn.execute("""
                 UPDATE profesores
-                SET sustituciones_realizadas = MAX(0, sustituciones_realizadas - 1)
-                WHERE id = ?
-            """, (sustituto_id,))
+                SET sustituciones_realizadas = (
+                    SELECT COUNT(*) FROM sustituciones 
+                    WHERE (profesor_sustituto_id = profesores.id COLLATE NOCASE
+                           OR (profesores.id = 'jos7' AND profesor_sustituto_id COLLATE NOCASE = 'colivares')
+                           OR (profesores.id = 'cduerto' AND profesor_sustituto_id COLLATE NOCASE = 'cdue1'))
+                      AND estado != 'CANCELADA'
+                )
+                WHERE id = ? COLLATE NOCASE
+                   OR (id = 'jos7' AND ? COLLATE NOCASE = 'colivares')
+                   OR (id = 'cduerto' AND ? COLLATE NOCASE = 'cdue1')
+            """, (sustituto_id, sustituto_id, sustituto_id))
 
         self._sync_json(self.substitutions_file, [r.to_dict() for r in self.get_substitutions()])
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])

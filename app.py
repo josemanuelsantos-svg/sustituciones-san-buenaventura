@@ -51,8 +51,16 @@ def get_initial_data():
     teachers = db.get_teachers(etapa=etapa)
     slots = db.get_time_slots(etapa=etapa)
     all_subs = db.get_substitutions()
-    teacher_ids = {t.id for t in teachers}
-    substitutions = [s for s in all_subs if s.profesor_ausente_id in teacher_ids or s.profesor_sustituto_id in teacher_ids][:10]
+    teacher_ids = {t.id.lower() for t in teachers}
+    slot_ids = {s.id for s in slots}
+    
+    # Obtener todas las sustituciones de esta etapa sin truncar
+    substitutions = []
+    for s in all_subs:
+        if s.profesor_ausente_id.lower() in teacher_ids or s.profesor_sustituto_id.lower() in teacher_ids or s.periodo_id in slot_ids:
+            substitutions.append(s)
+        elif etapa == "Infantil" and (s.periodo_id.startswith("INF_") or s.profesor_sustituto_id.lower() in ["dasenjo", "mvazquez"]):
+            substitutions.append(s)
     
     # Calcular estadísticas de equidad
     stats = []
@@ -64,6 +72,21 @@ def get_initial_data():
             "etapa": t.etapa,
             "sustituciones": t.sustituciones_realizadas
         })
+
+    # En Infantil, incluir también a los apoyos de Primaria asignados (Dani Asenjo y María Vázquez)
+    if etapa == "Infantil":
+        for ap_id in ["dasenjo", "mvazquez"]:
+            ap = db.get_teacher(ap_id)
+            if ap and ap.id.lower() not in teacher_ids:
+                subs_inf = [s for s in substitutions if s.profesor_sustituto_id.lower() == ap_id and s.estado != "CANCELADA"]
+                stats.append({
+                    "id": ap.id,
+                    "nombre": ap.nombre,
+                    "departamento": "Apoyo Infantil",
+                    "etapa": "Infantil",
+                    "sustituciones": len(subs_inf)
+                })
+
     stats.sort(key=lambda x: x["sustituciones"], reverse=True)
 
     today_str = date.today().isoformat()
@@ -532,11 +555,21 @@ def list_substitutions():
     slots_map = {s.id: s for s in db.get_time_slots()}
     result = []
     teachers = db.get_teachers(etapa=etapa) if etapa else None
-    teacher_ids = {t.id for t in teachers} if teachers else None
+    teacher_ids = {t.id.lower() for t in teachers} if teachers else None
+    stage_slots = {s.id for s in db.get_time_slots(etapa=etapa)} if etapa else None
 
     for s in db.get_substitutions():
-        if teacher_ids and (s.profesor_ausente_id not in teacher_ids and s.profesor_sustituto_id not in teacher_ids):
-            continue
+        if etapa:
+            es_de_etapa = False
+            if teacher_ids and (s.profesor_ausente_id.lower() in teacher_ids or s.profesor_sustituto_id.lower() in teacher_ids):
+                es_de_etapa = True
+            elif stage_slots and s.periodo_id in stage_slots:
+                es_de_etapa = True
+            elif etapa == "Infantil" and (s.periodo_id.startswith("INF_") or s.profesor_sustituto_id.lower() in ["dasenjo", "mvazquez"]):
+                es_de_etapa = True
+            if not es_de_etapa:
+                continue
+
         d = s.to_dict()
         slot = slots_map.get(s.periodo_id)
         d["calendar_url"] = CalendarService.generate_google_calendar_url(s, slot)

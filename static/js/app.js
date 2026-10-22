@@ -751,7 +751,7 @@ function actualizarKPIs() {
   const kpiTotal = document.getElementById("kpi-sustituciones-total");
   const profsEtapa = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
   if (kpiProf) kpiProf.textContent = profsEtapa.length;
-  if (kpiTotal) kpiTotal.textContent = appState.sustituciones.length;
+  if (kpiTotal) kpiTotal.textContent = (appState.sustituciones || []).filter(s => s.estado !== "CANCELADA").length;
 }
 
 function actualizarSustitucionesDelDia() {
@@ -1768,6 +1768,26 @@ function renderEstadisticas() {
   const grid = document.getElementById("grid-estadisticas");
   if (!grid) return;
   grid.innerHTML = "";
+
+  // Conteo directo y reactivo de sustituciones activas
+  const conteoReal = {};
+  (appState.sustituciones || []).forEach(sub => {
+    if (sub.estado !== "CANCELADA" && sub.profesor_sustituto_id) {
+      const pid = sub.profesor_sustituto_id.toLowerCase();
+      conteoReal[pid] = (conteoReal[pid] || 0) + 1;
+      // Normalización de alias
+      if (pid === "colivares") conteoReal["jos7"] = (conteoReal["jos7"] || 0) + 1;
+      if (pid === "cdue1") conteoReal["cduerto"] = (conteoReal["cduerto"] || 0) + 1;
+    }
+  });
+
+  // Asegurar que las estadísticas reflejen exactamente el conteo real
+  (appState.estadisticas || []).forEach(s => {
+    const pid = s.id ? s.id.toLowerCase() : "";
+    if (conteoReal[pid] !== undefined) {
+      s.sustituciones = conteoReal[pid];
+    }
+  });
 
   const maxSust = Math.max(1, ...appState.estadisticas.map(s => s.sustituciones || 0));
 

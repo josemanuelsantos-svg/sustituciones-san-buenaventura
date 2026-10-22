@@ -30,6 +30,16 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "jos7",
+    "nombre": "Casandra Olivares",
+    "telefono": "",
+    "email": "casandraolivares@sanbuenaventura.org",
+    "departamento": "Tutoría / General",
+    "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "cduerto",
     "nombre": "Cristina Duerto",
     "telefono": "",
@@ -130,16 +140,6 @@
     "sustituciones_realizadas": 0
   },
   {
-    "id": "jos7",
-    "nombre": "Casandra Olivares",
-    "telefono": "",
-    "email": "casandraolivares@sanbuenaventura.org",
-    "departamento": "Tutoría / General",
-    "etapa": "Primaria",
-    "activo": true,
-    "sustituciones_realizadas": 0
-  },
-  {
     "id": "j784",
     "nombre": "Juan Antonio Alfonso Pizarro",
     "telefono": "",
@@ -185,16 +185,6 @@
     "telefono": "",
     "email": "martarodriguez@sanbuenaventura.org",
     "departamento": "Tutoría 5 años-C / Inglés",
-    "etapa": "Infantil",
-    "activo": true,
-    "sustituciones_realizadas": 0
-  },
-  {
-    "id": "M111",
-    "nombre": "Paula Lozano",
-    "telefono": "",
-    "email": "paulalozano@sanbuenaventura.org",
-    "departamento": "Música y Robótica (sustituye a Mª Jesús Parras)",
     "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
@@ -286,6 +276,16 @@
     "email": "paulagonzalez@sanbuenaventura.org",
     "departamento": "Primaria",
     "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "M111",
+    "nombre": "Paula Lozano",
+    "telefono": "",
+    "email": "paulalozano@sanbuenaventura.org",
+    "departamento": "Música y Robótica (sustituye a Mª Jesús Parras)",
+    "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
   },
