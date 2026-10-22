@@ -175,12 +175,12 @@
         </div>
 
         <div class="bg-white rounded-2xl border border-emerald-200/80 p-3.5 shadow-xs flex items-center gap-3.5">
-          <div class="w-11 h-11 rounded-xl bg-teal-50 border border-teal-100 text-teal-700 flex items-center justify-center text-xl flex-shrink-0">
-            <i class="ph-duotone ph-sparkle"></i>
+          <div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-xl flex-shrink-0">
+            <i class="ph-duotone ph-crown"></i>
           </div>
           <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Criterio Infantil</div>
-            <div class="text-xs font-bold text-slate-800 truncate">Hueco libre = Disponible</div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Orden Prelación</div>
+            <div class="text-xs font-bold text-slate-800 truncate" title="1º Cristina Duerto o Paula Lozano › 2º Docentes con hueco › 3º Susana/Elena › 4º Dani/María">Cristina / Paula › Con hueco</div>
           </div>
         </div>
 
@@ -370,14 +370,29 @@
               Selecciona la <strong>fecha</strong>, <strong>una o varias horas</strong> (o <strong>Día Completo</strong>) y la <strong>profesora ausente</strong>. El sistema identificará a las docentes con hueco libre en cada tramo y te propondrá la sustituta idónea con reparto equitativo.
             </p>
 
-            <!-- Criterio específico de Infantil -->
+            <!-- Escalafón visual de prelación oficial Infantil -->
             <div class="mt-7 w-full max-w-lg bg-emerald-50/70 border border-emerald-200/80 rounded-2xl p-4 text-left">
-              <div class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 mb-2 flex items-center gap-1.5">
-                <i class="ph-fill ph-sparkle text-emerald-600 text-sm"></i> Regla Oficial de Infantil: Hueco = Disponible
+              <div class="text-[11px] font-extrabold uppercase tracking-wider text-emerald-800 mb-3 flex items-center gap-1.5">
+                <i class="ph-fill ph-crown text-amber-500 text-sm"></i> Orden Oficial de Prelación · Educación Infantil
               </div>
-              <p class="text-xs text-slate-700 leading-relaxed">
-                Siempre que una profesora tenga un hueco libre en su horario, está automáticamente habilitada para sustituir. El motor prioriza de forma equitativa a quien menos sustituciones lleve acumuladas en el curso.
-              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-emerald-200/80">
+                  <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] flex items-center justify-center shrink-0">1º</span>
+                  <span class="font-bold text-slate-800 truncate" title="Cristina Duerto o Paula Lozano (sustituye a María Jesús Parras)">Cristina Duerto / Paula Lozano</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-emerald-200/80">
+                  <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">2º</span>
+                  <span class="font-semibold text-slate-700 truncate" title="Cualquier profesora con hueco libre salvo Susana y Elena">Docentes con hueco libre</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-emerald-200/80">
+                  <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px] flex items-center justify-center shrink-0">3º</span>
+                  <span class="font-medium text-slate-700">Susana López y Elena Díaz</span>
+                </div>
+                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-emerald-200/80">
+                  <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0">4º</span>
+                  <span class="font-medium text-slate-600">Dani Asenjo y María V.</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -688,18 +703,27 @@
           </div>
         </div>
 
-        <!-- Leyenda de colores Infantil -->
+        <!-- Leyenda de prioridades y colores Infantil -->
         <div class="flex flex-wrap items-center justify-between gap-3 text-xs mb-5 p-3.5 bg-emerald-50/50 rounded-2xl border border-emerald-200/80">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="font-extrabold text-slate-700 uppercase text-[11px] tracking-wider">Leyenda de Infantil:</span>
+            <span class="font-extrabold text-slate-700 uppercase text-[11px] tracking-wider">Orden Oficial Infantil:</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-950 font-bold border border-amber-300 text-[11px]">
+              <i class="ph-fill ph-crown text-amber-600"></i> 1º Cristina Duerto / Paula Lozano
+            </span>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-950 font-bold border border-emerald-300 text-[11px]">
-              <i class="ph-fill ph-check-circle text-emerald-600"></i> Disponible para sustituir (Hueco libre)
+              2º Docentes con hueco libre
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-900 font-semibold border border-blue-300 text-[11px]">
+              3º Susana y Elena
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 font-medium border border-slate-300 text-[11px]">
+              4º Dani Asenjo / María V. (Último recurso)
             </span>
             <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-950 font-bold border border-indigo-200 text-[11px]">
-              <i class="ph-fill ph-chalkboard text-indigo-600"></i> Clase lectiva en Infantil
+              <i class="ph-fill ph-chalkboard text-indigo-600"></i> Clase lectiva
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-950 font-semibold border border-amber-300 text-[11px]">
-              ☕ Recreo (10:00-10:30) / Comedor (12:15-14:00)
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-950 font-medium border border-amber-200 text-[11px]">
+              ☕ Recreo / Comedor
             </span>
           </div>
         </div>

@@ -23,8 +23,8 @@ const NOMBRES_MESES = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
 
-// Orden oficial de prioridad del centro (para el cuadrante visual y desempates)
-const ORDEN_PRIORIDAD = {
+// Orden oficial de prioridad por etapa educativa
+const ORDEN_PRIORIDAD_PRIMARIA = {
   "ipena":     { orden: 1, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
   "m654":      { orden: 2, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
   "p740":      { orden: 3, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
@@ -39,6 +39,36 @@ const ORDEN_PRIORIDAD = {
   "dasenjo":   { orden: 12, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" },
   "mvazquez":  { orden: 13, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" }
 };
+
+const ORDEN_PRIORIDAD_INFANTIL = {
+  // 1º Cristina Duerto o Paula Lozano (sustituye a María Jesús Parras)
+  "CDUE1":    { orden: 1, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
+  "M111":     { orden: 2, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
+  // 2º Profesoras con hueco libre (salvo Susana y Elena)
+  "ACAL0":    { orden: 3, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "APER0":    { orden: 4, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "GDEL0":    { orden: 5, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "M251":     { orden: 6, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "MESP0":    { orden: 7, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "M133":     { orden: 8, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  "N637":     { orden: 9, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
+  // 3º Susana y Elena
+  "SUS8":     { orden: 10, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
+  "E587":     { orden: 11, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
+  // 4º Dani Asenjo y María Vázquez (último recurso)
+  "dasenjo":  { orden: 12, nivel: "4º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" },
+  "mvazquez": { orden: 13, nivel: "4º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" }
+};
+
+function getPrioridadDocente(profId) {
+  const map = (window.ETAPA_ACTIVA === "Infantil") ? ORDEN_PRIORIDAD_INFANTIL : ORDEN_PRIORIDAD_PRIMARIA;
+  return map[profId] || { orden: 99, nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200", icon: "•" };
+}
+
+// Proxy transparente para que todo el código existente funcione con la etapa activa
+const ORDEN_PRIORIDAD = new Proxy({}, {
+  get: (target, prop) => getPrioridadDocente(prop)
+});
 
 let calVisual = {
   ano: new Date().getFullYear(),

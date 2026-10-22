@@ -53,9 +53,19 @@ class SubstitutionEngine:
         profesores_ya_ausentes = {s.profesor_ausente_id for s in sustituciones_del_dia}
         profesores_ya_ausentes.add(profesor_ausente_id)
 
-        # Filtrar candidatos de la misma etapa (Infantil o Primaria)
-        etapa_filtro = profesor_ausente.etapa if profesor_ausente else None
-        todos_los_profesores = self.db.get_teachers(active_only=True, etapa=etapa_filtro)
+        # Filtrar candidatos según la etapa educativa (Infantil o Primaria)
+        es_infantil = bool(profesor_ausente and profesor_ausente.etapa and profesor_ausente.etapa.lower() == "infantil")
+
+        if es_infantil:
+            infantil_profesores = self.db.get_teachers(active_only=True, etapa="Infantil")
+            # En Infantil, como último recurso (4º nivel) pueden sustituir Dani Asenjo o María Vázquez
+            extra_ids = ["dasenjo", "mvazquez"]
+            extra_profesores = [t for t in self.db.get_teachers(active_only=True) if t.id.lower() in extra_ids]
+            seen_ids = {t.id for t in infantil_profesores}
+            todos_los_profesores = list(infantil_profesores) + [t for t in extra_profesores if t.id not in seen_ids]
+        else:
+            todos_los_profesores = self.db.get_teachers(active_only=True, etapa="Primaria")
+
         candidatos_evaluados: List[SubstitutionCandidate] = []
         no_disponibles: List[Dict[str, str]] = []
 
@@ -78,7 +88,7 @@ class SubstitutionEngine:
 
             if not horario_slot:
                 # Si no tiene clase registrada en este tramo, significa que tiene un HUECO LIBRE.
-                # Según la norma del centro: "todos los profesores que tengan alguna hora libre... o cualquier otro profesor que tenga un hueco"
+                # Según la norma del centro: "el sustituto siempre debe ser una persona que tuviera alguna hora libre... que tenían algún hueco"
                 tipo_actividad = ActivityType.DISPONIBLE
                 detalle_actividad = "Hueco libre en su horario"
                 es_hueco_libre = True
@@ -87,7 +97,7 @@ class SubstitutionEngine:
                 detalle_actividad = horario_slot.materia or horario_slot.descripcion or tipo_actividad
                 es_hueco_libre = False
 
-            # 4. Filtrar según tipo de actividad
+            # 4. Filtrar según tipo de actividad: debe tener hora libre / hueco (sin clase lectiva)
             if tipo_actividad == ActivityType.LECTIVA:
                 no_disponibles.append({
                     "profesor_id": docente.id,
@@ -112,61 +122,81 @@ class SubstitutionEngine:
                 })
                 continue
 
-            # 5. Si pasa el filtro, es un candidato elegible.
-            # Calculamos su puntuación según el orden de prelación oficial del centro:
-            # 1º Empezando siempre por Isabel, Pilar F, Carmen o cualquier profesor con hueco/guardia
-            # 2º Luego Rubén y Bea
-            # 3º Luego Jose
-            # 4º Luego Dani y María
-            # 5º La última en sustituir es Belén
-            
+            # 5. Si pasa el filtro, es un candidato elegible con hora libre / hueco.
             puntuacion = 0.0
             motivos = []
             pid = docente.id.lower()
 
-            if pid == "ipena":
-                # 1º Isabel Peña
-                puntuacion = 1000.0
-                motivos.append("🌟 Prioridad 1: Isabel Peña (Preferente absoluta)")
-            elif pid == "m654":
-                # 2º Carmen
-                puntuacion = 900.0
-                motivos.append("Prioridad 2: Carmen Ibáñez")
-            elif pid == "p740":
-                # 2º Pilar F
-                puntuacion = 850.0
-                motivos.append("Prioridad 2: Pilar Fuentes")
-            elif pid == "mar1":
-                # 2º Pilar Pérez
-                puntuacion = 800.0
-                motivos.append("Prioridad 2: Pilar Pérez")
-            elif pid == "cduerto":
-                # 2º Cristina Duerto
-                puntuacion = 750.0
-                motivos.append("Prioridad 2: Cristina Duerto")
-            elif pid == "pgonzalez":
-                # 2º Paula González
-                puntuacion = 700.0
-                motivos.append("Prioridad 2: Paula González")
-            elif pid in ["bleo0", "r299"]:
-                # 3º Bea y Rubén
-                puntuacion = 500.0
-                motivos.append("Prioridad 3: Bea / Rubén")
-            elif pid in ["jos7", "j414"]:
-                # 4º José
-                puntuacion = 300.0
-                motivos.append("Prioridad 4: José Manuel")
-            elif pid == "m851":
-                # 5º Belén
-                puntuacion = 200.0
-                motivos.append("Prioridad 5: Belén Hernando")
-            elif pid in ["dasenjo", "mvazquez"]:
-                # 6º Por último: Dani y María
-                puntuacion = 100.0
-                motivos.append("Prioridad 6: Dani / María (Última opción)")
+            if es_infantil:
+                # ============================================================
+                # ORDEN OFICIAL DE PRELACIÓN PARA EDUCACIÓN INFANTIL:
+                # 1º Cristina Duerto (CDUE1) o Paula Lozano (M111 / sustituye a María Jesús Parras)
+                # 2º Cualquier profesora que tenga algún hueco, salvo Susana y Elena
+                # 3º Susana López (SUS8) y Elena Díaz (E587)
+                # 4º Por último, María Vázquez (mvazquez) o Dani Asenjo (dasenjo)
+                # ============================================================
+                if pid in ["cdue1", "cduerto"]:
+                    puntuacion = 1000.0
+                    motivos.append("🌟 Prioridad 1: Cristina Duerto (Preferente Infantil)")
+                elif pid in ["m111", "plozano"]:
+                    puntuacion = 999.0
+                    motivos.append("🌟 Prioridad 1: Paula Lozano (sustituye a Mª Jesús Parras)")
+                elif pid in ["sus8", "e587"]:
+                    puntuacion = 500.0
+                    motivos.append(f"Prioridad 3: {docente.nombre.split()[0]} (Reserva Infantil)")
+                elif pid in ["dasenjo", "mvazquez"]:
+                    puntuacion = 200.0
+                    motivos.append(f"Prioridad 4 (Último recurso): {docente.nombre.split()[0]}")
+                else:
+                    # Cualquier otra profesora de Infantil que tenga hueco libre
+                    puntuacion = 800.0
+                    motivos.append("Prioridad 2: Docente de Infantil con hueco libre")
+                
+                # Desempate equitativo por carga acumulada
+                puntuacion -= (docente.sustituciones_realizadas * 2.0)
             else:
-                puntuacion = 600.0
-                motivos.append("Docente disponible con hueco/guardia")
+                # ============================================================
+                # ORDEN OFICIAL DE PRELACIÓN PARA EDUCACIÓN PRIMARIA:
+                # 1º Isabel Peña
+                # 2º Carmen, Pilar F., Pilar P., Cristina D., Paula G.
+                # 3º Bea y Rubén
+                # 4º Jose
+                # 5º Belén
+                # 6º Dani y María
+                # ============================================================
+                if pid == "ipena":
+                    puntuacion = 1000.0
+                    motivos.append("🌟 Prioridad 1: Isabel Peña (Preferente absoluta)")
+                elif pid == "m654":
+                    puntuacion = 900.0
+                    motivos.append("Prioridad 2: Carmen Ibáñez")
+                elif pid == "p740":
+                    puntuacion = 850.0
+                    motivos.append("Prioridad 2: Pilar Fuentes")
+                elif pid == "mar1":
+                    puntuacion = 800.0
+                    motivos.append("Prioridad 2: Pilar Pérez")
+                elif pid == "cduerto":
+                    puntuacion = 750.0
+                    motivos.append("Prioridad 2: Cristina Duerto")
+                elif pid == "pgonzalez":
+                    puntuacion = 700.0
+                    motivos.append("Prioridad 2: Paula González")
+                elif pid in ["bleo0", "r299"]:
+                    puntuacion = 500.0
+                    motivos.append("Prioridad 3: Bea / Rubén")
+                elif pid in ["jos7", "j414"]:
+                    puntuacion = 300.0
+                    motivos.append("Prioridad 4: José Manuel")
+                elif pid == "m851":
+                    puntuacion = 200.0
+                    motivos.append("Prioridad 5: Belén Hernando")
+                elif pid in ["dasenjo", "mvazquez"]:
+                    puntuacion = 100.0
+                    motivos.append("Prioridad 6: Dani / María (Última opción)")
+                else:
+                    puntuacion = 600.0
+                    motivos.append("Docente disponible con hueco/guardia")
 
             # Detalle del tipo de disponibilidad
             if es_hueco_libre:

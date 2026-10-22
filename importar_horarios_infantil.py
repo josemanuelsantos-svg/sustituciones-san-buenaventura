@@ -88,10 +88,10 @@ PROFESORES_INFANTIL = [
     ),
     Teacher(
         id="M111",
-        nombre="María Jesús Parras Maeso",
+        nombre="Paula Lozano",
         telefono="",
-        email="mariajesusparras@sanbuenaventura.org",
-        departamento="Música y Robótica",
+        email="paulalozano@sanbuenaventura.org",
+        departamento="Música y Robótica (sustituye a Mª Jesús Parras)",
         etapa="Infantil",
         activo=True,
         sustituciones_realizadas=0
