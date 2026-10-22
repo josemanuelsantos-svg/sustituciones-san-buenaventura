@@ -231,6 +231,7 @@ HORARIOS_DOCENTES = {
         (4, "INF_3H"): ("4 años-C", "d179: Descubrimiento y Exploración del Entorno II"),
         (1, "INF_4H"): ("3 años-A", "ING: Lengua extranjera inglés"),
         (2, "INF_4H"): ("3 años-A", "ING: Lengua extranjera inglés"),
+        (3, "INF_3H"): ("4 años-A", "ING: Lengua extranjera inglés"),
         (3, "INF_4H"): ("3 años-C", "ING: Lengua extranjera inglés"),
     },
 
@@ -461,7 +462,6 @@ HORARIOS_DOCENTES = {
         (4, "INF_2H"): ("4 años-A", "REL3: Religión"),
         (0, "INF_3H"): ("4 años-A", "DEE3: Descubrimiento y Exploración del Entorno"),
         (2, "INF_3H"): ("4 años-A", "DEE3: Descubrimiento y Exploración del Entorno"),
-        (3, "INF_3H"): ("4 años-A", "DEE3: Descubrimiento y Exploración del Entorno"),
         (4, "INF_4H"): ("4 años-A", "CRR: Comunicación y representación de la realidad"),
         (0, "INF_5H"): ("4 años-A", "DEE3: Descubrimiento y Exploración del Entorno"),
         (1, "INF_5H"): ("4 años-A", "REL3: Religión"),
