@@ -180,6 +180,15 @@
     "descripcion": "Exento de sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 0,
     "periodo_id": "2H",
@@ -358,6 +367,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "2H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -540,6 +558,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "3H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 0,
     "periodo_id": "4H",
@@ -718,6 +745,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "4H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -909,6 +945,15 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 0,
     "periodo_id": "6H",
@@ -1098,6 +1143,609 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 0,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-C"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-B"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-A"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 3 años-B"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 5 años-B"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-C"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-A"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 5 años-C"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-A"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-B"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 0,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-A"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "1H",
@@ -1276,6 +1924,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -1458,6 +2115,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "3H",
@@ -1638,6 +2304,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "4H",
@@ -1816,6 +2491,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -2007,6 +2691,15 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 1,
     "periodo_id": "6H",
@@ -2196,6 +2889,609 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 1,
+    "periodo_id": "6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.2: Descubrimiento y Exploración del Entorno II",
+    "descripcion": "DEE3.2: Descubrimiento y Exploración del Entorno II en 5 años-C"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-A"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 5 años-C"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-B"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-B"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR II: Comunicación y representación de la realidad II",
+    "descripcion": "CRR II: Comunicación y representación de la realidad II en 4 años-A"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-A"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-B"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 4 años-C"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 5 años-A"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 1,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-A"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 2,
     "periodo_id": "1H",
@@ -2374,6 +3670,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -2556,6 +3861,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "n656",
     "dia_semana": 2,
     "periodo_id": "3H",
@@ -2736,6 +4050,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 2,
     "periodo_id": "4H",
@@ -2914,6 +4237,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -3105,6 +4437,15 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
     "profesor_id": "ped4",
     "dia_semana": 2,
     "periodo_id": "6H",
@@ -3294,6 +4635,609 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 2,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-C"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-B"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-B"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-A"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 4 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-A"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 4 años-C"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 2,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-A"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "1H",
@@ -3472,6 +5416,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "1H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
   },
   {
     "profesor_id": "j326",
@@ -3654,6 +5607,15 @@
     "descripcion": "Exento de sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "3H",
@@ -3834,6 +5796,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "ped4",
     "dia_semana": 3,
     "periodo_id": "4H",
@@ -4012,6 +5983,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "n656",
@@ -4203,6 +6183,15 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "5H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 3,
     "periodo_id": "6H",
@@ -4392,6 +6381,609 @@
     "descripcion": "Solo asiste en jornada de mañana"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 3,
+    "periodo_id": "6H",
+    "tipo_actividad": "NO_DISPONIBLE",
+    "aula": "",
+    "materia": "No disponible",
+    "descripcion": "Sin disponibilidad horaria en el centro"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR 2: Comunicación y representación de la realidad II",
+    "descripcion": "CRR 2: Comunicación y representación de la realidad II en 5 años-C"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-B"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-A"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR2: Crecimiento en armonía II",
+    "descripcion": "CAR2: Crecimiento en armonía II en 4 años-C"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-C"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 3 años-A"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-C"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "RBT: Robótica y programación",
+    "descripcion": "RBT: Robótica y programación en 4 años-A"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 5 años-B"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-A"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 3,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-A"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 4,
     "periodo_id": "1H",
@@ -4570,6 +7162,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -4752,6 +7353,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "p740",
     "dia_semana": 4,
     "periodo_id": "3H",
@@ -4932,6 +7542,15 @@
     "descripcion": "Exento de realizar sustituciones"
   },
   {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
     "profesor_id": "j326",
     "dia_semana": 4,
     "periodo_id": "4H",
@@ -5110,6 +7729,15 @@
     "aula": "",
     "materia": "Exento de sustituciones",
     "descripcion": "Exento de realizar sustituciones"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "j326",
@@ -5299,6 +7927,15 @@
     "aula": "",
     "materia": "No disponible (Solo mañanas)",
     "descripcion": "Solo asiste en jornada de mañana"
+  },
+  {
+    "profesor_id": "pgonzalez",
+    "dia_semana": 4,
+    "periodo_id": "5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "Disponibilidad Sustitución",
+    "descripcion": "Disponible para sustituciones en Primaria"
   },
   {
     "profesor_id": "n656",
@@ -5491,272 +8128,605 @@
   },
   {
     "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "2H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "3H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "4H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 0,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "1H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "2H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "3H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "4H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "5H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 1,
-    "periodo_id": "6H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "1H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "2H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "3H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "4H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 2,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "1H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "2H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "3H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "4H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "5H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 3,
-    "periodo_id": "6H",
-    "tipo_actividad": "NO_DISPONIBLE",
-    "aula": "",
-    "materia": "No disponible",
-    "descripcion": "Sin disponibilidad horaria en el centro"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 4,
-    "periodo_id": "1H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 4,
-    "periodo_id": "2H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 4,
-    "periodo_id": "3H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 4,
-    "periodo_id": "4H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
-    "dia_semana": 4,
-    "periodo_id": "5H",
-    "tipo_actividad": "DISPONIBLE",
-    "aula": "",
-    "materia": "Disponibilidad Sustitución",
-    "descripcion": "Disponible para sustituciones en Primaria"
-  },
-  {
-    "profesor_id": "pgonzalez",
     "dia_semana": 4,
     "periodo_id": "6H",
     "tipo_actividad": "DISPONIBLE",
     "aula": "",
     "materia": "Disponibilidad Sustitución",
     "descripcion": "Disponible para sustituciones en Primaria"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 3 años-A"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 3 años-C"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_1H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_2H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "d179: Descubrimiento y Exploración del Entorno II",
+    "descripcion": "d179: Descubrimiento y Exploración del Entorno II en 4 años-C"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 4 años-A"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_3H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "REL3: Religión",
+    "descripcion": "REL3: Religión en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "RBT: Robótica",
+    "descripcion": "RBT: Robótica en 3 años-A"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "PSI: Psicomotricidad",
+    "descripcion": "PSI: Psicomotricidad en 5 años-C"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "ING: Lengua extranjera inglés",
+    "descripcion": "ING: Lengua extranjera inglés en 5 años-B"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_4H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-A"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "MUS: Lenguaje y expresión musical",
+    "descripcion": "MUS: Lenguaje y expresión musical en 4 años-A"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_5H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "ACAL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-C",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 3 años-C"
+  },
+  {
+    "profesor_id": "APER0",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-A",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-A"
+  },
+  {
+    "profesor_id": "CDUE1",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "E587",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-A",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-A"
+  },
+  {
+    "profesor_id": "GDEL0",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-C",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 4 años-C"
+  },
+  {
+    "profesor_id": "M251",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "3 años-B",
+    "materia": "CRR: Comunicación y representación de la realidad",
+    "descripcion": "CRR: Comunicación y representación de la realidad en 3 años-B"
+  },
+  {
+    "profesor_id": "M111",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "DISPONIBLE",
+    "aula": "",
+    "materia": "",
+    "descripcion": "Hueco libre / Disponible para sustitución"
+  },
+  {
+    "profesor_id": "MESP0",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 5 años-B"
+  },
+  {
+    "profesor_id": "M133",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "5 años-C",
+    "materia": "DEE3.1: Descubrimiento y exploración del entorno",
+    "descripcion": "DEE3.1: Descubrimiento y exploración del entorno en 5 años-C"
+  },
+  {
+    "profesor_id": "N637",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-B",
+    "materia": "DEE3: Descubrimiento y Exploración del Entorno",
+    "descripcion": "DEE3: Descubrimiento y Exploración del Entorno en 4 años-B"
+  },
+  {
+    "profesor_id": "SUS8",
+    "dia_semana": 4,
+    "periodo_id": "INF_6H",
+    "tipo_actividad": "LECTIVA",
+    "aula": "4 años-A",
+    "materia": "CAR: Crecimiento en armonía",
+    "descripcion": "CAR: Crecimiento en armonía en 4 años-A"
   }
 ]

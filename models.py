@@ -29,6 +29,7 @@ class TimeSlot:
     hora_fin: str                                 # ej. "08:55"
     es_recreo: bool = False
     orden: int = 1
+    etapa: str = "Primaria"
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)

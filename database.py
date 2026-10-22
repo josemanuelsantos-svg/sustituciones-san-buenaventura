@@ -41,7 +41,8 @@ class Database:
                     hora_inicio TEXT NOT NULL,
                     hora_fin TEXT NOT NULL,
                     es_recreo INTEGER NOT NULL DEFAULT 0,
-                    orden INTEGER NOT NULL DEFAULT 1
+                    orden INTEGER NOT NULL DEFAULT 1,
+                    etapa TEXT NOT NULL DEFAULT 'Primaria'
                 );
 
                 CREATE TABLE IF NOT EXISTS profesores (
@@ -156,10 +157,16 @@ class Database:
             pass
 
     # --- TRAMOS HORARIOS ---
-    def get_time_slots(self) -> List[TimeSlot]:
+    def get_time_slots(self, etapa: Optional[str] = None) -> List[TimeSlot]:
         with self._get_connection() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, nombre, hora_inicio, hora_fin, es_recreo, orden FROM tramos ORDER BY orden")
+            query = "SELECT id, nombre, hora_inicio, hora_fin, es_recreo, orden, etapa FROM tramos"
+            params = ()
+            if etapa:
+                query += " WHERE etapa = ?"
+                params = (etapa,)
+            query += " ORDER BY orden"
+            cur.execute(query, params)
             rows = cur.fetchall()
             return [
                 TimeSlot(
@@ -168,7 +175,8 @@ class Database:
                     hora_inicio=r["hora_inicio"],
                     hora_fin=r["hora_fin"],
                     es_recreo=bool(r["es_recreo"]),
-                    orden=r["orden"]
+                    orden=r["orden"],
+                    etapa=r["etapa"] if "etapa" in r.keys() else "Primaria"
                 )
                 for r in rows
             ]
@@ -176,7 +184,7 @@ class Database:
     def get_time_slot(self, slot_id: str) -> Optional[TimeSlot]:
         with self._get_connection() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT id, nombre, hora_inicio, hora_fin, es_recreo, orden FROM tramos WHERE id = ?", (slot_id,))
+            cur.execute("SELECT id, nombre, hora_inicio, hora_fin, es_recreo, orden, etapa FROM tramos WHERE id = ?", (slot_id,))
             r = cur.fetchone()
             if r:
                 return TimeSlot(
@@ -185,29 +193,43 @@ class Database:
                     hora_inicio=r["hora_inicio"],
                     hora_fin=r["hora_fin"],
                     es_recreo=bool(r["es_recreo"]),
-                    orden=r["orden"]
+                    orden=r["orden"],
+                    etapa=r["etapa"] if "etapa" in r.keys() else "Primaria"
                 )
             return None
 
-    def save_time_slots(self, slots: List[TimeSlot]):
+    def upsert_time_slots(self, slots: List[TimeSlot]):
         with self._get_connection() as conn:
-            conn.execute("DELETE FROM tramos")
             for s in slots:
                 conn.execute("""
-                    INSERT INTO tramos (id, nombre, hora_inicio, hora_fin, es_recreo, orden)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                """, (s.id, s.nombre, s.hora_inicio, s.hora_fin, 1 if s.es_recreo else 0, s.orden))
-        self._sync_json(self.slots_file, [s.to_dict() for s in slots])
+                    INSERT INTO tramos (id, nombre, hora_inicio, hora_fin, es_recreo, orden, etapa)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(id) DO UPDATE SET
+                        nombre=excluded.nombre,
+                        hora_inicio=excluded.hora_inicio,
+                        hora_fin=excluded.hora_fin,
+                        es_recreo=excluded.es_recreo,
+                        orden=excluded.orden,
+                        etapa=excluded.etapa
+                """, (s.id, s.nombre, s.hora_inicio, s.hora_fin, 1 if s.es_recreo else 0, s.orden, getattr(s, "etapa", "Primaria")))
+        self._sync_json(self.slots_file, [s.to_dict() for s in self.get_time_slots()])
+
+    def save_time_slots(self, slots: List[TimeSlot]):
+        self.upsert_time_slots(slots)
 
     # --- PROFESORES ---
-    def get_teachers(self, active_only: bool = False) -> List[Teacher]:
+    def get_teachers(self, active_only: bool = False, etapa: Optional[str] = None) -> List[Teacher]:
         with self._get_connection() as conn:
             cur = conn.cursor()
-            query = "SELECT id, nombre, telefono, email, departamento, etapa, activo, sustituciones_realizadas FROM profesores"
+            query = "SELECT id, nombre, telefono, email, departamento, etapa, activo, sustituciones_realizadas FROM profesores WHERE 1=1"
+            params = []
             if active_only:
-                query += " WHERE activo = 1"
+                query += " AND activo = 1"
+            if etapa:
+                query += " AND etapa = ?"
+                params.append(etapa)
             query += " ORDER BY nombre"
-            cur.execute(query)
+            cur.execute(query, tuple(params))
             rows = cur.fetchall()
             return [
                 Teacher(
@@ -268,10 +290,19 @@ class Database:
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
 
     # --- HORARIOS ---
-    def get_schedules(self) -> List[ScheduleItem]:
+    def get_schedules(self, etapa: Optional[str] = None) -> List[ScheduleItem]:
         with self._get_connection() as conn:
             cur = conn.cursor()
-            cur.execute("SELECT profesor_id, dia_semana, periodo_id, tipo_actividad, aula, materia, descripcion FROM horarios ORDER BY dia_semana, periodo_id")
+            if etapa:
+                cur.execute("""
+                    SELECT h.profesor_id, h.dia_semana, h.periodo_id, h.tipo_actividad, h.aula, h.materia, h.descripcion
+                    FROM horarios h
+                    JOIN profesores p ON h.profesor_id = p.id
+                    WHERE p.etapa = ?
+                    ORDER BY h.dia_semana, h.periodo_id
+                """, (etapa,))
+            else:
+                cur.execute("SELECT profesor_id, dia_semana, periodo_id, tipo_actividad, aula, materia, descripcion FROM horarios ORDER BY dia_semana, periodo_id")
             rows = cur.fetchall()
             return [
                 ScheduleItem(
@@ -285,6 +316,20 @@ class Database:
                 )
                 for r in rows
             ]
+
+    def upsert_schedules(self, schedules: List[ScheduleItem]):
+        with self._get_connection() as conn:
+            for h in schedules:
+                conn.execute("""
+                    INSERT INTO horarios (profesor_id, dia_semana, periodo_id, tipo_actividad, aula, materia, descripcion)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(profesor_id, dia_semana, periodo_id) DO UPDATE SET
+                        tipo_actividad=excluded.tipo_actividad,
+                        aula=excluded.aula,
+                        materia=excluded.materia,
+                        descripcion=excluded.descripcion
+                """, (h.profesor_id, h.dia_semana, h.periodo_id, h.tipo_actividad, h.aula, h.materia, h.descripcion))
+        self._sync_json(self.schedules_file, [s.to_dict() for s in self.get_schedules()])
 
     def save_schedules(self, schedules: List[ScheduleItem]):
         with self._get_connection() as conn:

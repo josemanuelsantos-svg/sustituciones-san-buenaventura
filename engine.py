@@ -53,7 +53,9 @@ class SubstitutionEngine:
         profesores_ya_ausentes = {s.profesor_ausente_id for s in sustituciones_del_dia}
         profesores_ya_ausentes.add(profesor_ausente_id)
 
-        todos_los_profesores = self.db.get_teachers(active_only=True)
+        # Filtrar candidatos de la misma etapa (Infantil o Primaria)
+        etapa_filtro = profesor_ausente.etapa if profesor_ausente else None
+        todos_los_profesores = self.db.get_teachers(active_only=True, etapa=etapa_filtro)
         candidatos_evaluados: List[SubstitutionCandidate] = []
         no_disponibles: List[Dict[str, str]] = []
 

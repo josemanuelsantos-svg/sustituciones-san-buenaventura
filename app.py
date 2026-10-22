@@ -44,10 +44,16 @@ def portal_infantil():
 
 @app.route("/api/initial-data", methods=["GET"])
 def get_initial_data():
-    """Devuelve los datos maestros para inicializar la interfaz rápidamente."""
-    teachers = db.get_teachers()
-    slots = db.get_time_slots()
-    substitutions = db.get_substitutions()[:10]  # Últimas 10
+    """Devuelve los datos maestros para inicializar la interfaz rápidamente, filtrable por etapa."""
+    etapa = request.args.get("etapa")
+    teachers = db.get_teachers(etapa=etapa)
+    slots = db.get_time_slots(etapa=etapa)
+    all_subs = db.get_substitutions()
+    if etapa:
+        teacher_ids = {t.id for t in teachers}
+        substitutions = [s for s in all_subs if s.profesor_ausente_id in teacher_ids or s.profesor_sustituto_id in teacher_ids][:10]
+    else:
+        substitutions = all_subs[:10]
     
     # Calcular estadísticas de equidad
     stats = []
@@ -107,10 +113,11 @@ def manage_slots():
 @app.route("/api/horarios", methods=["GET"])
 def get_horarios():
     profesor_id = request.args.get("profesor_id")
+    etapa = request.args.get("etapa")
     if profesor_id:
         items = db.get_schedule_for_teacher(profesor_id)
     else:
-        items = db.get_schedules()
+        items = db.get_schedules(etapa=etapa)
     return jsonify([item.to_dict() for item in items])
 
 @app.route("/api/actividad-docente", methods=["GET"])
@@ -520,9 +527,15 @@ def assign_substitutions_multiple():
 
 @app.route("/api/sustituciones", methods=["GET"])
 def list_substitutions():
+    etapa = request.args.get("etapa")
     slots_map = {s.id: s for s in db.get_time_slots()}
     result = []
+    teachers = db.get_teachers(etapa=etapa) if etapa else None
+    teacher_ids = {t.id for t in teachers} if teachers else None
+
     for s in db.get_substitutions():
+        if teacher_ids and (s.profesor_ausente_id not in teacher_ids and s.profesor_sustituto_id not in teacher_ids):
+            continue
         d = s.to_dict()
         slot = slots_map.get(s.periodo_id)
         d["calendar_url"] = CalendarService.generate_google_calendar_url(s, slot)

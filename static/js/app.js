@@ -110,14 +110,27 @@ function iniciarRelojEscolar() {
     const minTotal = ahora.getHours() * 60 + ahora.getMinutes();
 
     let tramoActual = "Fuera de horario lectivo";
-    if (minTotal >= 540 && minTotal < 585) tramoActual = "En 1ª Hora (09:00-09:45)";
-    else if (minTotal >= 585 && minTotal < 630) tramoActual = "En 2ª Hora (09:45-10:30)";
-    else if (minTotal >= 630 && minTotal < 660) tramoActual = "En Recreo (10:30-11:00)";
-    else if (minTotal >= 660 && minTotal < 705) tramoActual = "En 3ª Hora (11:00-11:45)";
-    else if (minTotal >= 705 && minTotal < 750) tramoActual = "En 4ª Hora (11:45-12:30)";
-    else if (minTotal >= 750 && minTotal < 855) tramoActual = "Comedor / Mediodía";
-    else if (minTotal >= 855 && minTotal < 915) tramoActual = "En 5ª Hora (14:15-15:15)";
-    else if (minTotal >= 915 && minTotal < 975) tramoActual = "En 6ª Hora (15:15-16:15)";
+    const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
+
+    if (esInfantil) {
+      if (minTotal >= 525 && minTotal < 570) tramoActual = "En 1ª Hora Infantil (08:45-09:30)";
+      else if (minTotal >= 570 && minTotal < 600) tramoActual = "En 2ª Hora Infantil (09:30-10:00)";
+      else if (minTotal >= 600 && minTotal < 630) tramoActual = "En Recreo Infantil (10:00-10:30)";
+      else if (minTotal >= 630 && minTotal < 675) tramoActual = "En 3ª Hora Infantil (10:30-11:15)";
+      else if (minTotal >= 675 && minTotal < 735) tramoActual = "En 4ª Hora Infantil (11:15-12:15)";
+      else if (minTotal >= 735 && minTotal < 840) tramoActual = "Comedor Infantil (12:15-14:00)";
+      else if (minTotal >= 840 && minTotal < 900) tramoActual = "En 5ª Hora Infantil (14:00-15:00)";
+      else if (minTotal >= 900 && minTotal < 960) tramoActual = "En 6ª Hora Infantil (15:00-16:00)";
+    } else {
+      if (minTotal >= 540 && minTotal < 585) tramoActual = "En 1ª Hora (09:00-09:45)";
+      else if (minTotal >= 585 && minTotal < 630) tramoActual = "En 2ª Hora (09:45-10:30)";
+      else if (minTotal >= 630 && minTotal < 660) tramoActual = "En Recreo (10:30-11:00)";
+      else if (minTotal >= 660 && minTotal < 705) tramoActual = "En 3ª Hora (11:00-11:45)";
+      else if (minTotal >= 705 && minTotal < 750) tramoActual = "En 4ª Hora (11:45-12:30)";
+      else if (minTotal >= 750 && minTotal < 855) tramoActual = "Comedor / Mediodía";
+      else if (minTotal >= 855 && minTotal < 915) tramoActual = "En 5ª Hora (14:15-15:15)";
+      else if (minTotal >= 915 && minTotal < 975) tramoActual = "En 6ª Hora (15:15-16:15)";
+    }
 
     el.innerHTML = `<i class="ph-fill ph-clock"></i> <span>${hh}:${mm} · ${tramoActual}</span>`;
   };
@@ -411,7 +424,10 @@ function configurarListeners() {
 }
 
 function ordenarTramosCronologicamente(listaIds) {
-  const ordenOficial = ["1H", "2H", "REC", "3H", "4H", "5H", "6H"];
+  const ordenOficial = [
+    "1H", "2H", "REC", "3H", "4H", "5H", "6H",
+    "INF_1H", "INF_2H", "INF_REC", "INF_3H", "INF_4H", "INF_COM", "INF_5H", "INF_6H"
+  ];
   return [...new Set(listaIds)].sort((a, b) => {
     const ia = ordenOficial.indexOf(a);
     const ib = ordenOficial.indexOf(b);
@@ -437,12 +453,20 @@ function seleccionarTramoRapido(tramoId) {
 }
 
 function seleccionarPresetTramos(preset) {
+  const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
+  const h1 = esInfantil ? "INF_1H" : "1H";
+  const h2 = esInfantil ? "INF_2H" : "2H";
+  const h3 = esInfantil ? "INF_3H" : "3H";
+  const h4 = esInfantil ? "INF_4H" : "4H";
+  const h5 = esInfantil ? "INF_5H" : "5H";
+  const h6 = esInfantil ? "INF_6H" : "6H";
+
   if (preset === "DIA_COMPLETO") {
-    appState.tramosSeleccionados = ["1H", "2H", "3H", "4H", "5H", "6H"];
+    appState.tramosSeleccionados = [h1, h2, h3, h4, h5, h6];
   } else if (preset === "MANANA") {
-    appState.tramosSeleccionados = ["1H", "2H", "3H", "4H"];
+    appState.tramosSeleccionados = [h1, h2, h3, h4];
   } else if (preset === "TARDE") {
-    appState.tramosSeleccionados = ["5H", "6H"];
+    appState.tramosSeleccionados = [h5, h6];
   } else {
     appState.tramosSeleccionados = [];
   }
@@ -457,23 +481,28 @@ function seleccionarPresetTramos(preset) {
 
 function actualizarPillsTramo() {
   const seleccionados = new Set(appState.tramosSeleccionados || []);
+  const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
 
   document.querySelectorAll(".pill-tramo-btn").forEach(btn => {
     const tid = btn.dataset.tramo;
     const tramoObj = (appState.tramos || []).find(t => t.id === tid);
     const horaIni = tramoObj ? tramoObj.hora_inicio : "";
+    const label = tid.replace("INF_", "");
 
     if (seleccionados.has(tid)) {
-      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border-2 border-indigo-600 bg-gradient-to-br from-[#132a56] to-indigo-600 text-white font-extrabold text-center shadow-md transition scale-[1.02] cursor-pointer";
+      const activeCls = esInfantil
+        ? "pill-tramo-btn relative py-2 px-1.5 rounded-xl border-2 border-emerald-500 bg-gradient-to-br from-[#064e3b] to-emerald-600 text-white font-extrabold text-center shadow-md transition scale-[1.02] cursor-pointer"
+        : "pill-tramo-btn relative py-2 px-1.5 rounded-xl border-2 border-indigo-600 bg-gradient-to-br from-[#132a56] to-indigo-600 text-white font-extrabold text-center shadow-md transition scale-[1.02] cursor-pointer";
+      btn.className = activeCls;
       btn.innerHTML = `
         <span class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-emerald-400 text-slate-950 flex items-center justify-center text-[9px] font-black shadow-2xs">✓</span>
-        <div class="text-xs font-extrabold">${tid}</div>
-        <div class="text-[9px] text-indigo-100 font-medium">${horaIni}</div>
+        <div class="text-xs font-extrabold">${label}</div>
+        <div class="text-[9px] text-emerald-100 font-medium">${horaIni}</div>
       `;
     } else {
-      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50/50 hover:border-emerald-200 text-slate-700 font-bold text-center transition cursor-pointer";
       btn.innerHTML = `
-        <div class="text-xs font-extrabold">${tid}</div>
+        <div class="text-xs font-extrabold">${label}</div>
         <div class="text-[9px] opacity-75 font-medium">${horaIni}</div>
       `;
     }
@@ -622,7 +651,8 @@ async function consultarActividadProgramada() {
 
 async function cargarDatosIniciales() {
   try {
-    const res = await fetch("/api/initial-data");
+    const etapaParam = window.ETAPA_ACTIVA ? `?etapa=${encodeURIComponent(window.ETAPA_ACTIVA)}` : "";
+    const res = await fetch(`/api/initial-data${etapaParam}`);
     const data = await res.json();
 
     appState.profesores = data.profesores || [];
@@ -631,7 +661,7 @@ async function cargarDatosIniciales() {
     appState.estadisticas = data.estadisticas || [];
 
     // Cargar también horarios en memoria para la pestaña de cuadrante
-    fetch("/api/horarios")
+    fetch(`/api/horarios${etapaParam}`)
       .then(r => r.json())
       .then(h => { appState.horarios = h || []; });
 
@@ -725,10 +755,11 @@ function poblarSelects() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.dataset.tramo = t.id;
-      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-200 text-slate-700 font-bold text-center transition cursor-pointer";
+      btn.className = "pill-tramo-btn relative py-2 px-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50/50 hover:border-emerald-200 text-slate-700 font-bold text-center transition cursor-pointer";
       btn.onclick = () => seleccionarTramoRapido(t.id);
+      const label = t.id.replace("INF_", "");
       btn.innerHTML = `
-        <div class="text-xs font-extrabold">${t.id}</div>
+        <div class="text-xs font-extrabold">${label}</div>
         <div class="text-[9px] opacity-75 font-medium">${t.hora_inicio}</div>
       `;
       pillsContainer.appendChild(btn);
@@ -1524,8 +1555,9 @@ function copiarMensajeWA() {
 
 async function cargarHorariosSemana() {
   try {
+    const etapaParam = window.ETAPA_ACTIVA ? `?etapa=${encodeURIComponent(window.ETAPA_ACTIVA)}` : "";
     if (!appState.horarios || appState.horarios.length === 0) {
-      const res = await fetch("/api/horarios");
+      const res = await fetch(`/api/horarios${etapaParam}`);
       appState.horarios = await res.json();
     }
     const filtroActual = document.getElementById("select-filtro-profesor")?.value || "todos";
@@ -1716,7 +1748,8 @@ function limpiarFiltrosHistorial() {
 
 async function renderHistorial() {
   try {
-    const res = await fetch("/api/sustituciones");
+    const etapaParam = window.ETAPA_ACTIVA ? `?etapa=${encodeURIComponent(window.ETAPA_ACTIVA)}` : "";
+    const res = await fetch(`/api/sustituciones${etapaParam}`);
     const data = await res.json();
     appState.sustituciones = data;
 

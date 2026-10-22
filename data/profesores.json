@@ -1,5 +1,25 @@
 [
   {
+    "id": "ACAL0",
+    "nombre": "Alejandra Calvo López-Covarrubias",
+    "telefono": "",
+    "email": "alejandracalvo@sanbuenaventura.org",
+    "departamento": "Tutoría 3 años-C",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "APER0",
+    "nombre": "Alejandra Pérez Villalba",
+    "telefono": "",
+    "email": "alejandraperez@sanbuenaventura.org",
+    "departamento": "Tutoría 5 años-A / Robótica",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "bleo0",
     "nombre": "Beatriz de León Ruiz",
     "telefono": "",
@@ -16,6 +36,16 @@
     "email": "cristinaduerto@sanbuenaventura.org",
     "departamento": "Primaria",
     "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "CDUE1",
+    "nombre": "Cristina Duerto del Pino",
+    "telefono": "",
+    "email": "cristinaduerto@sanbuenaventura.org",
+    "departamento": "Inglés Infantil",
+    "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
   },
@@ -40,12 +70,32 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "E587",
+    "nombre": "Elena Díaz Martín",
+    "telefono": "",
+    "email": "elenadiaz@sanbuenaventura.org",
+    "departamento": "Tutoría 3 años-A / Coordinación Infantil",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "fra0",
     "nombre": "Francisco Javier Félix Fernández",
     "telefono": "",
     "email": "javierfelix@sanbuenaventura.org",
     "departamento": "Religión",
     "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "GDEL0",
+    "nombre": "Gema del Pozo Villegas",
+    "telefono": "",
+    "email": "gemadelpozo@sanbuenaventura.org",
+    "departamento": "Tutoría 4 años-C / Inglés",
+    "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
   },
@@ -120,6 +170,36 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "MESP0",
+    "nombre": "Maria Teresa Espejo Rodríguez",
+    "telefono": "",
+    "email": "mariateresaespejo@sanbuenaventura.org",
+    "departamento": "Tutoría 5 años-B / Psicomotricidad",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "M133",
+    "nombre": "Marta Rodríguez Centeno",
+    "telefono": "",
+    "email": "martarodriguez@sanbuenaventura.org",
+    "departamento": "Tutoría 5 años-C / Inglés",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "M111",
+    "nombre": "María Jesús Parras Maeso",
+    "telefono": "",
+    "email": "mariajesusparras@sanbuenaventura.org",
+    "departamento": "Música y Robótica",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "mar1",
     "nombre": "María Pilar Pérez Fernández",
     "telefono": "",
@@ -160,12 +240,32 @@
     "sustituciones_realizadas": 0
   },
   {
+    "id": "M251",
+    "nombre": "Mª de las Nieves Jiménez Jiménez",
+    "telefono": "",
+    "email": "nievesjimenez@sanbuenaventura.org",
+    "departamento": "Tutoría 3 años-B / Psicomotricidad",
+    "etapa": "Infantil",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
     "id": "n656",
     "nombre": "Nuria Jarillo García",
     "telefono": "",
     "email": "nuriajarillo@sanbuenaventura.org",
     "departamento": "Inglés",
     "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "N637",
+    "nombre": "Nuria Romero Sanz",
+    "telefono": "",
+    "email": "nuriaromero@sanbuenaventura.org",
+    "departamento": "Tutoría 4 años-B / Música",
+    "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
   },
@@ -226,6 +326,16 @@
     "email": "rubenrecio@sanbuenaventura.org",
     "departamento": "Tutoría / Robótica",
     "etapa": "Primaria",
+    "activo": true,
+    "sustituciones_realizadas": 0
+  },
+  {
+    "id": "SUS8",
+    "nombre": "Susana López Gómez",
+    "telefono": "",
+    "email": "susanalopez@sanbuenaventura.org",
+    "departamento": "Tutoría 4 años-A",
+    "etapa": "Infantil",
     "activo": true,
     "sustituciones_realizadas": 0
   },
