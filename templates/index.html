@@ -216,11 +216,11 @@
 
         <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 shadow-xs flex items-center gap-3.5">
           <div class="w-11 h-11 rounded-xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-xl flex-shrink-0">
-            <i class="ph-duotone ph-ranking"></i>
+            <i class="ph-duotone ph-sparkle"></i>
           </div>
           <div>
-            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Orden Prelación</div>
-            <div class="text-xs font-bold text-slate-800 truncate">Isabel › Grupo 2 › Bea/Rubén</div>
+            <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Criterio Asignación</div>
+            <div class="text-xs font-bold text-slate-800 truncate">Disponibilidad y Equidad</div>
           </div>
         </div>
 
@@ -401,7 +401,7 @@
         <!-- Resultados, Recomendación y Confirmación (Derecha - 7 cols) -->
         <div class="lg:col-span-7 space-y-5">
           
-          <!-- Estado Inicial (Vacío + Guía Rápida de Prioridad) -->
+          <!-- Estado Inicial (Vacío + Asignación Inteligente) -->
           <div id="panel-inicial" class="bg-white rounded-3xl border border-slate-200/90 p-8 sm:p-10 text-center shadow-sm flex flex-col items-center justify-center">
             <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-indigo-50 to-amber-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-4xl mb-4 shadow-inner">
               <i class="ph-duotone ph-user-check"></i>
@@ -411,29 +411,13 @@
               Selecciona la <strong>fecha</strong>, <strong>una o varias horas</strong> (o <strong>Día Completo</strong>) y el <strong>profesor ausente</strong>. El sistema detectará sus clases en cada tramo y te propondrá los sustitutos idóneos.
             </p>
 
-            <!-- Escalafón visual de prelación oficial -->
             <div class="mt-7 w-full max-w-lg bg-slate-50/90 border border-slate-200/80 rounded-2xl p-4 text-left">
-              <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                <i class="ph-fill ph-crown text-amber-500 text-sm"></i> Orden Oficial de Prelación Activo
+              <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
+                <i class="ph-fill ph-check-circle text-emerald-600 text-sm"></i> Asignación Inteligente de Sustituciones
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
-                  <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-950 font-black text-[10px] flex items-center justify-center shrink-0">1º</span>
-                  <span class="font-bold text-slate-800">Isabel Peña <span class="text-[10px] font-normal text-slate-400">(Mañanas)</span></span>
-                </div>
-                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
-                  <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-black text-[10px] flex items-center justify-center shrink-0">2º</span>
-                  <span class="font-semibold text-slate-700 truncate" title="Carmen, Pilar F., Pilar P., Cristina D., Paula G.">Carmen, Pilares, Cristina, Paula G.</span>
-                </div>
-                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
-                  <span class="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold text-[10px] flex items-center justify-center shrink-0">3º</span>
-                  <span class="font-medium text-slate-700">Bea de León y Rubén Recio</span>
-                </div>
-                <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-200/70">
-                  <span class="w-5 h-5 rounded-full bg-slate-200 text-slate-700 font-bold text-[10px] flex items-center justify-center shrink-0">4º</span>
-                  <span class="font-medium text-slate-600">José M. › Belén › Dani y María</span>
-                </div>
-              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                El sistema evalúa en cada hora las ausencias, las clases lectivas y los huecos libres para proponer de forma automática al docente más adecuado según la disponibilidad y equidad del centro.
+              </p>
             </div>
           </div>
 
@@ -441,7 +425,7 @@
           <div id="panel-cargando" class="hidden bg-white rounded-3xl border border-slate-200 p-12 text-center shadow-sm">
             <div class="inline-block animate-spin rounded-full h-11 w-11 border-4 border-indigo-600 border-t-transparent mb-3"></div>
             <p class="text-sm font-bold text-slate-800">Evaluando cuadrante y disponibilidad por cada hora...</p>
-            <p class="text-xs text-slate-400 mt-1">Comprobando clases lectivas y orden de prioridad oficial</p>
+            <p class="text-xs text-slate-400 mt-1">Comprobando clases lectivas y disponibilidad horaria</p>
           </div>
 
           <!-- Panel de Resultados (1 Tramo) -->
@@ -486,7 +470,7 @@
               <!-- Motivo detallado -->
               <div class="mt-4 pt-3.5 border-t border-white/10 flex items-center gap-2 text-xs text-blue-100 relative z-10">
                 <i class="ph-fill ph-sparkle text-amber-300 shrink-0"></i>
-                <span class="font-semibold text-blue-300 shrink-0">Prioridad aplicada:</span>
+                <span class="font-semibold text-blue-300 shrink-0">Criterio aplicado:</span>
                 <span id="rec-motivo" class="text-white font-semibold truncate"></span>
               </div>
             </div>
@@ -498,7 +482,7 @@
                   <i class="ph-bold ph-users text-indigo-600 text-sm"></i>
                   <span>Otros Docentes Disponibles en este Tramo (<span id="count-alternativas">0</span>)</span>
                 </h3>
-                <span class="text-[11px] text-slate-400 font-medium">Por orden estricto de prioridad</span>
+                <span class="text-[11px] text-slate-400 font-medium">Docentes con hueco libre en este tramo</span>
               </div>
               
               <div id="lista-alternativas" class="space-y-2.5">
@@ -723,14 +707,14 @@
               </h2>
             </div>
             <p class="text-xs text-slate-500 mt-1">
-              Consulta en cada hora quién está disponible para sustituir (ordenado de 1º a 6º por prioridad) o filtra el horario lectivo de cualquier docente.
+              Consulta en cada hora quién está disponible para sustituir o filtra el horario lectivo de cualquier docente.
             </p>
           </div>
 
           <div class="flex flex-wrap items-center gap-2.5 no-print">
             <label class="inline-flex items-center gap-2 text-xs font-bold text-indigo-900 bg-indigo-50/90 border border-indigo-200 px-3.5 py-2 rounded-xl cursor-pointer hover:bg-indigo-100 transition select-none">
               <input type="checkbox" id="check-solo-guardias" checked onchange="renderHorarioProfesor(document.getElementById('select-filtro-profesor').value)" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
-              <span>Ver Sustitutos Disponibles (Por Prioridad)</span>
+              <span>Ver Docentes Disponibles</span>
             </label>
 
             <div class="flex items-center gap-2">
@@ -745,21 +729,18 @@
           </div>
         </div>
 
-        <!-- Leyenda de prioridades y colores -->
+        <!-- Leyenda de colores -->
         <div class="flex flex-wrap items-center justify-between gap-3 text-xs mb-5 p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="font-extrabold text-slate-700 uppercase text-[11px] tracking-wider">Prioridad de Sustitución:</span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100 text-amber-950 font-bold border border-amber-300 text-[11px]">
-              <i class="ph-fill ph-crown text-amber-600"></i> 1º Isabel Peña
+            <span class="font-extrabold text-slate-700 uppercase text-[11px] tracking-wider">Leyenda:</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-950 font-bold border border-emerald-300 text-[11px]">
+              <i class="ph-fill ph-check-circle text-emerald-600"></i> Disponible para sustituir
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 font-bold border border-emerald-300 text-[11px]">
-              2º Carmen, Pilares, Cristina, Paula G.
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-950 font-bold border border-indigo-200 text-[11px]">
+              <i class="ph-fill ph-chalkboard text-indigo-600"></i> Clase lectiva
             </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100 text-blue-900 font-semibold border border-blue-300 text-[11px]">
-              3º Bea y Rubén
-            </span>
-            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 text-slate-800 font-medium border border-slate-300 text-[11px]">
-              4º-6º José M. › Belén › Dani / María V.
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-950 font-medium border border-amber-200 text-[11px]">
+              ☕ Recreo
             </span>
           </div>
         </div>
@@ -867,7 +848,7 @@
         <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2.5 mb-5">
           <h3 class="text-xs font-extrabold text-slate-700 uppercase">Tipos de actividad soportados en el motor:</h3>
           <ul class="text-xs text-slate-600 space-y-1.5 list-disc pl-4">
-            <li><span class="font-bold text-emerald-700">DISPONIBLE / HUECO:</span> Docente sin clase lectiva y habilitado para cubrir ausencias según su nivel de prioridad.</li>
+            <li><span class="font-bold text-emerald-700">DISPONIBLE / HUECO:</span> Docente sin clase lectiva y habilitado para cubrir ausencias según disponibilidad y balance de equidad.</li>
             <li><span class="font-bold text-indigo-700">LECTIVA:</span> Clase regular con grupo asignado (bloquea al docente para no ser propuesto como sustituto en esa hora).</li>
             <li><span class="font-bold text-rose-700">NO_DISPONIBLE:</span> Tramo en el que el docente no asiste al centro o está exento de sustituciones.</li>
           </ul>

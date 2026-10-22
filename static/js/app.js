@@ -32,41 +32,38 @@ const NOMBRES_MESES = [
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
 ];
 
-// Orden oficial de prioridad por etapa educativa
+// Orden oficial de prioridad por etapa educativa (para ordenación interna)
 const ORDEN_PRIORIDAD_PRIMARIA = {
-  "ipena":     { orden: 1, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
-  "m654":      { orden: 2, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "p740":      { orden: 3, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "mar1":      { orden: 4, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "cduerto":   { orden: 5, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "pgonzalez": { orden: 6, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "bleo0":     { orden: 7, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
-  "r299":      { orden: 8, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
-  "jos7":      { orden: 9, nivel: "4º", badge: "bg-indigo-50 text-indigo-900 border-indigo-200 font-medium", icon: "•" },
-  "j414":      { orden: 10, nivel: "4º", badge: "bg-indigo-50 text-indigo-900 border-indigo-200 font-medium", icon: "•" },
-  "m851":      { orden: 11, nivel: "5º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" },
-  "dasenjo":   { orden: 12, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" },
-  "mvazquez":  { orden: 13, nivel: "6º", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" }
+  "ipena":     { orden: 1, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "m654":      { orden: 2, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "p740":      { orden: 3, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "mar1":      { orden: 4, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "cduerto":   { orden: 5, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "pgonzalez": { orden: 6, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "bleo0":     { orden: 7, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "r299":      { orden: 8, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "jos7":      { orden: 9, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "•" },
+  "j414":      { orden: 10, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "•" },
+  "m851":      { orden: 11, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "•" },
+  "dasenjo":   { orden: 12, nivel: "Disponible", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" },
+  "mvazquez":  { orden: 13, nivel: "Disponible", badge: "bg-slate-100 text-slate-500 border-slate-200", icon: "•" }
 };
 
 const ORDEN_PRIORIDAD_INFANTIL = {
-  // 1º Cristina Duerto o Paula Lozano (sustituye a María Jesús Parras)
-  "CDUE1":    { orden: 1, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
-  "M111":     { orden: 2, nivel: "1º", badge: "bg-amber-100 text-amber-950 border-amber-300 font-extrabold", icon: "👑" },
-  // 2º Profesoras con hueco libre (salvo Susana y Elena)
-  "ACAL0":    { orden: 3, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "APER0":    { orden: 4, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "GDEL0":    { orden: 5, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "M251":     { orden: 6, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "MESP0":    { orden: 7, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "M133":     { orden: 8, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  "N637":     { orden: 9, nivel: "2º", badge: "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold", icon: "⭐" },
-  // 3º Susana y Elena
-  "SUS8":     { orden: 10, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
-  "E587":     { orden: 11, nivel: "3º", badge: "bg-blue-100 text-blue-900 border-blue-300 font-semibold", icon: "🔹" },
-  // 4º Dani Asenjo y María Vázquez (último recurso)
-  "dasenjo":  { orden: 12, nivel: "4º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" },
-  "mvazquez": { orden: 13, nivel: "4º", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" }
+  // Orden oficial interno
+  "CDUE1":    { orden: 1, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "M111":     { orden: 2, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "ACAL0":    { orden: 3, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "APER0":    { orden: 4, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "GDEL0":    { orden: 5, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "M251":     { orden: 6, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "MESP0":    { orden: 7, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "M133":     { orden: 8, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "N637":     { orden: 9, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "SUS8":     { orden: 10, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "E587":     { orden: 11, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-200 font-medium", icon: "✓" },
+  "dasenjo":  { orden: 12, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" },
+  "mvazquez": { orden: 13, nivel: "Disponible", badge: "bg-slate-100 text-slate-700 border-slate-300 font-medium", icon: "•" }
 };
 
 function getPrioridadDocente(profId) {
@@ -1028,8 +1025,7 @@ function renderResultadosBusqueda(data) {
   document.getElementById("rec-telefono").querySelector(".val").textContent = rec.profesor.email || "Sin correo";
   document.getElementById("rec-motivo").textContent = rec.motivo;
   
-  const infoPrio = ORDEN_PRIORIDAD[rec.profesor.id] || { nivel: "Disp." };
-  document.getElementById("rec-puntuacion").textContent = `Prelación ${infoPrio.nivel}`;
+  document.getElementById("rec-puntuacion").textContent = "Opción idónea";
   document.getElementById("rec-disponibilidad").textContent = "🟢 Disponible en este tramo";
 
   // Alternativas
@@ -1044,7 +1040,6 @@ function renderResultadosBusqueda(data) {
   } else {
     alternativas.forEach((c, idx) => {
       const rankNum = idx + 2;
-      const pInfo = ORDEN_PRIORIDAD[c.profesor.id] || { nivel: "Disp.", badge: "bg-slate-100 text-slate-700 border-slate-200" };
       const iniciales = obtenerIniciales(c.profesor.nombre);
 
       const card = document.createElement("div");
@@ -1059,7 +1054,7 @@ function renderResultadosBusqueda(data) {
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-[11px] font-black text-slate-400">#${rankNum}</span>
               <span class="font-extrabold text-slate-900 text-sm">${c.profesor.nombre}</span>
-              <span class="text-[10px] px-2 py-0.5 rounded-md border ${pInfo.badge}">Prioridad ${pInfo.nivel}</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-md border bg-slate-100 text-slate-700 border-slate-200 font-semibold">Disponible</span>
             </div>
             <div class="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-2">
               <span>${c.motivo}</span>
@@ -1176,14 +1171,14 @@ function renderResultadosMultiples(data) {
           >
             <div class="flex items-center gap-2.5 min-w-0">
               <div class="w-8 h-8 rounded-xl ${
-                esRec ? "bg-amber-400 text-slate-950" : "bg-slate-100 text-slate-700"
+                esRec ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-700"
               } font-black text-[11px] flex items-center justify-center shrink-0">
-                ${esRec ? "👑 1º" : "#" + (idx + 1)}
+                ${esRec ? "✓" : "#" + (idx + 1)}
               </div>
               <div class="min-w-0">
                 <div class="flex items-center gap-1.5">
                   <span class="font-extrabold text-xs text-slate-900 truncate">${c.profesor.nombre}</span>
-                  <span class="text-[9px] px-1.5 py-0.2 rounded border ${pInfo.badge} shrink-0">Prio. ${pInfo.nivel}</span>
+                  <span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 border border-slate-200 shrink-0 font-medium">Disponible</span>
                 </div>
                 <div class="text-[10px] text-slate-500 truncate">${c.profesor.email || c.motivo}</div>
               </div>
@@ -1702,11 +1697,10 @@ function renderHorarioProfesor(filtroProfesorId) {
             </div>
           `;
         } else {
-          const pInfo = ORDEN_PRIORIDAD[filtroProfesorId] || { nivel: "Disp." };
           html += `
             <div class="p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-2xs">
               <div class="text-[10px] font-extrabold uppercase text-emerald-700">🟢 Disponible Sustitución</div>
-              <div class="text-[11px] font-bold mt-0.5">Prioridad ${pInfo.nivel}</div>
+              <div class="text-[11px] font-bold mt-0.5">Hueco libre</div>
             </div>
           `;
         }
@@ -1714,7 +1708,7 @@ function renderHorarioProfesor(filtroProfesorId) {
         return;
       }
 
-      // CASO B: Vista Global -> Sustitutos Disponibles ordenados por Prioridad Oficial
+      // CASO B: Vista Global -> Sustitutos Disponibles ordenados internamente
       if (verSustitutosDisponibles) {
         const disponiblesEnTramo = [];
         const profsEtapa = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
@@ -1729,11 +1723,11 @@ function renderHorarioProfesor(filtroProfesorId) {
         disponiblesEnTramo.sort((a, b) => a.pInfo.orden - b.pInfo.orden);
 
         html += `<div class="space-y-1.5">`;
-        disponiblesEnTramo.forEach((item, idx) => {
+        disponiblesEnTramo.forEach(item => {
           html += `
-            <div class="px-2.5 py-1.5 rounded-xl border text-[11px] ${item.pInfo.badge} flex items-center justify-between gap-1 shadow-2xs">
-              <span class="truncate"><strong>${idx + 1}.</strong> ${item.prof.nombre}</span>
-              <span class="text-[9px] px-1.5 py-0.2 rounded bg-white/60 font-extrabold shrink-0">${item.pInfo.nivel}</span>
+            <div class="px-2.5 py-1.5 rounded-xl border border-emerald-200/80 bg-emerald-50/70 text-emerald-950 text-[11px] flex items-center justify-between gap-1 shadow-2xs">
+              <span class="truncate font-semibold">${item.prof.nombre}</span>
+              <span class="text-[9px] px-1.5 py-0.2 rounded bg-white/80 text-emerald-800 font-extrabold shrink-0 border border-emerald-200/60">Disponible</span>
             </div>
           `;
         });
@@ -1799,7 +1793,6 @@ function renderEstadisticas() {
             <div class="text-xs font-extrabold text-slate-900 truncate">${s.nombre}</div>
             <div class="text-[10px] text-slate-500 flex items-center gap-1">
               <span>${s.departamento || 'Primaria'}</span>
-              ${pInfo ? `<span class="text-indigo-600 font-bold">· Prioridad ${pInfo.nivel}</span>` : ''}
             </div>
           </div>
         </div>
