@@ -769,6 +769,77 @@ function actualizarSustitucionesDelDia() {
   });
 }
 
+function copiarParteDelDia() {
+  const fechaActual = document.getElementById("input-fecha")?.value;
+  const etapaActual = window.ETAPA_ACTIVA || "Primaria";
+  const delDia = (appState.sustituciones || [])
+    .filter(s => s.fecha === fechaActual && s.estado !== "CANCELADA");
+
+  if (delDia.length === 0) {
+    showToast("No hay sustituciones registradas en esta fecha para copiar.", "warning");
+    return;
+  }
+
+  // Ordenar cronológicamente según los tramos de la etapa
+  const ordenTramos = (appState.tramos || []).map(t => t.id);
+  const ordenadas = [...delDia].sort((a, b) => {
+    const ia = ordenTramos.indexOf(a.periodo_id);
+    const ib = ordenTramos.indexOf(b.periodo_id);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  });
+
+  const fechaTexto = formatFechaEsp(fechaActual);
+  const lineas = [
+    `📋 *PARTE DE SUSTITUCIONES · ${etapaActual.toUpperCase()}*`,
+    `📅 *Fecha:* ${fechaTexto}`,
+    `────────────────────`
+  ];
+
+  ordenadas.forEach(s => {
+    const tramoObj = (appState.tramos || []).find(t => t.id === s.periodo_id);
+    const horarioStr = tramoObj
+      ? `${tramoObj.nombre.split(' (')[0]} (${tramoObj.hora_inicio}-${tramoObj.hora_fin})`
+      : (s.periodo_nombre || s.periodo_id);
+    const aulaMateria = [s.aula, s.materia].filter(Boolean).join(" · ");
+
+    lineas.push(`🕒 *${horarioStr}*`);
+    lineas.push(`   ✅ *Sustituye:* ${s.profesor_sustituto_nombre}`);
+    lineas.push(`   👤 *Ausente:* ${s.profesor_ausente_nombre}`);
+    if (aulaMateria) {
+      lineas.push(`   🏫 *Aula/Materia:* ${aulaMateria}`);
+    }
+    if (s.observaciones) {
+      lineas.push(`   📝 *Nota:* ${s.observaciones}`);
+    }
+    lineas.push("");
+  });
+
+  lineas.push(`_Colegio San Buenaventura_`);
+  const textoFinal = lineas.join("\n");
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(textoFinal).then(() => {
+      showToast("📋 ¡Parte del día copiado! Ya puedes pegarlo en WhatsApp.", "success");
+    }).catch(() => {
+      copiarTextoFallback(textoFinal);
+    });
+  } else {
+    copiarTextoFallback(textoFinal);
+  }
+}
+
+function copiarTextoFallback(texto) {
+  const ta = document.createElement("textarea");
+  ta.value = texto;
+  ta.style.position = "fixed";
+  ta.style.opacity = "0";
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand("copy");
+  document.body.removeChild(ta);
+  showToast("📋 ¡Parte del día copiado! Ya puedes pegarlo en WhatsApp.", "success");
+}
+
 function poblarSelects() {
   const etapaActual = window.ETAPA_ACTIVA || "Primaria";
 
