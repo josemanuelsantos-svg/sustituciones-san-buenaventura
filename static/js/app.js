@@ -180,19 +180,36 @@ function iniciarRelojEscolar() {
 // ===============================================
 
 function switchTab(tabId) {
+  const esInfantil = (window.ETAPA_ACTIVA === "Infantil");
+  const inactiveTextCls = esInfantil ? "text-emerald-100" : "text-blue-100";
+  const inactiveMobCls = esInfantil ? "text-emerald-100/80" : "text-blue-200/80";
+
   document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.classList.remove("bg-white", "text-slate-900", "shadow-md", "font-bold");
-    btn.classList.add("text-blue-100", "font-semibold");
+    btn.classList.add(inactiveTextCls, "font-semibold");
+  });
+  document.querySelectorAll(".mob-tab-btn").forEach(btn => {
+    btn.classList.remove("bg-white", "text-slate-950", "font-extrabold", "shadow-sm");
+    btn.classList.add(inactiveMobCls, "font-semibold");
   });
 
   const targetTab = document.getElementById(`tab-${tabId}`);
   const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+  const targetMobBtn = document.getElementById(`mob-tab-btn-${tabId}`);
 
   if (targetTab) targetTab.classList.remove("hidden");
   if (targetBtn) {
     targetBtn.classList.add("bg-white", "text-slate-900", "shadow-md", "font-bold");
-    targetBtn.classList.remove("text-blue-100", "font-semibold");
+    targetBtn.classList.remove(inactiveTextCls, "font-semibold", "text-blue-100", "text-emerald-100");
+  }
+  if (targetMobBtn) {
+    targetMobBtn.classList.add("bg-white", "text-slate-950", "font-extrabold", "shadow-sm");
+    targetMobBtn.classList.remove(inactiveMobCls, "font-semibold", "text-blue-200/80", "text-emerald-100/80");
+  }
+
+  if (window.innerWidth < 768) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   if (tabId === "horarios") {
@@ -200,6 +217,15 @@ function switchTab(tabId) {
   } else if (tabId === "historial") {
     renderEstadisticas();
     renderHistorial();
+  }
+}
+
+function scrollToPanelMobile(panelEl) {
+  if (!panelEl) return;
+  if (window.innerWidth < 1024) {
+    setTimeout(() => {
+      panelEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
   }
 }
 
@@ -1039,6 +1065,7 @@ async function buscarSustitutos() {
 function renderResultadosBusqueda(data) {
   const panelResultados = document.getElementById("panel-resultados");
   panelResultados.classList.remove("hidden");
+  scrollToPanelMobile(panelResultados);
 
   const rec = data.recomendado;
 
@@ -1140,6 +1167,7 @@ function renderResultadosMultiples(data) {
   if (!panelMulti || !listaContainer) return;
 
   panelMulti.classList.remove("hidden");
+  scrollToPanelMobile(panelMulti);
   document.getElementById("multi-nombre-ausente").textContent = data.profesor_ausente?.nombre || "";
   document.getElementById("multi-resumen-fecha").textContent = `📅 ${formatFechaEsp(data.fecha)}`;
 
@@ -1444,6 +1472,7 @@ function mostrarConfirmacionMultiple(asignadas, profesorAusente, fecha) {
 
   const confPanel = document.getElementById("panel-confirmacion");
   confPanel.classList.remove("hidden");
+  scrollToPanelMobile(confPanel);
 
   document.getElementById("conf-modo-unico").classList.add("hidden");
   const modoMulti = document.getElementById("conf-modo-multiple");
@@ -1596,6 +1625,7 @@ async function asignarCandidato(profesorSustitutoId, btnTrigger = null) {
     document.getElementById("panel-resultados-multiple").classList.add("hidden");
     const confPanel = document.getElementById("panel-confirmacion");
     confPanel.classList.remove("hidden");
+    scrollToPanelMobile(confPanel);
 
     document.getElementById("conf-modo-multiple").classList.add("hidden");
     document.getElementById("conf-modo-unico").classList.remove("hidden");
