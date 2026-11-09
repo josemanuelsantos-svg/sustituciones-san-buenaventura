@@ -533,7 +533,7 @@ class Database:
                    OR (id = 'jos7' AND ? COLLATE NOCASE = 'colivares')
                    OR (id = 'ipena' AND ? COLLATE NOCASE IN ('fpriego', 'feli', 'felicitacion_priego', 'felicitacionpriego'))
                    OR (id = 'cduerto' AND ? COLLATE NOCASE = 'cdue1')
-            """, (record.profesor_sustituto_id, record.profesor_sustituto_id, record.profesor_sustituto_id))
+            """, (record.profesor_sustituto_id, record.profesor_sustituto_id, record.profesor_sustituto_id, record.profesor_sustituto_id))
         
         self._sync_json(self.substitutions_file, [r.to_dict() for r in self.get_substitutions()])
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
@@ -563,7 +563,7 @@ class Database:
                    OR (id = 'jos7' AND ? COLLATE NOCASE = 'colivares')
                    OR (id = 'ipena' AND ? COLLATE NOCASE IN ('fpriego', 'feli', 'felicitacion_priego', 'felicitacionpriego'))
                    OR (id = 'cduerto' AND ? COLLATE NOCASE = 'cdue1')
-            """, (sustituto_id, sustituto_id, sustituto_id))
+            """, (sustituto_id, sustituto_id, sustituto_id, sustituto_id))
 
         self._sync_json(self.substitutions_file, [r.to_dict() for r in self.get_substitutions()])
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])

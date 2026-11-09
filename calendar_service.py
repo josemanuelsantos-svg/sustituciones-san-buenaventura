@@ -24,7 +24,7 @@ class CalendarService:
         return dt_start, dt_end, dates_param
 
     SANBUENAVENTURA_CALENDAR_ID = "sanbuenaventura.org_a3l1eg1rpu9a4si7ihp48gqjns@group.calendar.google.com"
-    SANBUENAVENTURA_CALENDAR_CID = "c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWA0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+    SANBUENAVENTURA_CALENDAR_CID = "c2FuYnVlbmF2ZW50dXJhLm9yZ19hM2wxZWcxcnB1OWE0c2k3aWhwNDhncWpuc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
     SANBUENAVENTURA_CALENDAR_URL = f"https://calendar.google.com/calendar/u/0?cid={SANBUENAVENTURA_CALENDAR_CID}"
 
     @classmethod
