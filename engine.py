@@ -44,14 +44,27 @@ class SubstitutionEngine:
         if not slot:
             raise ValueError(f"No se encontró el tramo horario con id '{periodo_id}'")
 
-        # Obtener todas las sustituciones existentes para esa fecha y hora
-        sustituciones_del_dia = [
+        # Obtener todas las sustituciones existentes para toda la fecha (para equidad intradía y bloqueo de ausentes)
+        todas_sust_fecha = [
             s for s in self.db.get_substitutions()
-            if s.fecha == fecha_str and s.periodo_id == periodo_id and s.estado != "CANCELADA"
+            if s.fecha == fecha_str and s.estado != "CANCELADA"
         ]
-        profesores_ya_sustituyendo = {s.profesor_sustituto_id for s in sustituciones_del_dia}
-        profesores_ya_ausentes = {s.profesor_ausente_id for s in sustituciones_del_dia}
-        profesores_ya_ausentes.add(profesor_ausente_id)
+        sustituciones_del_tramo = [s for s in todas_sust_fecha if s.periodo_id == periodo_id]
+
+        profesores_ya_sustituyendo = {s.profesor_sustituto_id for s in sustituciones_del_tramo}
+        profesores_ausentes_en_jornada = {s.profesor_ausente_id for s in todas_sust_fecha}
+        profesores_ausentes_en_jornada.add(profesor_ausente_id)
+
+        # Ausencias / Excursiones marcadas manualmente para esta fecha
+        ausencias_manuales = {
+            a["profesor_id"]: a.get("motivo", "Ausente / Excursión")
+            for a in self.db.get_daily_absences(fecha_str)
+        }
+
+        # Conteo de sustituciones ya cubiertas hoy por cada profesor (equidad intradía)
+        conteo_sust_hoy: Dict[str, int] = {}
+        for s in todas_sust_fecha:
+            conteo_sust_hoy[s.profesor_sustituto_id] = conteo_sust_hoy.get(s.profesor_sustituto_id, 0) + 1
 
         # Filtrar candidatos según la etapa educativa (Infantil o Primaria)
         es_infantil = bool(profesor_ausente and profesor_ausente.etapa and profesor_ausente.etapa.lower() == "infantil")
@@ -70,8 +83,25 @@ class SubstitutionEngine:
         no_disponibles: List[Dict[str, str]] = []
 
         for docente in todos_los_profesores:
-            # 1. No puede sustituirse a sí mismo ni a quien ya esté ausente
-            if docente.id in profesores_ya_ausentes:
+            # 1. No puede sustituirse a sí mismo
+            if docente.id == profesor_ausente_id:
+                continue
+
+            # 1b. Bloqueo automático si figura ausente hoy o marcado en excursión/baja
+            if docente.id in ausencias_manuales:
+                no_disponibles.append({
+                    "profesor_id": docente.id,
+                    "profesor_nombre": docente.nombre,
+                    "motivo": f"Ausente hoy ({ausencias_manuales[docente.id]})"
+                })
+                continue
+
+            if docente.id in profesores_ausentes_en_jornada:
+                no_disponibles.append({
+                    "profesor_id": docente.id,
+                    "profesor_nombre": docente.nombre,
+                    "motivo": "Figura como ausente en la jornada de hoy"
+                })
                 continue
 
             # 2. No puede tener ya otra sustitución en ese tramo
@@ -223,6 +253,12 @@ class SubstitutionEngine:
                 puntuacion += 10.0
                 coincide_etapa = True
                 motivos.append(f"Misma etapa ({docente.etapa})")
+
+            # Equidad intradía: evitar sobrecargar al mismo profesor con muchas sustituciones en el mismo día
+            sust_hoy = conteo_sust_hoy.get(docente.id, 0)
+            if sust_hoy > 0:
+                puntuacion -= (sust_hoy * 15.0)
+                motivos.append(f"Ya cubre {sust_hoy} hora(s) hoy")
 
             # Información de carga (no afecta al orden de prelación diario estricto)
             if docente.sustituciones_realizadas == 0:

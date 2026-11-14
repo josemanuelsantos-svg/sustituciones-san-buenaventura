@@ -90,6 +90,14 @@ class Database:
 
                 CREATE INDEX IF NOT EXISTS idx_horarios_docente ON horarios(profesor_id, dia_semana, periodo_id);
                 CREATE INDEX IF NOT EXISTS idx_sustituciones_fecha ON sustituciones(fecha, periodo_id);
+
+                CREATE TABLE IF NOT EXISTS ausencias_diarias (
+                    fecha TEXT NOT NULL,
+                    profesor_id TEXT NOT NULL,
+                    motivo TEXT NOT NULL DEFAULT 'Ausente / Excursión',
+                    PRIMARY KEY (fecha, profesor_id)
+                );
+                CREATE INDEX IF NOT EXISTS idx_ausencias_fecha ON ausencias_diarias(fecha);
             """)
 
     def _migrate_from_json_if_needed(self):
@@ -568,3 +576,66 @@ class Database:
         self._sync_json(self.substitutions_file, [r.to_dict() for r in self.get_substitutions()])
         self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
         return True
+
+    # --- AUSENCIAS DIARIAS / EXCURSIONES ---
+    def get_daily_absences(self, fecha: str) -> List[Dict[str, Any]]:
+        with self._get_connection() as conn:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT a.fecha, a.profesor_id, a.motivo, p.nombre AS profesor_nombre, p.etapa AS etapa
+                FROM ausencias_diarias a
+                LEFT JOIN profesores p ON p.id = a.profesor_id
+                WHERE a.fecha = ?
+                ORDER BY p.nombre ASC
+            """, (fecha,))
+            return [dict(r) for r in cur.fetchall()]
+
+    def add_daily_absence(self, fecha: str, profesor_id: str, motivo: str = "Ausente / Excursión") -> None:
+        with self._get_connection() as conn:
+            conn.execute("""
+                INSERT OR REPLACE INTO ausencias_diarias (fecha, profesor_id, motivo)
+                VALUES (?, ?, ?)
+            """, (fecha, profesor_id, motivo or "Ausente / Excursión"))
+
+    def remove_daily_absence(self, fecha: str, profesor_id: str) -> bool:
+        with self._get_connection() as conn:
+            cur = conn.execute("""
+                DELETE FROM ausencias_diarias WHERE fecha = ? AND profesor_id = ?
+            """, (fecha, profesor_id))
+            return cur.rowcount > 0
+
+    # --- EDICIÓN VISUAL DE HORARIOS Y CAMBIOS DE DOCENTE ---
+    def update_schedule_slot(
+        self,
+        profesor_id: str,
+        dia_semana: int,
+        periodo_id: str,
+        tipo_actividad: str,
+        aula: str = "",
+        materia: str = "",
+        descripcion: str = ""
+    ) -> ScheduleItem:
+        item = ScheduleItem(
+            profesor_id=profesor_id,
+            dia_semana=dia_semana,
+            periodo_id=periodo_id,
+            tipo_actividad=tipo_actividad,
+            aula=aula or None,
+            materia=materia or None,
+            descripcion=descripcion or None
+        )
+        self.upsert_schedules([item])
+        return item
+
+    def update_teacher_details(self, profesor_id: str, nombre: str, email: str = "", telefono: str = "") -> Optional[Teacher]:
+        teacher = self.get_teacher(profesor_id)
+        if not teacher:
+            return None
+        with self._get_connection() as conn:
+            conn.execute("""
+                UPDATE profesores
+                SET nombre = ?, email = ?, telefono = ?
+                WHERE id = ?
+            """, (nombre.strip(), email.strip(), telefono.strip(), teacher.id))
+        self._sync_json(self.teachers_file, [t.to_dict() for t in self.get_teachers()])
+        return self.get_teacher(teacher.id)

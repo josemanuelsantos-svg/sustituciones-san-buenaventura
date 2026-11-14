@@ -1,0 +1,22 @@
+{
+  "name": "Sustituciones · Colegio San Buenaventura",
+  "short_name": "Sustituciones CSB",
+  "description": "Gestión ágil de sustituciones escolares · Primaria e Infantil",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1936",
+  "theme_color": "#0f2247",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/static/img/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/img/logo_csb.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

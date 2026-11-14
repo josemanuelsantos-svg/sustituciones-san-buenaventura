@@ -133,3 +133,56 @@ class CalendarService:
             "END:VCALENDAR\r\n"
         )
         return ics_content
+
+    @classmethod
+    def generate_multi_ics_file_content(cls, records_with_slots) -> str:
+        """
+        Genera un único archivo .ics con múltiples eventos VEVENT para importar toda una jornada o baja de golpe.
+        records_with_slots: lista de tuplas (SubstitutionRecord, Optional[TimeSlot])
+        """
+        dt_stamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        events_blocks = []
+
+        for record, slot in records_with_slots:
+            hora_ini = slot.hora_inicio if slot else "09:00"
+            hora_fin = slot.hora_fin if slot else "10:00"
+            dt_start, dt_end, _ = cls._parse_event_datetimes(record.fecha, hora_ini, hora_fin)
+            dt_start_fmt = dt_start.strftime("%Y%m%dT%H%M%S")
+            dt_end_fmt = dt_end.strftime("%Y%m%dT%H%M%S")
+
+            summary = f"Sustitución: {record.profesor_sustituto_nombre} a {record.profesor_ausente_nombre}"
+            description = (
+                f"Profesor ausente: {record.profesor_ausente_nombre}\\n"
+                f"Profesor sustituto: {record.profesor_sustituto_nombre}\\n"
+                f"Aula: {record.aula} ({record.curso_grupo})\\n"
+                f"Materia: {record.materia}\\n"
+                f"Notas: {record.observaciones}"
+            )
+            location = f"{record.aula} ({record.curso_grupo})"
+            attendee_line = ""
+            if record.profesor_sustituto_email:
+                attendee_line = f"ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN={record.profesor_sustituto_nombre}:mailto:{record.profesor_sustituto_email}\r\n"
+
+            events_blocks.append(
+                "BEGIN:VEVENT\r\n"
+                f"UID:sustitucion-{record.id}@colegio.es\r\n"
+                f"DTSTAMP:{dt_stamp}\r\n"
+                f"DTSTART:{dt_start_fmt}\r\n"
+                f"DTEND:{dt_end_fmt}\r\n"
+                f"SUMMARY:{summary}\r\n"
+                f"DESCRIPTION:{description}\r\n"
+                f"LOCATION:{location}\r\n"
+                f"{attendee_line}"
+                "STATUS:CONFIRMED\r\n"
+                "END:VEVENT\r\n"
+            )
+
+        return (
+            "BEGIN:VCALENDAR\r\n"
+            "VERSION:2.0\r\n"
+            "PRODID:-//Colegio//Sistema Sustituciones v1.0//ES\r\n"
+            "CALSCALE:GREGORIAN\r\n"
+            "METHOD:PUBLISH\r\n"
+            + "".join(events_blocks) +
+            "END:VCALENDAR\r\n"
+        )

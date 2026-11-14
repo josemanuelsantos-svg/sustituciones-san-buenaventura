@@ -11,6 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/favicon.png') }}">
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo_csb.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons -->
@@ -292,6 +293,20 @@
 
               <!-- Input date oculto pero sincronizado para el formulario -->
               <input type="hidden" id="input-fecha" required>
+
+              <!-- Toggle Modo Varios Días (Rango) -->
+              <div class="mt-2.5 flex items-center justify-between bg-indigo-50/60 border border-indigo-100 rounded-xl px-3 py-2">
+                <label class="flex items-center gap-2 text-xs font-bold text-indigo-900 cursor-pointer select-none">
+                  <input type="checkbox" id="check-modo-rango" onchange="toggleModoRango()" class="rounded text-indigo-600 focus:ring-indigo-500 w-4 h-4">
+                  <span>Baja de varios días seguidos</span>
+                </label>
+                <span class="text-[10px] font-semibold text-indigo-600">Multi-día</span>
+              </div>
+
+              <div id="box-rango-fechas" class="hidden mt-2 p-3 bg-indigo-50/50 border border-indigo-200 rounded-xl space-y-2">
+                <label class="block text-[11px] font-bold text-indigo-900">Hasta la fecha (inclusive):</label>
+                <input type="date" id="input-fecha-fin" class="w-full px-3 py-2 bg-white border border-indigo-200 rounded-xl text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              </div>
             </div>
 
             <!-- 2. Selector Visual de Tramos Horarios (Multi-selección + Día Completo) -->
@@ -381,6 +396,26 @@
               <span id="btn-buscar-texto">Buscar Sustituto Idóneo</span>
             </button>
           </form>
+
+          <!-- Bloque rápido: Ausentes / Excursiones hoy -->
+          <div id="panel-ausencias-hoy" class="mt-5 pt-4 border-t border-slate-200/80 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                <i class="ph-fill ph-airplane-takeoff text-rose-500 text-sm"></i>
+                <span>Fuera hoy / Excursión</span>
+              </span>
+              <span class="text-[10px] text-slate-400 font-medium">No saldrán como sustitutos</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <select id="select-ausencia-diaria" class="flex-1 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-rose-400 focus:outline-none">
+                <option value="">-- Marcar docente fuera hoy --</option>
+              </select>
+              <button type="button" onclick="agregarAusenciaDiaria()" class="px-3 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-xs transition cursor-pointer shrink-0">
+                Bloquear
+              </button>
+            </div>
+            <div id="lista-ausencias-hoy" class="flex flex-wrap gap-1.5"></div>
+          </div>
         </div>
 
         <!-- Resultados, Recomendación y Confirmación (Derecha - 7 cols) -->
@@ -647,12 +682,18 @@
               <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200/80 text-xs text-indigo-950 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5">
                   <i class="ph-fill ph-paper-plane-tilt text-indigo-600 text-lg shrink-0"></i>
-                  <span>Pulsa en <strong>«Calendar + Invitar»</strong> y <strong>«Enviar Correo»</strong> en cada hora para notificar a cada sustituto, o copia el resumen completo:</span>
+                  <span>Pulsa en <strong>«Calendar + Invitar»</strong> y <strong>«Enviar Correo»</strong> en cada hora, o descarga todas de golpe:</span>
                 </div>
-                <button type="button" onclick="copiarParteDelDia()" class="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0">
-                  <i class="ph-bold ph-whatsapp-logo text-base"></i>
-                  <span>Copiar Parte del Día para WhatsApp</span>
-                </button>
+                <div class="flex flex-wrap items-center gap-2">
+                  <a id="btn-ics-multiple" href="#" download class="py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0">
+                    <i class="ph-bold ph-calendar-plus text-base"></i>
+                    <span>Descargar todas (.ics)</span>
+                  </a>
+                  <button type="button" onclick="copiarParteDelDia()" class="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5 cursor-pointer shrink-0">
+                    <i class="ph-bold ph-whatsapp-logo text-base"></i>
+                    <span>Copiar Parte del Día</span>
+                  </button>
+                </div>
               </div>
 
               <div id="lista-confirmacion-multiple" class="space-y-3">
@@ -662,6 +703,26 @@
 
           </div>
 
+          <!-- Panel de Resultados Rango Multi-Día -->
+          <div id="panel-resultados-rango" class="hidden space-y-4 animate-fade-in">
+            <div class="bg-white rounded-3xl border border-indigo-200/90 p-5 sm:p-6 shadow-md">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-4">
+                <div>
+                  <span class="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200 mb-1.5">
+                    <i class="ph-fill ph-calendar-dots"></i> Baja de Varios Días
+                  </span>
+                  <h3 class="text-lg font-extrabold text-slate-900" id="rango-nombre-ausente">Docente Ausente</h3>
+                  <p class="text-xs text-slate-500 mt-0.5" id="rango-resumen-fechas"></p>
+                </div>
+                <button type="button" onclick="confirmarSustitucionesRango()" id="btn-confirmar-rango" class="py-3 px-5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                  <i class="ph-bold ph-check-circle text-lg"></i>
+                  <span id="lbl-btn-confirmar-rango">Confirmar y Asignar Todas</span>
+                </button>
+              </div>
+              <div id="lista-dias-rango" class="space-y-4"></div>
+            </div>
+          </div>
+
           <!-- Mini-panel: Sustituciones ya registradas en la fecha seleccionada -->
           <div id="panel-sustituciones-dia" class="hidden bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs">
             <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
@@ -669,10 +730,14 @@
                 <i class="ph-fill ph-calendar-check text-emerald-600 text-base"></i>
                 <span>Sustituciones ya asignadas este día (<span id="count-sust-dia">0</span>)</span>
               </h3>
-              <div class="flex items-center gap-2.5">
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="imprimirParteDelDia()" class="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-[11px] shadow-xs transition flex items-center gap-1.5 cursor-pointer" title="Imprimir hoja A4 del parte diario">
+                  <i class="ph-bold ph-printer text-sm"></i>
+                  <span>Imprimir Parte</span>
+                </button>
                 <button type="button" onclick="copiarParteDelDia()" class="py-1.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[11px] shadow-xs transition flex items-center gap-1.5 cursor-pointer" title="Copiar resumen formateado de todas las sustituciones del día para WhatsApp">
                   <i class="ph-bold ph-whatsapp-logo text-sm"></i>
-                  <span>Copiar Parte del Día</span>
+                  <span>Copiar Parte</span>
                 </button>
                 <button onclick="switchTab('historial')" class="text-[11px] font-bold text-indigo-600 hover:underline cursor-pointer">Ver todas</button>
               </div>
@@ -757,6 +822,39 @@
               <!-- Se puebla dinámicamente -->
             </tbody>
           </table>
+        </div>
+        <p class="text-[11px] text-slate-400 font-medium mt-3 no-print">💡 Consejo: Para editar cualquier hora de un profesor (cambiar clase, aula o ponerlo disponible), selecciónalo en el desplegable superior y pulsa sobre su casilla.</p>
+      </div>
+
+      <!-- Panel: Cambio de Docente / Sustitución de Larga Duración -->
+      <div class="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-sm no-print">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="ph-fill ph-arrows-left-right text-indigo-600 text-lg"></i>
+              <span>Sustitución de Larga Duración (Reemplazar Docente en Horario)</span>
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">Si un profesor está de baja larga y entra un sustituto con su mismo horario, actualiza sus datos aquí.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Docente a reemplazar</label>
+            <select id="select-reemplazo-docente" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800"></select>
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Nuevo nombre completo</label>
+            <input type="text" id="input-reemplazo-nombre" placeholder="Ej. Casandra Olivares" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold">
+          </div>
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-500 mb-1">Nuevo email institucional</label>
+            <input type="email" id="input-reemplazo-email" placeholder="nombre@sanbuenaventura.org" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold">
+          </div>
+          <div>
+            <button type="button" onclick="ejecutarReemplazoDocente()" class="w-full py-2 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-xs transition cursor-pointer">
+              Guardar Cambio
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -903,6 +1001,47 @@
       </a>
     </div>
   </nav>
+
+  <!-- Modal Edición Rápida de Celda del Cuadrante -->
+  <div id="modal-editar-celda" class="hidden fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+          <i class="ph-fill ph-pencil-simple text-indigo-600"></i>
+          <span>Editar Casilla de Horario</span>
+        </h3>
+        <button type="button" onclick="cerrarModalEditarCelda()" class="text-slate-400 hover:text-slate-700 cursor-pointer"><i class="ph-bold ph-x text-lg"></i></button>
+      </div>
+      <div id="modal-celda-info" class="text-xs font-bold text-indigo-800 bg-indigo-50 px-3 py-2 rounded-xl border border-indigo-100"></div>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Estado en este tramo</label>
+          <select id="modal-celda-tipo" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-bold text-slate-800">
+            <option value="DISPONIBLE">🟢 Disponible para sustituir (Hueco)</option>
+            <option value="LECTIVA">🔴 Clase Lectiva (Ocupado)</option>
+            <option value="NO_DISPONIBLE">⚪ No disponible / Exento</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Aula / Grupo</label>
+            <input type="text" id="modal-celda-aula" placeholder="Ej. 4ºEP-A" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold">
+          </div>
+          <div>
+            <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Materia</label>
+            <input type="text" id="modal-celda-materia" placeholder="Ej. Lengua" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-semibold">
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button type="button" onclick="cerrarModalEditarCelda()" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 cursor-pointer">Cancelar</button>
+        <button type="button" onclick="guardarEdicionCelda()" class="px-4 py-2 rounded-xl text-xs font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm cursor-pointer">Guardar Cambio</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor oculto exclusivo para Impresión A4 del Parte del Día -->
+  <div id="print-parte-dia" class="hidden print:block p-6 text-slate-900"></div>
 
   <!-- Script principal de la aplicación con etapa Primaria -->
   <script>

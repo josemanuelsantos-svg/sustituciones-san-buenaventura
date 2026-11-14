@@ -391,6 +391,7 @@ function setInputValueFromDate(d) {
     actualizarEtiquetaDiaSemana();
     consultarActividadProgramada();
     actualizarSustitucionesDelDia();
+    cargarAusenciasDiarias();
   }
 }
 
@@ -455,6 +456,7 @@ function sincronizarFechaDesdeInput() {
   actualizarEtiquetaDiaSemana();
   consultarActividadProgramada();
   actualizarSustitucionesDelDia();
+  cargarAusenciasDiarias();
 }
 
 function limpiarCamposActividad() {
@@ -923,6 +925,16 @@ function poblarSelects() {
     selectFiltro.innerHTML = '<option value="todos">-- Vista Global del Claustro --</option>';
   }
 
+  // 4. Selects de ausencia diaria y reemplazo de larga duración
+  const selectAusenciaDiaria = document.getElementById("select-ausencia-diaria");
+  if (selectAusenciaDiaria) {
+    selectAusenciaDiaria.innerHTML = '<option value="">-- Marcar docente fuera hoy --</option>';
+  }
+  const selectReemplazo = document.getElementById("select-reemplazo-docente");
+  if (selectReemplazo) {
+    selectReemplazo.innerHTML = '<option value="">-- Selecciona docente --</option>';
+  }
+
   const profsFiltrados = (appState.profesores || []).filter(p => !p.etapa || p.etapa === etapaActual);
   const profsOrdenados = [...profsFiltrados].sort((a, b) => a.nombre.localeCompare(b.nombre));
 
@@ -940,6 +952,20 @@ function poblarSelects() {
       optFiltro.textContent = `${p.nombre}`;
       selectFiltro.appendChild(optFiltro);
     }
+
+    if (selectAusenciaDiaria) {
+      const optAus = document.createElement("option");
+      optAus.value = p.id;
+      optAus.textContent = `${p.nombre}`;
+      selectAusenciaDiaria.appendChild(optAus);
+    }
+
+    if (selectReemplazo) {
+      const optRem = document.createElement("option");
+      optRem.value = p.id;
+      optRem.textContent = `${p.nombre}`;
+      selectReemplazo.appendChild(optRem);
+    }
   });
 
   if (selectAusente && currentAusenteVal) {
@@ -952,6 +978,11 @@ function poblarSelects() {
 // ===============================================
 
 async function buscarSustitutos() {
+  const modoRango = document.getElementById("check-modo-rango")?.checked;
+  if (modoRango) {
+    return buscarSustitutosRango();
+  }
+
   const fecha = document.getElementById("input-fecha").value;
   const profesor_ausente_id = document.getElementById("select-profesor-ausente").value;
   const periodos = appState.tramosSeleccionados || [];
@@ -982,6 +1013,8 @@ async function buscarSustitutos() {
   document.getElementById("panel-confirmacion").classList.add("hidden");
   document.getElementById("panel-resultados").classList.add("hidden");
   document.getElementById("panel-resultados-multiple").classList.add("hidden");
+  const panelRango = document.getElementById("panel-resultados-rango");
+  if (panelRango) panelRango.classList.add("hidden");
   document.getElementById("panel-cargando").classList.remove("hidden");
 
   // MODO 1 TRAMO
@@ -1485,6 +1518,12 @@ function mostrarConfirmacionMultiple(asignadas, profesorAusente, fecha) {
   document.getElementById("conf-resumen").textContent =
     `Ausencia de ${profesorAusente.nombre} el ${formatFechaEsp(fecha)}. Envía el correo individual y marca en Calendar cada hora a continuación:`;
 
+  const btnIcsMulti = document.getElementById("btn-ics-multiple");
+  if (btnIcsMulti) {
+    const ids = asignadas.map(a => a.record?.id).filter(Boolean);
+    btnIcsMulti.href = ids.length ? `/api/descargar-ics-multiple?ids=${encodeURIComponent(ids.join(","))}` : "#";
+  }
+
   const lista = document.getElementById("lista-confirmacion-multiple");
   lista.innerHTML = "";
 
@@ -1751,27 +1790,38 @@ function renderHorarioProfesor(filtroProfesorId) {
 
       html += `<td class="p-2.5 border-r border-slate-200 align-top">`;
 
-      // CASO A: Vista de un profesor concreto
+      // CASO A: Vista de un profesor concreto (clicable para editar)
       if (filtroProfesorId !== "todos") {
         const act = mapaHorario[`${dia}_${tramo.id}_${filtroProfesorId}`];
+        const tipoActual = act ? act.tipo_actividad : "DISPONIBLE";
+        const aulaActual = act && act.aula ? act.aula.replace(/'/g, "\\'") : "";
+        const matActual = act && act.materia ? act.materia.replace(/'/g, "\\'") : "";
+        const clickHandler = `onclick="abrirModalEditarCelda('${filtroProfesorId}', ${dia}, '${tramo.id}', '${tramo.nombre.replace(/'/g, "\\'")}', '${tipoActual}', '${aulaActual}', '${matActual}')"`;
+
         if (act && act.tipo_actividad === "LECTIVA") {
           html += `
-            <div class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 text-indigo-950 shadow-2xs">
-              <div class="text-[10px] font-extrabold uppercase text-indigo-600">🔴 Clase Lectiva</div>
+            <div ${clickHandler} title="Pulsa para editar esta casilla" class="p-2.5 rounded-xl border border-indigo-200 bg-indigo-50/70 hover:bg-indigo-100/80 text-indigo-950 shadow-2xs cursor-pointer transition group relative">
+              <div class="text-[10px] font-extrabold uppercase text-indigo-600 flex items-center justify-between">
+                <span>🔴 Clase Lectiva</span>
+                <i class="ph-bold ph-pencil-simple opacity-0 group-hover:opacity-100 transition"></i>
+              </div>
               <div class="font-extrabold text-xs mt-0.5">${act.materia || 'Clase'}</div>
               <div class="text-[11px] font-semibold text-indigo-800 mt-0.5">Aula: ${act.aula || '-'}</div>
             </div>
           `;
         } else if (act && act.tipo_actividad === "NO_DISPONIBLE") {
           html += `
-            <div class="p-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-400 text-[11px] text-center">
+            <div ${clickHandler} title="Pulsa para editar esta casilla" class="p-2 rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200/70 text-slate-500 text-[11px] text-center cursor-pointer transition">
               ⚪ No disponible
             </div>
           `;
         } else {
           html += `
-            <div class="p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-950 shadow-2xs">
-              <div class="text-[10px] font-extrabold uppercase text-emerald-700">🟢 Disponible Sustitución</div>
+            <div ${clickHandler} title="Pulsa para editar esta casilla" class="p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 shadow-2xs cursor-pointer transition group relative">
+              <div class="text-[10px] font-extrabold uppercase text-emerald-700 flex items-center justify-between">
+                <span>🟢 Disponible Sustitución</span>
+                <i class="ph-bold ph-pencil-simple opacity-0 group-hover:opacity-100 transition"></i>
+              </div>
               <div class="text-[11px] font-bold mt-0.5">Hueco libre</div>
             </div>
           `;
@@ -2097,5 +2147,421 @@ async function ejecutarImportacion() {
     }
   } catch (err) {
     showToast("El JSON no es válido: " + err.message, "error");
+  }
+}
+
+// ===============================================
+// AUSENCIAS DIARIAS / EXCURSIONES
+// ===============================================
+
+async function cargarAusenciasDiarias() {
+  const fecha = document.getElementById("input-fecha")?.value;
+  const lista = document.getElementById("lista-ausencias-hoy");
+  if (!fecha || !lista) return;
+
+  try {
+    const res = await fetch(`/api/ausencias-diarias?fecha=${encodeURIComponent(fecha)}`);
+    const ausencias = await res.json();
+    lista.innerHTML = "";
+
+    const etapaActual = window.ETAPA_ACTIVA || "Primaria";
+    const filtradas = (ausencias || []).filter(a => !a.etapa || a.etapa === etapaActual);
+
+    if (filtradas.length === 0) {
+      lista.innerHTML = `<span class="text-[10px] text-slate-400 italic">Ningún docente bloqueado manualmente en esta fecha.</span>`;
+      return;
+    }
+
+    filtradas.forEach(a => {
+      const chip = document.createElement("span");
+      chip.className = "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-800 text-[11px] font-bold";
+      chip.innerHTML = `
+        <span>🚫 ${a.profesor_nombre || a.profesor_id}</span>
+        <button type="button" onclick="quitarAusenciaDiaria('${a.profesor_id}')" title="Quitar bloqueo" class="hover:text-rose-950 font-black cursor-pointer">×</button>
+      `;
+      lista.appendChild(chip);
+    });
+  } catch (err) {
+    console.error("Error cargando ausencias diarias:", err);
+  }
+}
+
+async function agregarAusenciaDiaria() {
+  const fecha = document.getElementById("input-fecha")?.value;
+  const select = document.getElementById("select-ausencia-diaria");
+  const profesor_id = select?.value;
+  if (!fecha || !profesor_id) {
+    showToast("Selecciona un docente para marcarlo fuera hoy.", "warning");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/ausencias-diarias", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fecha, profesor_id, motivo: "Excursión / Ausente hoy" })
+    });
+    if (res.ok) {
+      select.value = "";
+      showToast("Docente bloqueado para sustituciones en esta fecha.", "info");
+      await cargarAusenciasDiarias();
+    }
+  } catch (err) {
+    showToast("Error al guardar ausencia diaria.", "error");
+  }
+}
+
+async function quitarAusenciaDiaria(profesor_id) {
+  const fecha = document.getElementById("input-fecha")?.value;
+  if (!fecha) return;
+  try {
+    const res = await fetch("/api/ausencias-diarias", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fecha, profesor_id })
+    });
+    if (res.ok) {
+      showToast("Bloqueo retirado.", "info");
+      await cargarAusenciasDiarias();
+    }
+  } catch (err) {
+    showToast("Error al retirar bloqueo.", "error");
+  }
+}
+
+// ===============================================
+// IMPRIMIR PARTE DEL DÍA (A4 LIMPIO)
+// ===============================================
+
+function imprimirParteDelDia() {
+  const fechaActual = document.getElementById("input-fecha")?.value;
+  const etapaActual = window.ETAPA_ACTIVA || "Primaria";
+  const delDia = (appState.sustituciones || []).filter(s => s.fecha === fechaActual && s.estado !== "CANCELADA");
+
+  if (delDia.length === 0) {
+    showToast("No hay sustituciones registradas en esta fecha para imprimir.", "warning");
+    return;
+  }
+
+  const ordenTramos = (appState.tramos || []).map(t => t.id);
+  const ordenadas = [...delDia].sort((a, b) => {
+    const ia = ordenTramos.indexOf(a.periodo_id);
+    const ib = ordenTramos.indexOf(b.periodo_id);
+    return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+  });
+
+  const printBox = document.getElementById("print-parte-dia");
+  const mainEl = document.querySelector("main");
+  if (!printBox) return;
+
+  const filasHtml = ordenadas.map(s => {
+    const tramoObj = (appState.tramos || []).find(t => t.id === s.periodo_id);
+    const horarioStr = tramoObj
+      ? `${tramoObj.nombre} (${tramoObj.hora_inicio}-${tramoObj.hora_fin})`
+      : (s.periodo_nombre || s.periodo_id);
+    return `
+      <tr style="border-bottom: 1px solid #cbd5e1;">
+        <td style="padding: 10px 8px; font-weight: 700;">${horarioStr}</td>
+        <td style="padding: 10px 8px; color: #9f1239; font-weight: 600;">${s.profesor_ausente_nombre}</td>
+        <td style="padding: 10px 8px; color: #065f46; font-weight: 700;">${s.profesor_sustituto_nombre}</td>
+        <td style="padding: 10px 8px;">${s.aula || '-'} ${s.materia ? '· ' + s.materia : ''}</td>
+        <td style="padding: 10px 8px; font-size: 11px;">${s.observaciones || ''}</td>
+      </tr>
+    `;
+  }).join("");
+
+  printBox.innerHTML = `
+    <div style="font-family: sans-serif; color: #0f172a;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 16px;">
+        <div>
+          <h1 style="font-size: 18px; font-weight: 800; margin: 0;">COLEGIO SAN BUENAVENTURA · PARTE DE SUSTITUCIONES</h1>
+          <p style="font-size: 13px; margin: 4px 0 0 0;">Etapa: <strong>${etapaActual}</strong> · Fecha: <strong>${formatFechaEsp(fechaActual)}</strong></p>
+        </div>
+        <div style="font-size: 12px; text-align: right;">Total: <strong>${ordenadas.length}</strong></div>
+      </div>
+      <table style="width: 100%; border-collapse: collapse; font-size: 12px; text-align: left;">
+        <thead>
+          <tr style="background: #f1f5f9; border-bottom: 2px solid #94a3b8;">
+            <th style="padding: 10px 8px;">Tramo Horario</th>
+            <th style="padding: 10px 8px;">Docente Ausente</th>
+            <th style="padding: 10px 8px;">Docente Sustituto</th>
+            <th style="padding: 10px 8px;">Aula / Materia</th>
+            <th style="padding: 10px 8px;">Indicaciones</th>
+          </tr>
+        </thead>
+        <tbody>${filasHtml}</tbody>
+      </table>
+    </div>
+  `;
+
+  if (mainEl) mainEl.classList.add("no-print");
+  window.print();
+  setTimeout(() => {
+    if (mainEl) mainEl.classList.remove("no-print");
+  }, 500);
+}
+
+// ===============================================
+// MODO RANGO DE FECHAS (BAJAS DE VARIOS DÍAS)
+// ===============================================
+
+function toggleModoRango() {
+  const checked = document.getElementById("check-modo-rango")?.checked;
+  const box = document.getElementById("box-rango-fechas");
+  const fechaIni = document.getElementById("input-fecha")?.value;
+  const fechaFinInput = document.getElementById("input-fecha-fin");
+
+  if (box) {
+    if (checked) {
+      box.classList.remove("hidden");
+      if (fechaFinInput && !fechaFinInput.value && fechaIni) {
+        fechaFinInput.value = fechaIni;
+      }
+    } else {
+      box.classList.add("hidden");
+    }
+  }
+}
+
+async function buscarSustitutosRango() {
+  const fecha_inicio = document.getElementById("input-fecha")?.value;
+  const fecha_fin = document.getElementById("input-fecha-fin")?.value;
+  const profesor_ausente_id = document.getElementById("select-profesor-ausente")?.value;
+  const periodos = appState.tramosSeleccionados || [];
+
+  if (!fecha_inicio || !fecha_fin || !profesor_ausente_id) {
+    showToast("Selecciona fecha inicial, fecha final y profesor ausente.", "warning");
+    return;
+  }
+
+  document.getElementById("panel-inicial").classList.add("hidden");
+  document.getElementById("panel-confirmacion").classList.add("hidden");
+  document.getElementById("panel-resultados").classList.add("hidden");
+  document.getElementById("panel-resultados-multiple").classList.add("hidden");
+  document.getElementById("panel-resultados-rango").classList.add("hidden");
+  document.getElementById("panel-cargando").classList.remove("hidden");
+
+  try {
+    const res = await fetch("/api/buscar-sustitutos-rango", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fecha_inicio, fecha_fin, profesor_ausente_id, periodos })
+    });
+    const data = await res.json();
+    document.getElementById("panel-cargando").classList.add("hidden");
+
+    if (data.error) {
+      showToast(data.error, "error");
+      document.getElementById("panel-inicial").classList.remove("hidden");
+      return;
+    }
+
+    appState.ultimoResultadoRango = data;
+    renderResultadosRango(data);
+  } catch (err) {
+    document.getElementById("panel-cargando").classList.add("hidden");
+    showToast("Error de conexión al evaluar el rango de fechas.", "error");
+  }
+}
+
+function renderResultadosRango(data) {
+  const panel = document.getElementById("panel-resultados-rango");
+  const lista = document.getElementById("lista-dias-rango");
+  if (!panel || !lista) return;
+
+  panel.classList.remove("hidden");
+  scrollToPanelMobile(panel);
+
+  document.getElementById("rango-nombre-ausente").textContent = data.profesor_ausente?.nombre || "";
+  document.getElementById("rango-resumen-fechas").textContent = `Del ${formatFechaEsp(data.fecha_inicio)} al ${formatFechaEsp(data.fecha_fin)}`;
+
+  lista.innerHTML = "";
+  const dias = data.dias_evaluados || [];
+  if (dias.length === 0) {
+    lista.innerHTML = `<div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-bold text-amber-900">No se encontraron clases lectivas pendientes de cubrir en el rango seleccionado.</div>`;
+    return;
+  }
+
+  dias.forEach(dia => {
+    const dayCard = document.createElement("div");
+    dayCard.className = "rounded-2xl border border-slate-200 bg-slate-50/70 p-4 space-y-2.5";
+    const rows = dia.tramos.map((t, idx) => {
+      if (t.ya_asignada) {
+        return `<div class="flex items-center justify-between text-xs p-2 rounded-xl bg-emerald-50 border border-emerald-200">
+          <span><strong>${t.periodo_nombre}</strong> (${t.aula})</span>
+          <span class="font-bold text-emerald-700">✓ Cubierta por ${t.ya_asignada.profesor_sustituto_nombre}</span>
+        </div>`;
+      }
+      const opts = (t.candidatos || []).map((c, ci) => `<option value="${c.profesor.id}" ${ci === 0 ? "selected" : ""}>${c.profesor.nombre}${ci === 0 ? " ★ Idóneo" : ""}</option>`).join("");
+      return `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2.5 rounded-xl bg-white border border-slate-200 text-xs">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" class="rango-chk w-4 h-4 rounded text-indigo-600" data-fecha="${t.fecha}" data-periodo="${t.periodo_id}" data-aula="${t.aula}" data-materia="${t.materia}" ${t.candidatos?.length ? "checked" : "disabled"}>
+            <span class="font-extrabold text-slate-900">${t.periodo_nombre}</span>
+            <span class="text-slate-500">(${t.aula} · ${t.materia || 'Clase'})</span>
+          </div>
+          <select class="rango-sel px-2.5 py-1.5 rounded-lg border border-slate-300 bg-slate-50 text-xs font-bold text-slate-800" data-fecha="${t.fecha}" data-periodo="${t.periodo_id}">
+            ${opts || '<option value="">Sin candidatos</option>'}
+          </select>
+        </div>
+      `;
+    }).join("");
+
+    dayCard.innerHTML = `
+      <div class="text-xs font-extrabold uppercase tracking-wider text-indigo-900 flex items-center gap-1.5">
+        <i class="ph-fill ph-calendar-blank text-indigo-600"></i>
+        <span>${formatFechaEsp(dia.fecha)}</span>
+      </div>
+      <div class="space-y-1.5">${rows}</div>
+    `;
+    lista.appendChild(dayCard);
+  });
+}
+
+async function confirmarSustitucionesRango() {
+  const dataRango = appState.ultimoResultadoRango;
+  if (!dataRango) return;
+
+  const observaciones = document.getElementById("input-observaciones")?.value || "";
+  const asignaciones = [];
+
+  document.querySelectorAll(".rango-chk:checked").forEach(chk => {
+    const fecha = chk.dataset.fecha;
+    const periodo_id = chk.dataset.periodo;
+    const sel = document.querySelector(`.rango-sel[data-fecha="${fecha}"][data-periodo="${periodo_id}"]`);
+    const profesor_sustituto_id = sel?.value;
+    if (profesor_sustituto_id) {
+      asignaciones.push({
+        fecha,
+        periodo_id,
+        profesor_sustituto_id,
+        aula: chk.dataset.aula || "Aula asignada",
+        materia: chk.dataset.materia || "",
+        observaciones
+      });
+    }
+  });
+
+  if (asignaciones.length === 0) {
+    showToast("No hay sesiones seleccionadas para asignar.", "warning");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/asignar-sustituciones-rango", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        profesor_ausente_id: dataRango.profesor_ausente.id,
+        observaciones,
+        asignaciones
+      })
+    });
+    const resultado = await res.json();
+    if (resultado.error && (!resultado.asignadas || resultado.asignadas.length === 0)) {
+      showToast(resultado.error, "error");
+      return;
+    }
+
+    const creadas = resultado.asignadas || [];
+    showToast(`¡${creadas.length} sustituciones registradas en el rango!`, "success");
+    document.getElementById("panel-resultados-rango").classList.add("hidden");
+    mostrarConfirmacionMultiple(creadas, dataRango.profesor_ausente, dataRango.fecha_inicio);
+    await cargarDatosIniciales();
+  } catch (err) {
+    showToast("Error de red al confirmar el rango.", "error");
+  }
+}
+
+// ===============================================
+// EDICIÓN VISUAL DE CUADRANTE Y CAMBIO DOCENTE
+// ===============================================
+
+let celdaEnEdicion = null;
+
+function abrirModalEditarCelda(profesorId, diaSemana, periodoId, periodoNombre, tipoActual, aulaActual, materiaActual) {
+  celdaEnEdicion = { profesor_id: profesorId, dia_semana: diaSemana, periodo_id: periodoId };
+  const modal = document.getElementById("modal-editar-celda");
+  const info = document.getElementById("modal-celda-info");
+  if (!modal) return;
+
+  const prof = (appState.profesores || []).find(p => p.id === profesorId);
+  if (info) {
+    info.textContent = `${prof ? prof.nombre : profesorId} · ${DIAS_SEMANA[diaSemana]} · ${periodoNombre}`;
+  }
+
+  document.getElementById("modal-celda-tipo").value = tipoActual || "DISPONIBLE";
+  document.getElementById("modal-celda-aula").value = aulaActual || "";
+  document.getElementById("modal-celda-materia").value = materiaActual || "";
+  modal.classList.remove("hidden");
+}
+
+function cerrarModalEditarCelda() {
+  const modal = document.getElementById("modal-editar-celda");
+  if (modal) modal.classList.add("hidden");
+  celdaEnEdicion = null;
+}
+
+async function guardarEdicionCelda() {
+  if (!celdaEnEdicion) return;
+  const tipo_actividad = document.getElementById("modal-celda-tipo").value;
+  const aula = document.getElementById("modal-celda-aula").value.trim();
+  const materia = document.getElementById("modal-celda-materia").value.trim();
+
+  try {
+    const res = await fetch("/api/editar-horario-celda", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...celdaEnEdicion,
+        tipo_actividad,
+        aula,
+        materia
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast("Casilla actualizada correctamente.", "success");
+      cerrarModalEditarCelda();
+      appState.horarios = [];
+      await cargarHorariosSemana();
+    } else {
+      showToast(data.error || "No se pudo actualizar la casilla.", "error");
+    }
+  } catch (err) {
+    showToast("Error de conexión al guardar la casilla.", "error");
+  }
+}
+
+async function ejecutarReemplazoDocente() {
+  const profesor_id = document.getElementById("select-reemplazo-docente")?.value;
+  const nombre = document.getElementById("input-reemplazo-nombre")?.value.trim();
+  const email = document.getElementById("input-reemplazo-email")?.value.trim();
+
+  if (!profesor_id || !nombre) {
+    showToast("Selecciona el docente a reemplazar e introduce el nuevo nombre.", "warning");
+    return;
+  }
+
+  if (!confirm(`¿Seguro que deseas actualizar el horario de este docente para asignarlo a "${nombre}"?`)) return;
+
+  try {
+    const res = await fetch("/api/reemplazar-docente", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profesor_id, nombre, email })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Docente actualizado a ${data.profesor.nombre}.`, "success");
+      document.getElementById("input-reemplazo-nombre").value = "";
+      document.getElementById("input-reemplazo-email").value = "";
+      await cargarDatosIniciales();
+      await cargarHorariosSemana();
+    } else {
+      showToast(data.error || "No se pudo actualizar el docente.", "error");
+    }
+  } catch (err) {
+    showToast("Error de conexión al reemplazar docente.", "error");
   }
 }
